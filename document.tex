@@ -1,0 +1,321 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+		colorlinks = true,
+    	linkcolor = blue,
+    	citecolor = blue,
+    	linktoc=all
+}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{xcolor}
+\usepackage{hyphenat}
+\usepackage{datetime}
+\usepackage{wrapfig}
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+
+
+\begin{document}
+
+	\fontsize{13pt}{18pt}\selectfont
+	\begin{figure}[htbp]
+		\begin{minipage}[b]{0.5\linewidth}
+			\centering
+			\includegraphics[width=\linewidth]{pictures/worldline.jpg}
+		\end{minipage}
+		\hspace{3cm}
+		\begin{minipage}[b]{0.25\linewidth}
+			\centering
+			\includegraphics[width=\linewidth]{pictures/telecom.png}
+		\end{minipage}
+	\end{figure}
+
+	\begin{center}
+	\section*{Télécom ParisTech \\
+	Promotion 2017 \\
+	Sylvain DASSIER
+	}
+	\end{center}
+
+
+	\vspace{2cm}
+	\begin{center}
+		\huge{\textbf{RAPPORT DE STAGE}} \\
+		\vspace{1cm}
+		\textbf{%
+		\textcolor{blue}{Étude de l'apport du protocol MPTCP dans l'optimisation du trafic}} \\
+		
+	\end{center}
+
+
+
+	\vspace{1cm}
+	
+		\textbf{
+			\begin{tabbing}
+		  		Département : ~~~~~~~~\= \textit{Département d'Informatique} \\
+		 	 	Option : \> \textit{INFRES} \\
+		  		Encadrants : \> \textit{M. Luigi IANNONE, M. Antoine FRESSANCOURT} \\
+		  		Dates : \> \textit{18/07/2016 - 17/01/2017} \\
+		 		Adresse : \> \textit{Télécom ParisTech, 23 Avenue d'Italie,} \\
+		  				\> \textit{75013 Paris}
+			\end{tabbing}
+		}
+		
+	\clearpage
+	
+	\begin{center}
+		\Huge{\textbf{Declaration d'intégrité relative au plagiat}}
+	\end{center}
+	\vspace{3cm}
+	\emph{Je soussigné} DASSIER Sylvain \emph{certifie sur l'honneur :}\\
+	\begin{enumerate}
+	  	\item Que les résultats décrits dans ce rapport sont l'aboutissement de mon
+	  	travail.
+		\item Que je suis l'auteur de ce rapport.
+		\item Que je n'ai pas utilisé des sources ou résultats tiers sans
+		clairement les citer et les référencer selon les règles bibliographiques
+		préconisées.
+	\end{enumerate}
+	\vspace{2cm}
+	\includegraphics[scale=0.3]{pictures/declaration.jpg}
+	
+	\vspace{-1cm}
+	\formatdate{30}{6}{2016}
+	\hspace{5cm}
+	Signature : \includegraphics[scale=0.5]{pictures/signa.jpg}
+	
+	\clearpage
+
+
+	\section*{\Huge \textcolor{blue}{\textit{Abstract}}}
+	
+		\begin{description}
+		
+			\item \hspace{2cm} English
+			
+		\end{description}
+		
+	\section*{\Huge \textcolor{blue}{\textit{Résumé}}}
+	
+		\begin{description}
+
+			\item \hspace{2cm} Français
+			
+		\end{description}
+		
+	
+
+	\clearpage
+
+	\setcounter{tocdepth}{3}
+
+	\tableofcontents
+
+	\clearpage
+
+	
+	\section{Introduction}
+
+		\vspace{0.5cm}
+		\subsection{Context}
+			\begin{description}
+				\item \hspace{2cm} Introduction
+			\end{description}
+	
+		\vspace{0.5cm}
+		\subsection{Document Outline}
+			\begin{description}
+				\item \hspace{2cm} In section \hyperref[sec:mptcplinuximplement]{2} we have described how to set up \textbf{\emph{The MPTCP Linux kernel implementation}}. In section \hyperref[sec:packetpath]{3} we trace the path taken by a packet during its journey using the protocol \textbf{\emph{MPTCP}}.
+			\end{description}
+
+
+	\clearpage
+	\section{The \emph{$\mathbf{MPTCP}$} Linux kernel library compilation : }
+
+		\label{sec:mptcplinuximplement}
+		\hspace{2cm} The following figure illustrates the
+
+
+		\subsection{Faliures :}
+
+			\label{subsec:faliures}
+
+			\hspace{2cm} The following section describes our attempts to put in place a debugging system for \emph{$\mathbf{MPTCP}$} so that we are not required to copile a kernel version everytime, which can take quite long.
+			
+			\begin{enumerate}
+
+				\item LibOS with NUSE
+				\item LibOS with DCE
+
+				\subsubsection{LibOS with NUSE}
+					\label{subsubsec:liboswithnuse}
+
+				\subsubsection{LibOS with DCE}
+					\label{subsubsec:liboswithdce}
+
+					LibOS with DCE is put in place in the following manner :
+
+					\begin{enumerate}
+
+					\item \textbf{Install the dependencies :}
+						
+					\nohyphens{
+						sudo apt-get install vim git mercurial gcc g++ python python-dev qt4-dev-tools libqt4-dev bzr cmake libc6-dev libc6-dev-i386 g++-multilib gdb valgrind gsl-bin libgsl0-dev libgsl0ldbl flex bison libfl-dev tcpdump sqlite sqlite3 libsqlite3-dev libxml2 libxml2-dev libgtk2.0-0 libgtk2.0-dev vtun lxc uncrustify doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng python-sphinx dia python-pygraphviz python-kiwi python-pygoocanvas libgoocanvas-dev ipython libboost-signals-dev libboost-filesystem-dev openmpi-bin openmpi-common openmpi-doc libopenmpi-dev libncurses5-dev libncursesw5-dev unrar unrar-free p7zip-full autoconf libpcap-dev cvs libssl-dev wireshark}
+
+					\item \textbf{Build DCE using bake :}
+
+						\begin{enumerate}
+
+							\item hg clone http://code.nsnam.org/bake bake
+							\item export BAKE\_HOME=`pwd`/bake
+							\item export PATH=\$PATH:\$BAKE\_HOME
+							\item export PYTHONPATH=\$PYTHONPATH:\$BAKE\_HOME
+							\item mkdir dce
+							\item cd dce
+							\item bake.py configure -e dce-ns3-1.8
+							\item bake.py download
+							\item bake.py build
+
+						\end{enumerate}
+
+					\item \textbf{Build the \emph{mptcp\_trunk\_libos} branch of \emph{net-next-nuse}}
+						\begin{enumerate}
+
+							\item git clone -b mptcp\_trunk\_libos https://github.com/libos-nuse/net-next-nuse.git
+							\item cd net-next-nuse
+							\item make menuconfig ARCH=lib
+							\item make library ARCH=lib
+
+						\end{enumerate}
+
+					\item \textbf{Build \emph{iproute2} version \emph{2.6.38}}
+
+						\begin{enumerate}
+							\item Download the compressed source code from \\
+							\nohyphens{\emph{https://kernel.googlesource.com/pub/scm/linux/kernel/git/shemminger/iproute2/+archive/fcae78992cab7bd267785b392b438306c621e583.tar.gz}} , extract it and rename the folder to \emph{iproute2-2.6.38}. 
+							\item cd iproute2-2.6.38
+							\item patch -p1 -i ../ns-3-dce/utils/iproute-2.6.38-fix-01.patch
+							\item \$(KERNEL\_INCLUDE) should point to the liblinux.so directory ( for me it is \$HOME/net-next-nuse ) \\
+    						Hence I modified the following part in the Makefile:
+
+    						\emph{
+    						Config: \\
+                               \hspace*{2cm}sh configure /home/lawrence/net-next-nuse \\
+                               \hspace*{2cm}\# sh configure \$(KERNEL\_MODULE) }
+                             \item \nohyphens{LDFLAGS=-pie make CCOPTS='-fpic -D\_GNU\_SOURCE -O0 -U\_FORTIFY\_SOURCE'}
+
+						\end{enumerate}
+
+					\item \textbf{Set the \emph{DCE\_PATH}} \\
+						export DCE\_PATH=\$HOME/net-next-nuse:\$HOME/iproute2-2.6.38/ip
+
+					\item \textbf{Build \emph{ns-3-dce } with }
+						\begin{enumerate}
+						
+							\item hg clone http://code.nsnam.org/ns-3-dce  -r dce-1.8
+							\item cd ns-3-dce
+							\item ./waf configure --with-ns3=\$HOME/dce/build --enable-kernel-stack=\$HOME/net-next-nuse/arch --prefix=\$HOME/dce/build
+							\item ./waf build
+							\item ./waf --run dce-iperf-mptcp
+
+						\end{enumerate}
+
+					\end{enumerate}
+
+			\end{enumerate}
+
+
+
+
+
+
+	\clearpage
+	\section{The \emph{$\mathbf{MPTCP}$} Linux kernel implementation setup : }
+
+		\label{sec:mptcplinuximplement}
+		\hspace{2cm} The following figure illustrates the 
+
+		
+	\clearpage
+	\section{Packet path using \emph{$\mathbf{MPTCP}$} :}
+
+		\label{sec:packetpath}
+		\vspace{0.5cm}
+		\begin{description}
+		\item \hspace{2cm} a
+		\end{description}
+  		
+  		\subsection{Hypothesis}
+
+  		 \begin{description}
+
+  		 	\label{subsec:hypothesis}
+  			\item \hspace{2cm} a
+  			\vspace{1cm}
+		\end{description}
+			
+		\subsection{Procedure}
+			
+
+
+		\section{Results}
+
+			\label{sec:results}
+		
+			\hspace{2cm} This section 
+			
+			
+			
+		\clearpage
+		\section{Conclusion}
+		 	\begin{description}
+		 	\item \hspace{2cm} Conclusion
+		 	\end{description}
+		 	
+		\section{Further developements}
+		\begin{description}
+			\item \hspace{2cm} In the above experiments 
+		\end{description}
+		 	
+		 	
+		 \clearpage
+		 \section{Acknowledgements}
+		 
+		  		Acknowledgement
+		 
+		 	\clearpage
+		 	\section{Bibliography}
+		\bibliographystyle{unsrt}
+		\bibliography{library}
+		\clearpage
+  		\section{Appendix}
+  		 	Here we have the different 
+		\section{Glossary}
+				\begin{tabbing}
+		  		RA : ~~~~~~~~\= \textit{Département d'Informatique} \\
+		 	 	IETF : \> \textit{Internet Engineering Task Force} \\
+		  		L2 : \> \textit{Layer 2/Link Layer of the OSI model} \\
+		  		L3 : \> \textit{Layer 2/IP Layer of the OSI model} \\
+		 		DHCP : \> \textit{Dynamic Host Configuration Protocol} \\
+		  		DNS : \> \textit{Domain name system} \\
+		  		MLD : \> \textit{Multicast Listener Discovery} \\
+		  		IP : \> \textit{Internet Protocol} \\
+		  		RFC : \> \textit{Request for Comment} \\
+		  		ARP : \> \textit{Address Resolution Protocol} \\
+		  		VLAN : \> \textit{Virtual local area network} \\
+		  		AP : \> \textit{Access Point} \\
+		  		RS : \> \textit{Router Solicitation} \\
+		  		NS : \> \textit{Neighbour Solicitation} \\
+		  		NA : \> \textit{Neighbour Advertisement} \\
+		  		mDNS : \> \textit{ multicast Domain Name System} \\
+		  		LLMNR : \> \textit{ Link-Local Multicast Name Resolution} \\
+		  		SLAAC : \> \textit{ Stateless Address Autoconfiguration} \\
+				\end{tabbing}
+				
+				
+				
+
+\end{document}

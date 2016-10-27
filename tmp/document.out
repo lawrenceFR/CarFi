@@ -1,0 +1,35 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Context}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Document Outline}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Traditional Wireless Model}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{General Description}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Detailed Description}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Multicast over wireless}{subsection.2.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Airtime usage comparison between unicast and multicast packets}{subsection.2.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Unsolicited IPv4 and IPv6 traffic}{subsection.2.2}% 9
+\BOOKMARK [1][-]{section.3}{Point-to-Point Wireless Model}{}% 10
+\BOOKMARK [2][-]{subsection.3.1}{General Description}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.2}{Detailed Description}{section.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.2.1}{General setup}{subsection.3.2}% 13
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Network Topology}{subsection.3.2}% 14
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Role of ratools}{subsection.3.2}% 15
+\BOOKMARK [3][-]{subsubsection.3.2.4}{Ebtables Firewalling}{subsection.3.2}% 16
+\BOOKMARK [3][-]{subsubsection.3.2.5}{Code modifications in HOSTAPD}{subsection.3.2}% 17
+\BOOKMARK [1][-]{section.4}{Comparison}{}% 18
+\BOOKMARK [2][-]{subsection.4.1}{Number and Source of Packets}{section.4}% 19
+\BOOKMARK [2][-]{subsection.4.2}{Cumulative airtime difference}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.3}{The difference that concerns us the most : Power Usage}{section.4}% 21
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 22
+\BOOKMARK [1][-]{section.6}{Further developements}{}% 23
+\BOOKMARK [1][-]{section.7}{Acknowledgements}{}% 24
+\BOOKMARK [1][-]{section.8}{Bibliography}{}% 25
+\BOOKMARK [1][-]{section.9}{Appendix}{}% 26
+\BOOKMARK [2][-]{subsection.9.1}{Bridging}{section.9}% 27
+\BOOKMARK [2][-]{subsection.9.2}{Addition of a new field to store the path to a script}{section.9}% 28
+\BOOKMARK [2][-]{subsection.9.3}{Reading the path to the script}{section.9}% 29
+\BOOKMARK [2][-]{subsection.9.4}{Event : Connection of host}{section.9}% 30
+\BOOKMARK [2][-]{subsection.9.5}{Event : Disconnection of host}{section.9}% 31
+\BOOKMARK [2][-]{subsection.9.6}{The main script called from HOSTAPD}{section.9}% 32
+\BOOKMARK [2][-]{subsection.9.7}{Script to execute ebtables firewalling}{section.9}% 33
+\BOOKMARK [2][-]{subsection.9.8}{Script to execute ratools}{section.9}% 34
+\BOOKMARK [1][-]{section.10}{Glossary}{}% 35

@@ -1,0 +1,19 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{5}{section.1}
+\contentsline {subsection}{\numberline {1.1}Context}{5}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Document Outline}{5}{subsection.1.2}
+\contentsline {section}{\numberline {2}The \emph {$\mathbf {MPTCP}$} Linux kernel library compilation : }{6}{section.2}
+\contentsline {subsection}{\numberline {2.1}Faliures :}{6}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}LibOS with NUSE}{6}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}LibOS with DCE}{6}{subsubsection.2.1.2}
+\contentsline {section}{\numberline {3}The \emph {$\mathbf {MPTCP}$} Linux kernel implementation setup : }{8}{section.3}
+\contentsline {section}{\numberline {4}Packet path using \emph {$\mathbf {MPTCP}$} :}{9}{section.4}
+\contentsline {subsection}{\numberline {4.1}Hypothesis}{9}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Procedure}{9}{subsection.4.2}
+\contentsline {section}{\numberline {5}Results}{9}{section.5}
+\contentsline {section}{\numberline {6}Conclusion}{10}{section.6}
+\contentsline {section}{\numberline {7}Further developements}{10}{section.7}
+\contentsline {section}{\numberline {8}Acknowledgements}{11}{section.8}
+\contentsline {section}{\numberline {9}Bibliography}{12}{section.9}
+\contentsline {section}{\numberline {10}Appendix}{13}{section.10}
+\contentsline {section}{\numberline {11}Glossary}{13}{section.11}

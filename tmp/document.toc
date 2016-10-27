@@ -1,0 +1,36 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{7}{section.1}
+\contentsline {subsection}{\numberline {1.1}Context}{7}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Document Outline}{8}{subsection.1.2}
+\contentsline {section}{\numberline {2}Traditional Wireless Model}{9}{section.2}
+\contentsline {subsection}{\numberline {2.1}General Description}{9}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Detailed Description}{9}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Multicast over wireless}{10}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Airtime usage comparison between unicast and multicast packets}{11}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Unsolicited IPv4 and IPv6 traffic}{12}{subsubsection.2.2.3}
+\contentsline {section}{\numberline {3}Point-to-Point Wireless Model}{14}{section.3}
+\contentsline {subsection}{\numberline {3.1}General Description}{14}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Detailed Description}{15}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}General setup}{15}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Network Topology}{15}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Role of ratools}{16}{subsubsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.4}Ebtables Firewalling}{17}{subsubsection.3.2.4}
+\contentsline {subsubsection}{\numberline {3.2.5}Code modifications in HOSTAPD}{17}{subsubsection.3.2.5}
+\contentsline {section}{\numberline {4}Comparison}{18}{section.4}
+\contentsline {subsection}{\numberline {4.1}Number and Source of Packets}{18}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Cumulative airtime difference}{18}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}The difference that concerns us the most : Power Usage}{19}{subsection.4.3}
+\contentsline {section}{\numberline {5}Conclusion}{21}{section.5}
+\contentsline {section}{\numberline {6}Further developements}{21}{section.6}
+\contentsline {section}{\numberline {7}Acknowledgements}{22}{section.7}
+\contentsline {section}{\numberline {8}Bibliography}{23}{section.8}
+\contentsline {section}{\numberline {9}Appendix}{24}{section.9}
+\contentsline {subsection}{\numberline {9.1}Bridging}{24}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Addition of a new field to store the path to a script}{24}{subsection.9.2}
+\contentsline {subsection}{\numberline {9.3}Reading the path to the script}{25}{subsection.9.3}
+\contentsline {subsection}{\numberline {9.4}Event : Connection of host}{25}{subsection.9.4}
+\contentsline {subsection}{\numberline {9.5}Event : Disconnection of host}{26}{subsection.9.5}
+\contentsline {subsection}{\numberline {9.6}The main script called from HOSTAPD}{27}{subsection.9.6}
+\contentsline {subsection}{\numberline {9.7}Script to execute ebtables firewalling}{30}{subsection.9.7}
+\contentsline {subsection}{\numberline {9.8}Script to execute ratools}{30}{subsection.9.8}
+\contentsline {section}{\numberline {10}Glossary}{33}{section.10}

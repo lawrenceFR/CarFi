@@ -1,0 +1,55 @@
+\begin{thebibliography}{1}
+
+\bibitem{DaveEvans}
+Dave Evans.
+\newblock How the next evolution of the internet is changing everything.
+\newblock In {\em The Internet of Things}. Cisco IBSG, Apr 2011.
+
+\bibitem{draft-desmouceaux-ipv6-mcast-wifi-power-usage-01}
+Yoann Desmouceaux.
+\newblock {Power consumption due to IPv6 multicast on WiFi devices}.
+\newblock {Draft}, {IETF}, August 2014.
+
+\bibitem{Roberts:1970:CND:1476936.1477020}
+Lawrence~G. Roberts and Barry~D. Wessler.
+\newblock Computer network development to achieve resource sharing.
+\newblock In {\em Proceedings of the May 5-7, 1970, Spring Joint Computer
+  Conference}, AFIPS '70 (Spring), pages 543--549, New York, NY, USA, 1970.
+  ACM.
+
+\bibitem{RFC4861}
+T.~Narten, E.~Nordmark, W.~Simpson, and H.~Soliman.
+\newblock {Neighbor Discovery for IP version 6 (IPv6)}.
+\newblock {RFC} 4861, {RFC Editor}, September 2007.
+
+\bibitem{RFC826}
+David~C. Plummer.
+\newblock {Converting Network Protocol Addresses}.
+\newblock {RFC} 826, {RFC Editor}, November 1982.
+
+\bibitem{draft-yourtchenko-6man-dad-issues-01}
+A.~Yourtchenko and E.~Nordmark.
+\newblock {A survey of issues related to IPv6 Duplicate Address Detection
+  draft-yourtchenko-6man-dad-issues-01}.
+\newblock {Draft}, {IETF}, February 2015.
+
+\bibitem{wu2007source}
+Jianping Wu, Gang Ren, and Xing Li.
+\newblock Source address validation: Architecture and protocol design.
+\newblock In {\em Network Protocols, 2007. ICNP 2007. IEEE International
+  Conference on}, pages 276--283. IEEE, 2007.
+
+\bibitem{RFC3724}
+J.~Kempf and R.~Austein.
+\newblock {The Rise of the Middle and the Future of End-to-End: Reflections on
+  the Evolution of the Internet Architecture, Section 4.2 The End-to-End
+  Principle in Applications Design}.
+\newblock {RFC} 3724, {RFC Editor}, March 2004.
+
+\bibitem{draft-vyncke-6man-mcast-not-efficient-01}
+E.~Vyncke, P.~Thubert, E.~Levy-Abegnoli, and A.~Yourtchenko.
+\newblock {Why Network-Layer Multicast is Not Always Efficient At Datalink
+  Layer draft-vyncke-6man-mcast-not-efficient-01}.
+\newblock {Draft}, {IETF}, February 2014.
+
+\end{thebibliography}
