@@ -1,3 +1,12 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{libos}
+Hajime Tazaki.
+\newblock {libos-nuse : net-next-nuse}.
+\newblock \url{https://github.com/libos-nuse/net-next-nuse}.
+
+\bibitem{dce}
+{NS-3 : Direct Code Execution}.
+\newblock \url{https://www.nsnam.org/overview/projects/direct-code-execution}.
 
 \end{thebibliography}

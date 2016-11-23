@@ -1,48 +1,46 @@
-This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2016/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: document.aux
 The style file: unsrt.bst
-I found no \citation commands---while reading file document.aux
 Database file #1: library.bib
-You've used 0 entries,
+You've used 2 entries,
             1791 wiz_defined-function locations,
-            445 strings with 3521 characters,
-and the built_in function-call counts, 18 in all, are:
-= -- 0
-> -- 0
+            452 strings with 3716 characters,
+and the built_in function-call counts, 245 in all, are:
+= -- 18
+> -- 5
 < -- 0
-+ -- 0
-- -- 0
++ -- 3
+- -- 1
 * -- 2
-:= -- 7
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
+:= -- 37
+add.period$ -- 5
+call.type$ -- 2
+change.case$ -- 2
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 2
+duplicate$ -- 10
+empty$ -- 37
+format.name$ -- 1
+if$ -- 58
 int.to.chr$ -- 0
-int.to.str$ -- 0
+int.to.str$ -- 2
 missing$ -- 0
-newline$ -- 3
-num.names$ -- 0
-pop$ -- 0
+newline$ -- 12
+num.names$ -- 1
+pop$ -- 11
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1
+skip$ -- 11
 stack$ -- 0
 substring$ -- 0
-swap$ -- 0
+swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 2
-(There was 1 error message)
+while$ -- 1
+width$ -- 3
+write$ -- 18

@@ -1,5 +1,6 @@
+%!TEX program = xelatex
 \documentclass[a4paper,11pt]{article}
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
 \hypersetup{
 		colorlinks = true,
     	linkcolor = blue,
@@ -15,11 +16,12 @@
 \usepackage{datetime}
 \usepackage{wrapfig}
 \usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
-
+\usepackage{url}
 
 \begin{document}
 
-	\fontsize{13pt}{18pt}\selectfont
+	\sloppy
+	\fontsize{12pt}{18pt}\selectfont
 	\begin{figure}[htbp]
 		\begin{minipage}[b]{0.5\linewidth}
 			\centering
@@ -83,7 +85,7 @@
 	\includegraphics[scale=0.3]{pictures/declaration.jpg}
 	
 	\vspace{-1cm}
-	\formatdate{30}{6}{2016}
+	\formatdate{17}{01}{2017}
 	\hspace{5cm}
 	Signature : \includegraphics[scale=0.5]{pictures/signa.jpg}
 	
@@ -122,110 +124,107 @@
 		\vspace{0.5cm}
 		\subsection{Context}
 			\begin{description}
-				\item \hspace{2cm} Introduction
+				\item \hspace{2cm} MultiPath TCP (MPTCP) is an effort towards enabling the simultaneous use of several IP-addresses/interfaces by a modification of TCP that presents a regular TCP interface to applications, while in fact spreading data across several sub-flows. Benefits of this include better resource utilisation, better throughput and smoother reaction to failures. The project CarFi, aims to exploit these advantages of MPTCP in case of connectivity in smart vehicles. Today, most of these vehicles rely on cellular network connectivity, the inconveniences being high cost, lower bandwidth and bad reception. A potential solution would be the usage of the WiFi network when available. Most urban areas are covered via Mobile Network Operator or ISP WiFi hotspots. This, of course, without having to tear down the existing TCP connection and re-establishing a new one, which is what MPTCP assures.
 			\end{description}
 	
 		\vspace{0.5cm}
 		\subsection{Document Outline}
 			\begin{description}
-				\item \hspace{2cm} In section \hyperref[sec:mptcplinuximplement]{2} we have described how to set up \textbf{\emph{The MPTCP Linux kernel implementation}}. In section \hyperref[sec:packetpath]{3} we trace the path taken by a packet during its journey using the protocol \textbf{\emph{MPTCP}}.
+				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:conclusion]{5} summarises our work and it's utility.
 			\end{description}
 
 
 	\clearpage
-	\section{The \emph{$\mathbf{MPTCP}$} Linux kernel library compilation : }
+	\section{Setting up a debugging environment for MPTCP : }
 
-		\label{sec:mptcplinuximplement}
-		\hspace{2cm} The following figure illustrates the
+		\label{sec:mptcpdebug}
 
+		In order to understand the different stages of running of the MPTCP linux kernel, we have put in place a debugging environment. This has been done with \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) and \cite[DCE]{dce} (Direct Code Execution) and has been put in place in the following manner :
 
-		\subsection{Faliures :}
+		\begin{enumerate}
+			\sloppy
+			\item \textbf{Install the dependencies :}
+				
+			\nohyphens{
+				sudo apt-get install vim git mercurial gcc g++ python python-dev qt4-dev-tools libqt4-dev bzr cmake libc6-dev libc6-dev-i386 g++-multilib gdb valgrind gsl-bin libgsl0-dev libgsl0ldbl flex bison libfl-dev tcpdump sqlite sqlite3 libsqlite3-dev libxml2 libxml2-dev libgtk2.0-0 libgtk2.0-dev vtun lxc uncrustify doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng python-sphinx dia python-pygraphviz python-kiwi python-pygoocanvas libgoocanvas-dev ipython libboost-signals-dev libboost-filesystem-dev openmpi-bin openmpi-common openmpi-doc libopenmpi-dev libncurses5-dev libncursesw5-dev unrar unrar-free p7zip-full autoconf libpcap-dev cvs libssl-dev wireshark}
 
-			\label{subsec:faliures}
+			\item \textbf{Build DCE using bake :}
 
-			\hspace{2cm} The following section describes our attempts to put in place a debugging system for \emph{$\mathbf{MPTCP}$} so that we are not required to copile a kernel version everytime, which can take quite long.
-			
-			\begin{enumerate}
+				\begin{enumerate}
 
-				\item LibOS with NUSE
-				\item LibOS with DCE
+					\item hg clone \url{http://code.nsnam.org/bake} bake
+					\item export BAKE\_HOME=`pwd`/bake
+					\item export PATH=\$PATH:\$BAKE\_HOME
+					\item export PYTHONPATH=\$PYTHONPATH:\$BAKE\_HOME
+					\item mkdir dce
+					\item cd dce
+					\item bake.py configure -e dce-ns3-1.8
+					\item bake.py download
+					\item bake.py build
 
-				\subsubsection{LibOS with NUSE}
-					\label{subsubsec:liboswithnuse}
+				\end{enumerate}
 
-				\subsubsection{LibOS with DCE}
-					\label{subsubsec:liboswithdce}
+			\item \textbf{Build the \emph{mptcp\_trunk\_libos} branch of \emph{net-next-nuse}}
+				\begin{enumerate}
 
-					LibOS with DCE is put in place in the following manner :
+					\item git clone -b mptcp\_trunk\_libos \url{https://github.com/libos-nuse/net-next-nuse.git}
+					\item cd net-next-nuse
+					\item make menuconfig ARCH=lib
+					\item make library ARCH=lib
+					\item Since DCE by default, calls the library \emph{liblinux.so} (not exactly the correct one), and that the correct library is \emph{libsim-linux.so} found at \emph{\$HOME/net-next-nuse/arch/lib/tools} we rename the existing \emph{liblinux.so} to \emph{liblinux0.so} and create a symbolic link for the correct library as follows :
 
-					\begin{enumerate}
+					\emph{ln -s \$HOME/net-next-nuse/arch/lib/tools/libsim-linux.so \$HOME/net-next-nuse/liblinux.so}
+					This will ``mislead'' DCE into loading the correct library.
 
-					\item \textbf{Install the dependencies :}
-						
-					\nohyphens{
-						sudo apt-get install vim git mercurial gcc g++ python python-dev qt4-dev-tools libqt4-dev bzr cmake libc6-dev libc6-dev-i386 g++-multilib gdb valgrind gsl-bin libgsl0-dev libgsl0ldbl flex bison libfl-dev tcpdump sqlite sqlite3 libsqlite3-dev libxml2 libxml2-dev libgtk2.0-0 libgtk2.0-dev vtun lxc uncrustify doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng python-sphinx dia python-pygraphviz python-kiwi python-pygoocanvas libgoocanvas-dev ipython libboost-signals-dev libboost-filesystem-dev openmpi-bin openmpi-common openmpi-doc libopenmpi-dev libncurses5-dev libncursesw5-dev unrar unrar-free p7zip-full autoconf libpcap-dev cvs libssl-dev wireshark}
+				\end{enumerate}
 
-					\item \textbf{Build DCE using bake :}
+			\item \textbf{Build \emph{iproute2} version \emph{2.6.38}}
 
-						\begin{enumerate}
+				\begin{enumerate}
+					\sloppy
+					\item Download the compressed source code from \\
+					\nohyphens{\emph{\url{https://kernel.googlesource.com/pub/scm/linux/kernel/git/shemminger/iproute2/+archive/fcae78992cab7bd267785b392b438306c621e583.tar.gz}}} , extract it and rename the folder to \emph{iproute2-2.6.38}. 
+					\item cd iproute2-2.6.38
+					\item patch -p1 -i ../ns-3-dce/utils/iproute-2.6.38-fix-01.patch
+					\item \$(KERNEL\_INCLUDE) should point to the liblinux.so directory ( for me it is \$HOME/net-next-nuse ) \\
+					Hence I modified the following part in the Makefile:
 
-							\item hg clone http://code.nsnam.org/bake bake
-							\item export BAKE\_HOME=`pwd`/bake
-							\item export PATH=\$PATH:\$BAKE\_HOME
-							\item export PYTHONPATH=\$PYTHONPATH:\$BAKE\_HOME
-							\item mkdir dce
-							\item cd dce
-							\item bake.py configure -e dce-ns3-1.8
-							\item bake.py download
-							\item bake.py build
+					\emph{
+					Config: \\
+	                   \hspace*{2cm}sh configure /home/lawrence/net-next-nuse \\
+	                   \hspace*{2cm}\# sh configure \$(KERNEL\_MODULE) }
+	                \item \raggedright{LDFLAGS=-pie make CCOPTS='-fpic -D\_GNU\_SOURCE -O0 -U\_FORTIFY\_SOURCE'}
 
-						\end{enumerate}
+				\end{enumerate}
 
-					\item \textbf{Build the \emph{mptcp\_trunk\_libos} branch of \emph{net-next-nuse}}
-						\begin{enumerate}
+			\item \textbf{Set the \emph{DCE\_PATH}} \\
+				export DCE\_PATH=\$HOME/net-next-nuse:\$HOME/iproute2-2.6.38/ip
 
-							\item git clone -b mptcp\_trunk\_libos https://github.com/libos-nuse/net-next-nuse.git
-							\item cd net-next-nuse
-							\item make menuconfig ARCH=lib
-							\item make library ARCH=lib
+			\item \textbf{Build \emph{ns-3-dce }}
+				\begin{enumerate}
+				
+					\item hg clone \url{http://code.nsnam.org/ns-3-dce}  -r dce-1.8
+					\item cd ns-3-dce
+					\item ./waf configure --with-ns3=\$HOME/dce/build --enable-kernel-stack=\$HOME/net-next-nuse/arch --prefix=\$HOME/dce/build
+					\item ./waf build
+				\end{enumerate}
 
-						\end{enumerate}
+			\item \textbf{Run \emph{dce-iperf-mptcp} with or without \emph{GDB}}
+				\begin{enumerate}
+					\item cd ns-3-dce
+					\item Without \emph{GDB} : \emph{./waf --run dce-iperf-mptcp} \\
+					\item With \emph{GDB} : \emph{./waf --run dce-iperf-mptcp --command-template=``gdb --args \%s''} \\
+					Once we enter the \emph{GDB} prompt we must put a breakpoint at one of the functions in the \emph{mptcp} folder to stop there. Kindly refer to the files found at \emph{\$HOME/net-next-nuse/net/mptcp} to choose the function to define as a breakpoint. \\
+					An example : \\
+					Suppose we would like to stop the execution at the function \raggedright{\emph{mptcp\_set\_default\_path\_manager()}} found at \emph{\$HOME/net-next-nuse/net/mptcp/mptcp\_pm.c}, then we give the following command at the \emph{GDB} prompt : \\
+					\emph{b mptcp\_set\_default\_path\_manager} \\
+					\emph{GDB} will ask the following : \\
+					\emph{Function ``mptcp\_set\_default\_path\_manager'' not defined.\\
+					      Make breakpoint available on future shared library load? (y or [n])} \\
+					Type in \textbf{\emph{y}} and press enter. We may run the program by typing \textbf{\emph{r}} and then pressing enter. \emph{GDB} will break at the necessary breakpoint. \\
+				\end{enumerate}
 
-					\item \textbf{Build \emph{iproute2} version \emph{2.6.38}}
-
-						\begin{enumerate}
-							\item Download the compressed source code from \\
-							\nohyphens{\emph{https://kernel.googlesource.com/pub/scm/linux/kernel/git/shemminger/iproute2/+archive/fcae78992cab7bd267785b392b438306c621e583.tar.gz}} , extract it and rename the folder to \emph{iproute2-2.6.38}. 
-							\item cd iproute2-2.6.38
-							\item patch -p1 -i ../ns-3-dce/utils/iproute-2.6.38-fix-01.patch
-							\item \$(KERNEL\_INCLUDE) should point to the liblinux.so directory ( for me it is \$HOME/net-next-nuse ) \\
-    						Hence I modified the following part in the Makefile:
-
-    						\emph{
-    						Config: \\
-                               \hspace*{2cm}sh configure /home/lawrence/net-next-nuse \\
-                               \hspace*{2cm}\# sh configure \$(KERNEL\_MODULE) }
-                             \item \nohyphens{LDFLAGS=-pie make CCOPTS='-fpic -D\_GNU\_SOURCE -O0 -U\_FORTIFY\_SOURCE'}
-
-						\end{enumerate}
-
-					\item \textbf{Set the \emph{DCE\_PATH}} \\
-						export DCE\_PATH=\$HOME/net-next-nuse:\$HOME/iproute2-2.6.38/ip
-
-					\item \textbf{Build \emph{ns-3-dce } with }
-						\begin{enumerate}
-						
-							\item hg clone http://code.nsnam.org/ns-3-dce  -r dce-1.8
-							\item cd ns-3-dce
-							\item ./waf configure --with-ns3=\$HOME/dce/build --enable-kernel-stack=\$HOME/net-next-nuse/arch --prefix=\$HOME/dce/build
-							\item ./waf build
-							\item ./waf --run dce-iperf-mptcp
-
-						\end{enumerate}
-
-					\end{enumerate}
-
-			\end{enumerate}
+		\end{enumerate}
 
 
 
@@ -233,87 +232,68 @@
 
 
 	\clearpage
-	\section{The \emph{$\mathbf{MPTCP}$} Linux kernel implementation setup : }
+	\section{An Enhanced socket API for Multipath TCP : }
 
-		\label{sec:mptcplinuximplement}
+		\label{sec:mptcpapi}
 		\hspace{2cm} The following figure illustrates the 
 
 		
 	\clearpage
-	\section{Packet path using \emph{$\mathbf{MPTCP}$} :}
+	\section{Netcat with MPTCP (netcat-mptcp) :}
 
-		\label{sec:packetpath}
-		\vspace{0.5cm}
-		\begin{description}
-		\item \hspace{2cm} a
-		\end{description}
-  		
-  		\subsection{Hypothesis}
-
-  		 \begin{description}
-
-  		 	\label{subsec:hypothesis}
-  			\item \hspace{2cm} a
-  			\vspace{1cm}
-		\end{description}
-			
-		\subsection{Procedure}
-			
-
-
-		\section{Results}
-
-			\label{sec:results}
-		
-			\hspace{2cm} This section 
+		\label{sec:netcat-mptcp}
 			
 			
-			
-		\clearpage
-		\section{Conclusion}
-		 	\begin{description}
-		 	\item \hspace{2cm} Conclusion
-		 	\end{description}
+	\clearpage
+	\section{Conclusion}
+		\label{sec:conclusion}
+	 	Conclusion
 		 	
-		\section{Further developements}
-		\begin{description}
-			\item \hspace{2cm} In the above experiments 
-		\end{description}
-		 	
-		 	
-		 \clearpage
-		 \section{Acknowledgements}
 		 
-		  		Acknowledgement
+	\clearpage
+	\section{Further developments}
+		\label{sec:furtherdevelopment}
+		In the above experiments 
+			
+		 	
+		 	
+	\clearpage
+	\section{Acknowledgements}
+	 
+	  	Acknowledgement
 		 
-		 	\clearpage
-		 	\section{Bibliography}
+ 	\clearpage
+ 	\section{Bibliography}
 		\bibliographystyle{unsrt}
 		\bibliography{library}
-		\clearpage
-  		\section{Appendix}
-  		 	Here we have the different 
-		\section{Glossary}
-				\begin{tabbing}
-		  		RA : ~~~~~~~~\= \textit{Département d'Informatique} \\
-		 	 	IETF : \> \textit{Internet Engineering Task Force} \\
-		  		L2 : \> \textit{Layer 2/Link Layer of the OSI model} \\
-		  		L3 : \> \textit{Layer 2/IP Layer of the OSI model} \\
-		 		DHCP : \> \textit{Dynamic Host Configuration Protocol} \\
-		  		DNS : \> \textit{Domain name system} \\
-		  		MLD : \> \textit{Multicast Listener Discovery} \\
-		  		IP : \> \textit{Internet Protocol} \\
-		  		RFC : \> \textit{Request for Comment} \\
-		  		ARP : \> \textit{Address Resolution Protocol} \\
-		  		VLAN : \> \textit{Virtual local area network} \\
-		  		AP : \> \textit{Access Point} \\
-		  		RS : \> \textit{Router Solicitation} \\
-		  		NS : \> \textit{Neighbour Solicitation} \\
-		  		NA : \> \textit{Neighbour Advertisement} \\
-		  		mDNS : \> \textit{ multicast Domain Name System} \\
-		  		LLMNR : \> \textit{ Link-Local Multicast Name Resolution} \\
-		  		SLAAC : \> \textit{ Stateless Address Autoconfiguration} \\
-				\end{tabbing}
+
+
+	\clearpage
+	\section{Appendix}
+	 	Here we have the different
+
+
+	\section{Glossary}
+			\begin{tabbing}
+	  		RA : ~~~~~~~~\= \textit{Département d'Informatique} \\
+	 	 	IETF : \> \textit{Internet Engineering Task Force} \\
+	  		L2 : \> \textit{Layer 2/Link Layer of the OSI model} \\
+	  		L3 : \> \textit{Layer 2/IP Layer of the OSI model} \\
+	 		DHCP : \> \textit{Dynamic Host Configuration Protocol} \\
+	  		DNS : \> \textit{Domain name system} \\
+	  		MLD : \> \textit{Multicast Listener Discovery} \\
+	  		IP : \> \textit{Internet Protocol} \\
+	  		RFC : \> \textit{Request for Comment} \\
+	  		ARP : \> \textit{Address Resolution Protocol} \\
+	  		VLAN : \> \textit{Virtual local area network} \\
+	  		AP : \> \textit{Access Point} \\
+	  		RS : \> \textit{Router Solicitation} \\
+	  		NS : \> \textit{Neighbour Solicitation} \\
+	  		NA : \> \textit{Neighbour Advertisement} \\
+	  		mDNS : \> \textit{ multicast Domain Name System} \\
+	  		LLMNR : \> \textit{ Link-Local Multicast Name Resolution} \\
+	  		SLAAC : \> \textit{ Stateless Address Autoconfiguration} \\
+			\end{tabbing}
 				
 				
 				
