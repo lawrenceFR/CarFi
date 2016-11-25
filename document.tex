@@ -139,7 +139,7 @@
 
 		\label{sec:mptcpdebug}
 
-		In order to understand the different stages of running of the MPTCP linux kernel, we have put in place a debugging environment. This has been done with \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) and \cite[DCE]{dce} (Direct Code Execution) and has been put in place in the following manner :
+		In order to understand the different stages of running of the MPTCP linux kernel, we have put in place a debugging environment. This has been done with \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) and \cite[DCE]{dce} (Direct Code Execution). Everything was done on a XUbuntu 14.04 64bit virtual machine with DCE 1.8. The following illustrates how :
 
 		\begin{enumerate}
 			\sloppy
@@ -235,7 +235,8 @@
 	\section{An Enhanced socket API for Multipath TCP : }
 
 		\label{sec:mptcpapi}
-		\hspace{2cm} The following figure illustrates the 
+		In our project CarFi, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it. In this context we may classify sub flows into different categories (regular, priority, cellular authentication, botch etc.). We may associate the applications to one of the flow categories and hence control the sub flows based on the category. For example, for a streaming application it is preferable to initiate the connection with the Wifi channel and keep the 3G channel silent or as backup until there is no Wifi available. If at all, the 3G was activated due to unavailability of Wifi and that later the Wifi comes back, it would be judicious to close the 3G connection and communicate only through Wifi.
+		In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the sate of the active sub flows.
 
 		
 	\clearpage
