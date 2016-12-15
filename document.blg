@@ -3,36 +3,37 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: document.aux
 The style file: unsrt.bst
 Database file #1: library.bib
-You've used 2 entries,
+Warning--empty journal in api
+You've used 3 entries,
             1791 wiz_defined-function locations,
-            452 strings with 3716 characters,
-and the built_in function-call counts, 245 in all, are:
-= -- 18
-> -- 5
+            456 strings with 3800 characters,
+and the built_in function-call counts, 373 in all, are:
+= -- 28
+> -- 9
 < -- 0
-+ -- 3
-- -- 1
-* -- 2
-:= -- 37
-add.period$ -- 5
-call.type$ -- 2
-change.case$ -- 2
++ -- 5
+- -- 2
+* -- 5
+:= -- 60
+add.period$ -- 8
+call.type$ -- 3
+change.case$ -- 3
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 10
-empty$ -- 37
-format.name$ -- 1
-if$ -- 58
+cite$ -- 4
+duplicate$ -- 18
+empty$ -- 51
+format.name$ -- 2
+if$ -- 85
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 0
-newline$ -- 12
-num.names$ -- 1
-pop$ -- 11
+int.to.str$ -- 3
+missing$ -- 1
+newline$ -- 17
+num.names$ -- 2
+pop$ -- 16
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 11
+skip$ -- 14
 stack$ -- 0
 substring$ -- 0
 swap$ -- 2
@@ -40,7 +41,8 @@ text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 1
-width$ -- 3
-write$ -- 18
+warning$ -- 1
+while$ -- 2
+width$ -- 4
+write$ -- 27
+(There was 1 warning)

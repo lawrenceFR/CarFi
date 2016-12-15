@@ -11,12 +11,29 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{hyphenat}
 \usepackage{datetime}
 \usepackage{wrapfig}
 \usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{url}
+\usepackage{listings}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\color{RedOrange},
+  keywordstyle=\color{blue},
+  commentstyle=\color{OliveGreen},
+  stringstyle=\color{Plum},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
 
 \begin{document}
 
@@ -124,13 +141,13 @@
 		\vspace{0.5cm}
 		\subsection{Context}
 			\begin{description}
-				\item \hspace{2cm} MultiPath TCP (MPTCP) is an effort towards enabling the simultaneous use of several IP-addresses/interfaces by a modification of TCP that presents a regular TCP interface to applications, while in fact spreading data across several sub-flows. Benefits of this include better resource utilisation, better throughput and smoother reaction to failures. The project CarFi, aims to exploit these advantages of MPTCP in case of connectivity in smart vehicles. Today, most of these vehicles rely on cellular network connectivity, the inconveniences being high cost, lower bandwidth and bad reception. A potential solution would be the usage of the WiFi network when available. Most urban areas are covered via Mobile Network Operator or ISP WiFi hotspots. This, of course, without having to tear down the existing TCP connection and re-establishing a new one, which is what MPTCP assures.
+				\item \hspace{2cm} Today, connected vehicles make use of 2G, 3G or 4G networks in order to connect to the internet while in motion. Whether it be for GPS, simple browsing or music, every consumer has his/her own needs. \\Apart from the usual connection glitches, such connectivity is rather expensive with limited bandwidth. Even though workarounds have been implemented, most of them are either inefficient or are not completely transparent. These limitations stand in the way of developement of connected vehicles. \\MultiPath TCP (MPTCP) is an effort towards enabling the simultaneous use of several IP-addresses/interfaces by a modification of TCP. It presents a regular TCP interface to applications, while in fact spreading data across several sub-flows. Benefits of this include better resource utilisation, better throughput and smoother reaction to failures. The project CarFi, aims to exploit these advantages of MPTCP. A potential add-on would be the usage of the WiFi network when available. Most urban areas are covered via Mobile Network Operator or ISP WiFi hotspots. One may envisage a scenario where the default connection is established over Wifi and when it is no longer available, the communication carries on over 3G.
 			\end{description}
 	
 		\vspace{0.5cm}
 		\subsection{Document Outline}
 			\begin{description}
-				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:conclusion]{5} summarises our work and it's utility.
+				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and emphasises on the utility \hyperref[subsec:utility]{5.3} of our work.
 			\end{description}
 
 
@@ -173,7 +190,7 @@
 					\item make library ARCH=lib
 					\item Since DCE by default, calls the library \emph{liblinux.so} (not exactly the correct one), and that the correct library is \emph{libsim-linux.so} found at \emph{\$HOME/net-next-nuse/arch/lib/tools} we rename the existing \emph{liblinux.so} to \emph{liblinux0.so} and create a symbolic link for the correct library as follows :
 
-					\emph{ln -s \$HOME/net-next-nuse/arch/lib/tools/libsim-linux.so \$HOME/net-next-nuse/liblinux.so}
+					\emph{ln -s \$HOME/net-next-nuse/arch/lib/tools/libsim-linux.so \$HOME/net-next-nuse/liblinux.so}.
 					This will ``mislead'' DCE into loading the correct library.
 
 				\end{enumerate}
@@ -221,7 +238,7 @@
 					\emph{GDB} will ask the following : \\
 					\emph{Function ``mptcp\_set\_default\_path\_manager'' not defined.\\
 					      Make breakpoint available on future shared library load? (y or [n])} \\
-					Type in \textbf{\emph{y}} and press enter. We may run the program by typing \textbf{\emph{r}} and then pressing enter. \emph{GDB} will break at the necessary breakpoint. \\
+					Type in \textbf{\emph{y}} and press enter. We may run the program by typing \textbf{\emph{r}} and then pressing enter. \emph{GDB} will pause at the necessary breakpoint. \\
 				\end{enumerate}
 
 		\end{enumerate}
@@ -235,16 +252,102 @@
 	\section{An Enhanced socket API for Multipath TCP : }
 
 		\label{sec:mptcpapi}
-		In our project CarFi, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it. In this context we may classify sub flows into different categories (regular, priority, cellular authentication, botch etc.). We may associate the applications to one of the flow categories and hence control the sub flows based on the category. For example, for a streaming application it is preferable to initiate the connection with the Wifi channel and keep the 3G channel silent or as backup until there is no Wifi available. If at all, the 3G was activated due to unavailability of Wifi and that later the Wifi comes back, it would be judicious to close the 3G connection and communicate only through Wifi.
-		In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the sate of the active sub flows.
+		 In our project CarFi, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it. For example, for a streaming application it is preferable to communicate over the Wifi channel. In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the state of the active sub flows. When the application possesses such information it may want to create a new sub flow, terminate an existing one, change a sub flow's priority etc.
 
-		
+		\subsection{Implementation}
+			The enhanced socket API has been implemented over the existing \textbf{\emph{getsockopt()}} and \textbf{\emph{setsockopt()}} system calls. The following figure illustrates the MPTCP socket structure \cite{api}:
+			\begin{figure}[h]
+			\begin{center}
+				\includegraphics[scale=1.5]{pictures/mptcp_socket_structure.jpg}
+				\caption[]{MPTCP socket structure}
+			\end{center}
+			\end{figure}
+
+			From the application's point of view, no other socket other than the \textbf{Meta Socket} is visible. Underneath the \textbf{Meta Socket} lie several subsockets, each representing a sub flow. The structure \textbf{mptcp\_cb} points towards the head of the subflow list. The structure \textbf{mptcp\_sk} hence points indirectly towards the next subflow.
+			Till now there is no way for the application to know what hides beyond the \textbf{Meta Socket}. This is where the socket options come into play. The enhanced socket API lists the following socket options for the user \cite{api}:
+
+			\begin{table}[h]
+				
+				
+
+				\begin{tabular}{l|l|l|l}
+					\hline
+					Name & Input & Output & Description \\
+					\hline
+					\hline
+					MPTCP\_GET\_SUB\_IDS & - & subflow list & Get the current list of \\&&&subflows viewed by the kernel \\
+					\hline
+					MPTCP\_GET\_SUB\_TUPLE & id & sub tuple & Get the ip and ports used by \\&&&the subflow identified by id \\
+					\hline
+					MPTCP\_OPEN\_SUB\_TUPLE & tuple & - & Request a new subflow with \\&&&pair of ip and ports \\
+					\hline
+					MPTCP\_CLOSE\_SUB\_ID & id & - & Close the subflow identified \\&&&by id \\
+					\hline
+					MPTCP\_SUB\_GETSOCKOPT & id, sock opt & sock ret & Redirects the getsockopt given \\&&&in input to the subflow \\&&&identified by id and return the \\&&&value returned by the operation \\
+					\hline
+					MPTCP\_SUB\_SETSOCKOPT & id, sock opt & - & Redirects the setsockopt given \\&&&in input to the subflow \\&&&identified by id \\
+					\hline
+
+				\end{tabular}
+				\caption{Implemented MPTCP socket options}
+			\end{table}
+
+			\raggedright{The following example shows how we may use the socket option \textbf{MPTCP\_OPEN\_SUB\_TUPLE} and \textbf{getsockopt()}to open a sub flow :}
+
+			First we introduce the \textbf{mptcp\_sub\_tuple} structure which represents the subflow :
+			\begin{lstlisting}
+				struct mptcp_sub_tuple {
+					_u8 id;			// this is an output signifying the ``id'' of the subflow
+					_u8 prio;		// this field determines if the sub flow is backup or not
+					_u8 addrs[0];	// pair array of size two depicting (source, destination)
+				}
+			\end{lstlisting}
+			Now we use this structure to open a sub flow as follows :
+			\begin{lstlisting}
+				int i;
+	   			unsigned int optlen;
+	   			struct mptcp_sub_ids *ids;
+	   			optlen = 42;
+
+	   			int error;
+
+	   			optlen = sizeof(struct mptcp_sub_tuple) + 2 * sizeof(struct sockaddr_in);
+	   			sub_tuple = malloc(optlen);
+
+	   			sub_tuple->id = 0;
+	   			sub_tuple->prio = 0;
+
+	   			addr = (struct sockaddr_in*) &sub_tuple->addrs[0];
+
+	   			addr->sin_family = AF_INET;
+	   			addr->sin_port = htons(12345);
+	   			inet_pton(AF_INET, "10.0.0.1", &addr->sin_addr);
+
+	   			addr++;
+
+	   			addr->sin_family = AF_INET;
+	   			addr->sin_port = htons(1234);
+	   			inet_pton(AF_INET, "10.1.0.1", &addr->sin_addr);
+
+	   			error =  getsockopt(sockfd, IPPROTO_TCP, MPTCP_OPEN_SUB_TUPLE,
+	                       sub_tuple, &optlen);
+			\end{lstlisting}
+
 	\clearpage
 	\section{Netcat with MPTCP (netcat-mptcp) :}
 
 		\label{sec:netcat-mptcp}
 			
-			
+	\clearpage
+	\section{Results, Statistics and Utility}
+		\label{sec:res}
+		\subsection{Results}
+			\label{subsec:result}
+		\subsection{Statistics}
+			\label{subsec:statistics}
+		\subsection{Utility}
+			\label{subsec:utility}
+
 	\clearpage
 	\section{Conclusion}
 		\label{sec:conclusion}
@@ -265,7 +368,7 @@
 		 
  	\clearpage
  	\section{Bibliography}
-		\bibliographystyle{unsrt}
+		\bibliographystyle{plainurl}
 		\bibliography{library}
 
 
