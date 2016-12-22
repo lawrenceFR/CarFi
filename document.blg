@@ -4,45 +4,46 @@ The top-level auxiliary file: document.aux
 The style file: unsrt.bst
 Database file #1: library.bib
 Warning--empty journal in api
-You've used 3 entries,
+Warning--empty year in api
+You've used 6 entries,
             1791 wiz_defined-function locations,
-            456 strings with 3800 characters,
-and the built_in function-call counts, 373 in all, are:
-= -- 28
-> -- 9
+            465 strings with 4005 characters,
+and the built_in function-call counts, 696 in all, are:
+= -- 56
+> -- 12
 < -- 0
-+ -- 5
++ -- 8
 - -- 2
-* -- 5
-:= -- 60
-add.period$ -- 8
-call.type$ -- 3
-change.case$ -- 3
+* -- 8
+:= -- 91
+add.period$ -- 16
+call.type$ -- 6
+change.case$ -- 6
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 18
-empty$ -- 51
+cite$ -- 8
+duplicate$ -- 33
+empty$ -- 105
 format.name$ -- 2
-if$ -- 85
+if$ -- 170
 int.to.chr$ -- 0
-int.to.str$ -- 3
+int.to.str$ -- 6
 missing$ -- 1
-newline$ -- 17
+newline$ -- 31
 num.names$ -- 2
-pop$ -- 16
+pop$ -- 41
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 14
+skip$ -- 23
 stack$ -- 0
 substring$ -- 0
-swap$ -- 2
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 1
+warning$ -- 2
 while$ -- 2
-width$ -- 4
-write$ -- 27
-(There was 1 warning)
+width$ -- 7
+write$ -- 52
+(There were 2 warnings)

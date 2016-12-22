@@ -5,13 +5,36 @@
 \BOOKMARK [1][-]{section.3}{An Enhanced socket API for Multipath TCP : }{}% 5
 \BOOKMARK [2][-]{subsection.3.1}{Implementation}{section.3}% 6
 \BOOKMARK [1][-]{section.4}{Netcat with MPTCP \(netcat-mptcp\) :}{}% 7
-\BOOKMARK [1][-]{section.5}{Results, Statistics and Utility}{}% 8
-\BOOKMARK [2][-]{subsection.5.1}{Results}{section.5}% 9
-\BOOKMARK [2][-]{subsection.5.2}{Statistics}{section.5}% 10
-\BOOKMARK [2][-]{subsection.5.3}{Utility}{section.5}% 11
-\BOOKMARK [1][-]{section.6}{Conclusion}{}% 12
-\BOOKMARK [1][-]{section.7}{Further developments}{}% 13
-\BOOKMARK [1][-]{section.8}{Acknowledgements}{}% 14
-\BOOKMARK [1][-]{section.9}{Bibliography}{}% 15
-\BOOKMARK [1][-]{section.10}{Appendix}{}% 16
-\BOOKMARK [1][-]{section.11}{Glossary}{}% 17
+\BOOKMARK [2][-]{subsection.4.1}{Setup and structure}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.2}{Configure Addresses and Routing}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.3}{Client and Server}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.4}{Routers}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.5}{Code simplification, addition and function calls at the correct place}{section.4}% 12
+\BOOKMARK [1][-]{section.5}{Results, Statistics and Utility}{}% 13
+\BOOKMARK [2][-]{subsection.5.1}{Results}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.2}{Statistics}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.3}{Utility}{section.5}% 16
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 17
+\BOOKMARK [1][-]{section.7}{Further developments}{}% 18
+\BOOKMARK [1][-]{section.8}{Acknowledgements}{}% 19
+\BOOKMARK [1][-]{section.9}{Bibliography}{}% 20
+\BOOKMARK [1][-]{section.10}{Appendix}{}% 21
+\BOOKMARK [2][-]{subsection.10.1}{Client side address assignment with the following script :}{section.10}% 22
+\BOOKMARK [2][-]{subsection.10.2}{Server side address assignment with the following script :}{section.10}% 23
+\BOOKMARK [2][-]{subsection.10.3}{Client side routing :}{section.10}% 24
+\BOOKMARK [2][-]{subsection.10.4}{Client routing output :}{section.10}% 25
+\BOOKMARK [2][-]{subsection.10.5}{Server side routing :}{section.10}% 26
+\BOOKMARK [2][-]{subsection.10.6}{Server routing output :}{section.10}% 27
+\BOOKMARK [2][-]{subsection.10.7}{Router R1 :}{section.10}% 28
+\BOOKMARK [2][-]{subsection.10.8}{Router R1 routing output :}{section.10}% 29
+\BOOKMARK [2][-]{subsection.10.9}{Router R2 :}{section.10}% 30
+\BOOKMARK [2][-]{subsection.10.10}{Router R2 routing output :}{section.10}% 31
+\BOOKMARK [2][-]{subsection.10.11}{Router R3 :}{section.10}% 32
+\BOOKMARK [2][-]{subsection.10.12}{Router R3 routing output :}{section.10}% 33
+\BOOKMARK [2][-]{subsection.10.13}{Makefile.am :}{section.10}% 34
+\BOOKMARK [2][-]{subsection.10.14}{Makefile.in :}{section.10}% 35
+\BOOKMARK [2][-]{subsection.10.15}{netcat.h :}{section.10}% 36
+\BOOKMARK [2][-]{subsection.10.16}{netcat.c :}{section.10}% 37
+\BOOKMARK [2][-]{subsection.10.17}{core.h :}{section.10}% 38
+\BOOKMARK [2][-]{subsection.10.18}{core.c :}{section.10}% 39
+\BOOKMARK [1][-]{section.11}{Glossary}{}% 40

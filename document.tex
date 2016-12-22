@@ -29,11 +29,12 @@
   numberstyle=\color{RedOrange},
   keywordstyle=\color{blue},
   commentstyle=\color{OliveGreen},
-  stringstyle=\color{Plum},
   breaklines=true,
   breakatwhitespace=true,
   tabsize=4
 }
+
+
 
 \begin{document}
 
@@ -147,11 +148,17 @@
 		\vspace{0.5cm}
 		\subsection{Document Outline}
 			\begin{description}
-				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and emphasises on the utility \hyperref[subsec:utility]{5.3} of our work.
+				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API along with some details on its implementation. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and emphasises on the utility \hyperref[subsec:utility]{5.3} of our work.
 			\end{description}
 
 
 	\clearpage
+
+	\begin{center}
+		\LARGE\textbf{PART I}
+	\end{center}
+
+
 	\section{Setting up a debugging environment for MPTCP : }
 
 		\label{sec:mptcpdebug}
@@ -249,12 +256,18 @@
 
 
 	\clearpage
+
+	\begin{center}
+		\LARGE\textbf{PART II}
+	\end{center}
+
 	\section{An Enhanced socket API for Multipath TCP : }
 
 		\label{sec:mptcpapi}
 		 In our project CarFi, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it. For example, for a streaming application it is preferable to communicate over the Wifi channel. In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the state of the active sub flows. When the application possesses such information it may want to create a new sub flow, terminate an existing one, change a sub flow's priority etc.
 
 		\subsection{Implementation}
+			\label{subsec:implement}
 			The enhanced socket API has been implemented over the existing \textbf{\emph{getsockopt()}} and \textbf{\emph{setsockopt()}} system calls. The following figure illustrates the MPTCP socket structure \cite{api}:
 			\begin{figure}[h]
 			\begin{center}
@@ -292,51 +305,138 @@
 				\caption{Implemented MPTCP socket options}
 			\end{table}
 
-			\raggedright{The following example shows how we may use the socket option \textbf{MPTCP\_OPEN\_SUB\_TUPLE} and \textbf{getsockopt()}to open a sub flow :}
+			\raggedright{The following example shows how we may use the socket option \textbf{MPTCP\_OPEN\_SUB\_TUPLE} and \textbf{getsockopt()}to open a sub flow \cite{api}:}
 
 			First we introduce the \textbf{mptcp\_sub\_tuple} structure which represents the subflow :
 			\begin{lstlisting}
-				struct mptcp_sub_tuple {
-					_u8 id;			// this is an output signifying the ``id'' of the subflow
-					_u8 prio;		// this field determines if the sub flow is backup or not
-					_u8 addrs[0];	// pair array of size two depicting (source, destination)
-				}
+			struct mptcp_sub_tuple {
+				_u8 id;			// this is an output signifying the ``id'' of the subflow
+				_u8 prio;		// this field determines if the sub flow is backup or not
+				_u8 addrs[0];	// pair array of size two depicting (source, destination)
+			}
 			\end{lstlisting}
 			Now we use this structure to open a sub flow as follows :
 			\begin{lstlisting}
-				int i;
-	   			unsigned int optlen;
-	   			struct mptcp_sub_ids *ids;
-	   			optlen = 42;
+   			unsigned int optlen;
+   			struct mptcp_sub_tuple *sub_tuple;
+   			struct sockaddr_in *addr;
+   			optlen = 42;
 
-	   			int error;
+   			int error;
 
-	   			optlen = sizeof(struct mptcp_sub_tuple) + 2 * sizeof(struct sockaddr_in);
-	   			sub_tuple = malloc(optlen);
+   			optlen = sizeof(struct mptcp_sub_tuple) + 2 * sizeof(struct sockaddr_in);
+   			sub_tuple = malloc(optlen);
 
-	   			sub_tuple->id = 0;
-	   			sub_tuple->prio = 0;
+   			sub_tuple->id = 0;
+   			sub_tuple->prio = 0;
 
-	   			addr = (struct sockaddr_in*) &sub_tuple->addrs[0];
+   			addr = (struct sockaddr_in*) &sub_tuple->addrs[0];
 
-	   			addr->sin_family = AF_INET;
-	   			addr->sin_port = htons(12345);
-	   			inet_pton(AF_INET, "10.0.0.1", &addr->sin_addr);
+   			// source address
+   			addr->sin_family = AF_INET; // address family IPv4
+   			addr->sin_port = htons(12345); // source port
+   			inet_pton(AF_INET, "10.0.0.1", &addr->sin_addr); // source IP
 
-	   			addr++;
+   			addr++;
 
-	   			addr->sin_family = AF_INET;
-	   			addr->sin_port = htons(1234);
-	   			inet_pton(AF_INET, "10.1.0.1", &addr->sin_addr);
+   			// destination address
+   			addr->sin_family = AF_INET; // address family IPv4
+   			addr->sin_port = htons(1234); // destination port
+   			inet_pton(AF_INET, "10.1.0.1", &addr->sin_addr); // destination IP
 
-	   			error =  getsockopt(sockfd, IPPROTO_TCP, MPTCP_OPEN_SUB_TUPLE,
-	                       sub_tuple, &optlen);
+   			error = getsockopt(sockfd, IPPROTO_TCP, MPTCP_OPEN_SUB_TUPLE,
+                    sub_tuple, &optlen); // establishment of sub flow using getsockopt()
 			\end{lstlisting}
 
-	\clearpage
-	\section{Netcat with MPTCP (netcat-mptcp) :}
+		
 
+	
+	\section{Netcat with MPTCP (netcat-mptcp) :}
 		\label{sec:netcat-mptcp}
+		In order to have a concrete testbed for the enhanced socket API, we have thought of a usecase involving \textbf{Netcat}. \textbf{Netcat} or \textbf{nc} is a featured networking utility which reads and writes data across network connections, using the TCP/IP protocol \cite{nc}. It will serve as our application that will establish multiple subflows.
+
+		\subsection{Setup and structure}
+			\label{subsec:setup}
+			Usually with \textbf{Netcat}, there is only one flow between a client and a server. Our objective is to have multiple interfaces on the client side which will connect to the same or multiple interfaces on the server side. For simplicity we have envisaged a scenario where the client has three interfaces (viz. default, wifi and cellular) and the server has three (however for demonstration purposes we need to connect to only one of them). The way the client connects to the server is changed. In fact, with our modifications in the source code, we are able to pass three additional arguments in the netcat command :
+
+			\begin{enumerate}
+				\item \textbf{-a} : Find all the remaining interfaces on the client side and establish sub flows to the server.
+				\item \textbf{-W} : Read the configuration file, extract the IP corresponding to the wifi interface and establish a sub flow using this interface to the server.
+				\item \textbf{-C} : Read the configuration file, extract the IP corresponding to the cellular interface and establish a sub flow using this interface to the server.
+			\end{enumerate}
+
+			What happens is, the client usually connects to the server via the default interface. Then according to the option passed in the \textbf{Netcat} command, it either opens subflows on a single interface or on all available interfaces. This is done using the function \emph{getsockopt()} in the source code just after the TCP \emph{connect()} system call. \\
+			The following diagram depicts the setup along with the addresses :
+			\begin{figure}[h]
+				\begin{center}
+					\label{fig:topology}
+					\includegraphics[scale=0.45]{pictures/topologie.jpg}
+					\caption[]{Testbed topology for netcat-mptcp}
+				\end{center}
+			\end{figure}
+
+			Here is an example of the \textbf{Netcat} command : \\
+			On the server side, it listens on it's default interface \textbf{10.0.4.7} on port \textbf{64000} with the help of the following command : \\
+
+			\textbf{\emph{nc -l -p 64000}} \\
+
+			On the client side, we use our own \textbf{Netcat} executable to establish a flow / multiple flows as follows :
+
+			
+			\begin{tabbing}
+			-a : ~~~~~~~~\=\textbf{\emph{./netcat-mptcp/src/netcat -a 10.0.4.7 64000}} \\
+			-W : \> \textbf{\emph{./netcat-mptcp/src/netcat -W 10.0.4.7 64000}} \\
+			-C : \> \textbf{\emph{./netcat-mptcp/src/netcat -C 10.0.4.7 64000}}
+			\end{tabbing}
+
+
+		\subsection{Configure Addresses and Routing}
+			\label{subsec:addressandroute}
+			For the testbed, have set up the above topology on \textbf{GNS3} using the Cisco Router \textbf{c3745} and the virtual machine enabled with the enhanced Multipath TCP API.
+
+			\subsection{Client and Server}
+			\label{subsec:clientandserver}
+			The following command example assigns the address \textbf{10.0.1.6} to the interface \textbf{eth0} : \\
+			\textbf{\emph{Client side :}} \\
+			\begin{lstlisting}
+			ip addr add 10.0.1.6/24 dev eth0
+			\end{lstlisting}
+			Appendix \hyperref[subsec:clientaddress]{10.1} and \hyperref[subsec:serveraddress]{10.2} illustrate the scripts that are run to assign addresses on the client side and the server side.
+
+			With multiple addresses defined on several interfaces, we would also like to tell the kernel to use specific interfaces and gateways and not the default ones acccording to the source addresses. This has been achieved by configuring one routing table per outgoing interface, each routing table being identified by a number. The route selection process then happens in two phases : First the kernel does a lookup in the policy table (that we need to configure with \textbf{\emph{ip rules}}). The policies in our case, will be that for so and so source prefix, go to so and so routing table (the routing table indicated by a number). The corresponding routing table is examined to select the gateway based on the destination addresses \cite{routing}.
+
+			Appendix \hyperref[subsec:clientroute]{10.3} and \hyperref[subsec:serverroute]{10.5} illustrate the scripts that are run to manually configure the routing policies on the client side and the server side.
+
+			Appendix \hyperref[subsec:clientrouteout]{10.4} and \hyperref[subsec:serverrouteout]{10.6} illustrate the outputs for the different commands for showing the routing policies.
+
+			\subsection{Routers}
+			\label{subsec:router}
+			In figure \hyperref[fig:topology]{2} the three routes need to be configured to properly deliver packets to the correct destination.
+			We have connected to the routers via telnet to configure them.
+
+			Appendix \hyperref[subsec:routerconf1]{10.7}, \hyperref[subsec:routerconf2]{10.9} and \hyperref[subsec:routerconf3]{10.11} illustrate the commands that must be given to the routers \textbf{R1, R2} and \textbf{R3} respectively.
+
+
+			Appendix \hyperref[subsec:routerconfout1]{10.8}, \hyperref[subsec:routerconfout2]{10.10} and \hyperref[subsec:routerconfout3]{10.12} illustrate the outputs for the \textbf{sh ip route} command.
+
+		\subsection{Code simplification, addition and function calls at the correct place}
+			\label{subsec:codesimplify}
+			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{Netcat} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the sunflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}.
+
+			Besides the classes \textbf{\emph{makeaddr.c, subinfo.c, submanip.c and suboption.c}} and the header files \textbf{\emph{makeaddr.h, subinfo.h, submanip.h and suboption.h}} which are avaiable at the \textbf{src} folder of the github repository : \cite[https://github.com/lawrenceFR/netcat-mptcp]{github}, the following addition of code was also necessary for the proper functioning of \textbf{\emph{netcat-mptcp}} :
+			\begin{enumerate}
+				\item In \textbf{\emph{netcat-mptcp/src/Makefile.am}} line \textbf{28 - 39} : Appendix \hyperref[subsec:Makefile.am]{Makefile.am}
+
+				\item In \textbf{\emph{netcat-mptcp/src/Makefile.in}} line \textbf{153 - 164} and \textbf{183 - 186} : Appendix \hyperref[subsec:Makefile.in]{Makefile.in}
+
+				\item In \textbf{\emph{netcat-mptcp/src/netcat.h}} line \textbf{203 - 205} : Appendix \hyperref[subsec:netcat.h]{netcat.h}
+
+				\item In \textbf{\emph{netcat-mptcp/src/netcat.c}} line \textbf{58 - 60}, \textbf{192}, \textbf{194}, \textbf{222}, \textbf{227}, \textbf{233 - 235}, \textbf{239 - 241}, \textbf{357 - 359} : Appendix \hyperref[subsec:netcat.c]{netcat.c}
+
+				\item In \textbf{\emph{netcat-mptcp/src/core.h}} line \textbf{1 - 37} : Appendix \hyperref[subsec:core.h]{core.h}
+
+				\item In \textbf{\emph{netcat-mptcp/src/core.c}} line \textbf{394 - 405} and \textbf{535 - 688} : Appendix \hyperref[subsec:core.c]{core.c}
+			\end{enumerate}
 			
 	\clearpage
 	\section{Results, Statistics and Utility}
@@ -368,13 +468,589 @@
 		 
  	\clearpage
  	\section{Bibliography}
-		\bibliographystyle{plainurl}
+		\bibliographystyle{unsrt}
 		\bibliography{library}
 
 
 	\clearpage
 	\section{Appendix}
-	 	Here we have the different
+		\label{sec:appendix}
+	 	Here we have the different additional information, notably the code and the scripts used in the proper functioning of our testbed.
+
+	 	\subsection{Client side address assignment with the following script :}
+	 	\label{subsec:clientaddress}
+	 	\begin{lstlisting}
+	 	#!/bin/sh
+
+	 	# flush all ip addresses
+	 	ip addr flush dev eth0
+	 	ip addr flush dev eth1
+	 	ip addr flush dev eth2
+
+	 	# bring all the interfaces down
+	 	ip link set dev eth0 down
+	 	ip link set dev eth1 down
+	 	ip link set dev eth2 down
+
+	 	# bring all the interfaces up
+	 	ip link set dev eth0 up
+	 	ip link set dev eth1 up
+	 	ip link set dev eth2 up
+
+	 	# assign addresses to the interfaces
+	 	ip addr add 10.0.1.6/24 dev eth0
+	 	ip addr add 10.0.2.6/24 dev eth1
+	 	ip addr add 10.0.3.6/24 dev eth2
+	 	\end{lstlisting}
+
+	 	\subsection{Server side address assignment with the following script :}
+	 	\label{subsec:serveraddress}
+	 	\begin{lstlisting}
+	 	#!/bin/sh
+
+	 	# flush all ip addresses
+	 	ip addr flush dev eth0
+	 	ip addr flush dev eth1
+	 	ip addr flush dev eth2
+
+	 	# bring all the interfaces down
+	 	ip link set dev eth0 down
+	 	ip link set dev eth1 down
+	 	ip link set dev eth2 down
+
+	 	# bring all the interfaces up
+	 	ip link set dev eth0 up
+	 	ip link set dev eth1 up
+	 	ip link set dev eth2 up
+
+	 	# assign addresses to the interfaces
+	 	ip addr add 10.0.4.7/24 dev eth0
+	 	ip addr add 10.0.5.7/24 dev eth1
+	 	ip addr add 10.0.6.7/24 dev eth2
+	 	\end{lstlisting}
+
+	 	\subsection{Client side routing :}
+	 	\label{subsec:clientroute}
+	 	\begin{lstlisting}
+	 	#!/bin/sh
+
+	 	# this rule creates three different routing tables that we use based on the source addresses
+	 	ip rule add from 10.0.1.6 table 1
+	 	ip rule add from 10.0.2.6 table 2
+	 	ip rule add from 10.0.3.6 table 3
+
+	 	# configure the three different routing tables
+	 	ip route add 10.0.1.0/24 dev eth0 scope link table 1
+	 	ip route add default via 10.0.1.1 dev eth0 table 1
+
+	 	ip route add 10.0.2.0/24 dev eth1 scope link table 2
+	 	ip route add default via 10.0.2.1 dev eth1 table 2
+
+	 	ip route add 10.0.3.0/24 dev eth2 scope link table 3
+	 	ip route add default via 10.0.3.1 dev eth2 table 3
+
+	 	# default route for the selection process of normal internet-traffic
+	 	ip route add default scope global nexthop via 10.0.1.1 dev eth0
+	 	\end{lstlisting}
+
+	 	\subsection{Client routing output :}
+	 	\label{subsec:clientrouteout}
+	 	\begin{lstlisting}
+	 	mininet@mininet-vm:~$ ip rule show
+	 	0 : 	from all liiokup local
+	 	32763 : from 10.0.3.6 lookup 3
+	 	32764 : from 10.0.2.6 lookup 2
+	 	32765 : from 10.0.1.6 lookup 1
+	 	32766 : from all lookup main
+	 	32767 : from all lookup default
+
+	 	mininet@mininet-vm:~$ ip route
+	 	default via 10.0.1.1 dev eth0
+	 	10.0.1.0/24 dev eth0 proto kernel scope link src 10.0.1.6
+	 	10.0.2.0/24 dev eth1 proto kernel scope link src 10.0.2.6
+	 	10.0.3.0/24 dev eth2 proto kernel scope link src 10.0.3.6
+
+	 	mininet@mininet-vm:~$ ip route show table 1
+	 	default via 10.0.1.1 dev eth0
+	 	10.0.1.0/24 dev eth0 scope link
+
+	 	mininet@mininet-vm:~$ ip route show table 2
+	 	default via 10.0.2.1 dev eth1
+	 	10.0.2.0/24 dev eth0 scope link
+
+	 	mininet@mininet-vm:~$ ip route show table 3
+	 	default via 10.0.3.1 dev eth2
+	 	10.0.3.0/24 dev eth0 scope link
+	 	\end{lstlisting}
+
+	 	\subsection{Server side routing :}
+	 	\label{subsec:serverroute}
+	 	\begin{lstlisting}
+	 	#!/bin/sh
+
+	 	# this rule creates three different routing tables that we use based on the source addresses
+	 	ip rule add from 10.0.4.7 table 1
+	 	ip rule add from 10.0.5.7 table 2
+	 	ip rule add from 10.0.6.7 table 3
+
+	 	# configure the three different routing tables
+	 	ip route add 10.0.4.0/24 dev eth0 scope link table 1
+	 	ip route add default via 10.0.4.1 dev eth0 table 1
+
+	 	ip route add 10.0.5.0/24 dev eth1 scope link table 2
+	 	ip route add default via 10.0.5.1 dev eth1 table 2
+
+	 	ip route add 10.0.6.0/24 dev eth2 scope link table 3
+	 	ip route add default via 10.0.6.1 dev eth2 table 3
+
+	 	# default route for the selection process of normal internet-traffic
+	 	ip route add default scope global nexthop via 10.0.4.1 dev eth0
+	 	\end{lstlisting}
+
+	 	\subsection{Server routing output :}
+	 	\label{subsec:serverrouteout}
+	 	\begin{lstlisting}
+	 	mininet@mininet-vm:~$ ip rule show
+	 	0 : 	from all liiokup local
+	 	32763 : from 10.0.6.7 lookup 3
+	 	32764 : from 10.0.5.7 lookup 2
+	 	32765 : from 10.0.4.7 lookup 1
+	 	32766 : from all lookup main
+	 	32767 : from all lookup default
+
+	 	mininet@mininet-vm:~$ ip route
+	 	default via 10.0.4.1 dev eth0
+	 	10.0.4.0/24 dev eth0 proto kernel scope link src 10.0.4.7
+	 	10.0.5.0/24 dev eth1 proto kernel scope link src 10.0.5.7
+	 	10.0.6.0/24 dev eth2 proto kernel scope link src 10.0.6.7
+
+	 	mininet@mininet-vm:~$ ip route show table 1
+	 	default via 10.0.4.1 dev eth0
+	 	10.0.4.0/24 dev eth0 scope link
+
+	 	mininet@mininet-vm:~$ ip route show table 2
+	 	default via 10.0.5.1 dev eth1
+	 	10.0.5.0/24 dev eth0 scope link
+
+	 	mininet@mininet-vm:~$ ip route show table 3
+	 	default via 10.0.6.1 dev eth2
+	 	10.0.6.0/24 dev eth0 scope link
+	 	\end{lstlisting}
+
+	 	\subsection{Router R1 :}
+	 	\label{subsec:routerconf1}
+	 	\begin{lstlisting}
+	 	enable
+	 	conf t
+	 	interface fastEthernet0/0
+	 	ip address 10.0.1.1 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet0/1
+	 	ip address 10.0.4.1 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet1/0
+	 	ip address 10.0.7.1 255.255.255.0
+	 	no shut
+	 	exit
+
+	 	ip route 10.0.1.0 255.255.255.0 fastEthernet0/0
+	 	ip route 10.0.4.0 255.255.255.0 fastEthernet0/1
+	 	ip route 0.0.0.0 0.0.0.0 fastEthernet1/0
+	 	exit
+	 	write
+	 	sh ip route
+	 	\end{lstlisting}
+
+	 	\subsection{Router R1 routing output :}
+	 	\label{subsec:routerconfout1}
+	 	\begin{lstlisting}
+	 	10.0.0.0/24 is subnetted, 3 subnets
+	C       10.0.1.0 is directly connected, FastEthernet0/0
+	C       10.0.7.0 is directly connected, FastEthernet1/0
+	C       10.0.4.0 is directly connected, FastEthernet0/1
+	S*   0.0.0.0/0 is directly connected, FastEthernet1/0
+	 	\end{lstlisting}
+
+	 	\subsection{Router R2 :}
+	 	\label{subsec:routerconf2}
+	 	\begin{lstlisting}
+	 	enable
+	 	conf t
+	 	interface fastEthernet0/0
+	 	ip address 10.0.2.1 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet0/1
+	 	ip address 10.0.5.1 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet1/0
+	 	ip address 10.0.7.2 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet2/0
+	 	ip address 10.0.8.2 255.255.255.0
+	 	no shut
+	 	exit
+
+	 	ip route 10.0.1.0 255.255.255.0 fastEthernet1/0
+	 	ip route 10.0.2.0 255.255.255.0 fastEthernet0/0
+	 	ip route 10.0.3.0 255.255.255.0 fastEthernet2/0
+	 	ip route 10.0.4.0 255.255.255.0 fastEthernet1/0
+	 	ip route 10.0.5.0 255.255.255.0 fastEthernet0/1
+	 	ip route 10.0.6.0 255.255.255.0 fastEthernet2/0
+	 	ip route 0.0.0.0 0.0.0.0 fastEthernet1/0
+	 	exit
+	 	write
+	 	sh ip route
+	 	\end{lstlisting}
+
+	 	\subsection{Router R2 routing output :}
+	 	\label{subsec:routerconfout2}
+	 	\begin{lstlisting}
+	    10.0.0.0/24 is subnetted, 8 subnets
+	C       10.0.8.0 is directly connected, FastEthernet2/0
+	C       10.0.2.0 is directly connected, FastEthernet0/0
+	S       10.0.3.0 is directly connected, FastEthernet2/0
+	S       10.0.1.0 is directly connected, FastEthernet1/0
+	S       10.0.6.0 is directly connected, FastEthernet2/0
+	C       10.0.7.0 is directly connected, FastEthernet1/0
+	S       10.0.4.0 is directly connected, FastEthernet1/0
+	C       10.0.5.0 is directly connected, FastEthernet0/1
+	S*   0.0.0.0/0 is directly connected, FastEthernet1/0
+	 	\end{lstlisting}
+
+	 	\subsection{Router R3 :}
+	 	\label{subsec:routerconf3}
+	 	\begin{lstlisting}
+	 	enable
+	 	conf t
+	 	interface fastEthernet0/0
+	 	ip address 10.0.3.1 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet0/1
+	 	ip address 10.0.6.1 255.255.255.0
+	 	no shut
+	 	exit
+	 	interface fastEthernet1/0
+	 	ip address 10.0.8.1 255.255.255.0
+	 	no shut
+	 	exit
+
+	 	ip route 10.0.3.0 255.255.255.0 fastEthernet0/0
+	 	ip route 10.0.6.0 255.255.255.0 fastEthernet0/1
+	 	ip route 0.0.0.0 0.0.0.0 fastEthernet1/0
+	 	exit
+	 	write
+	 	sh ip route
+	 	\end{lstlisting}
+
+	 	\subsection{Router R3 routing output :}
+	 	\label{subsec:routerconfout3}
+	 	\begin{lstlisting}
+	    10.0.0.0/24 is subnetted, 3 subnets
+	C       10.0.8.0 is directly connected, FastEthernet1/0
+	C       10.0.3.0 is directly connected, FastEthernet0/0
+	C       10.0.6.0 is directly connected, FastEthernet0/1
+	S*   0.0.0.0/0 is directly connected, FastEthernet1/0
+	 	\end{lstlisting}
+
+	 	\subsection{Makefile.am :}
+	 	\label{subsec:Makefile.am}
+	 	\begin{lstlisting}
+	 	28 	netcat_SOURCES = \
+	 	29		core.c \
+	 	30		flagset.c \
+	 	31		misc.c \
+	 	32		netcat.c \
+	 	33		network.c \
+	 	34		telnet.c \
+	 	35		udphelper.c \
+	 	36		makeaddr.c \
+	 	37		subinfo.c \
+	 	38		submanip.c \
+	 	39		suboption.c
+	 	\end{lstlisting}
+
+	 	\subsection{Makefile.in :}
+	 	\label{subsec:Makefile.in}
+	 	\begin{lstlisting}
+	 	153 netcat_SOURCES = \
+	 	154		core.c \
+	 	155		flagset.c \
+	 	156		misc.c \
+	 	157		netcat.c \
+	 	158		network.c \
+	 	159		telnet.c \
+	 	160		udphelper.c \
+	 	161		makeaddr.c \
+	 	162		subinfo.c \
+	 	163		submanip.c \
+	 	164		suboption.c
+
+	 	.
+	 	.
+	 	.
+
+	 	183 am_netcat_OBJECTS = core.$(OBJEXT) flagset.$(OBJEXT) misc.$(OBJEXT) \
+	 	184 	netcat.$(OBJEXT) network.$(OBJEXT) telnet.$(OBJEXT) \
+	 	185 	makeaddr.$(OBJEXT) subinfo.$(OBJEXT) submanip.$(OBJEXT) \
+	 	186 	suboption.$(OBJEXT)
+	 	\end{lstlisting}
+
+	 	\subsection{netcat.h :}
+	 	\label{subsec:netcat.h}
+	 	\begin{lstlisting}
+	 	203 extern bool opt_addAllSubflows; // option to add all the remaining subflows
+	 	204 extern bool opt_addWifi; // option to add the wifi subflow only
+	 	205 extern bool opt_addCellular; // option to add the cellular subflow only
+	 	\end{lstlisting}
+
+	 	\subsection{netcat.c :}
+	 	\label{subsec:netcat.c}
+	 	\begin{lstlisting}
+	 	58 bool opt_addAllSubflows = FALSE; /* option to ad all the supplementary subflows */
+	 	59 bool opt_addWifi = FALSE; /* option to add the Wifi subflow */
+	 	60 bool opt_addCellular = FALSE; /* option to add the Cellular subflow */
+
+	 	.
+	 	.
+	 	.
+
+	 	192 { ``all'', 		no_argument, 		NULL, `a' },
+
+	 	...
+
+	 	194 { ``cellular'', no_argument,		NULL, `C' },
+
+	 	...
+
+	 	222 { ``wifi'', 	no_argument,		NULL, `W' },
+
+	 	...
+
+	 	227 c = getopt_long(argc, argv, "acCde:g:G:hi:lL:no:p:P:rs:S:tTuvVxw:Wz",
+		228 					long_options, &option_index);
+
+		...
+
+		233 case `a' :
+		234 	opt_addAllSubflows = TRUE;		/* enable MPTCP all subflows */
+		235 	break;
+
+		...
+
+		239 case `C' :
+		240		opt_addCellular = TRUE;			/* enable MPTCP Cellular subflow */
+		241		break;
+
+		...
+
+		357 case `W' :
+		358		opt_addWifi = TRUE;				/*enable MPTCP Wifi subflow */
+		359		break;
+	 	\end{lstlisting}
+
+	 	\subsection{core.h :}
+	 	\label{subsec:core.h}
+	 	\begin{lstlisting}
+		21 	#include<stdio.h>
+		22	#include<stdlib.h>
+		23	#include<string.h>
+		24
+		25	#define FILENAME "config.conf"
+		26	#define MAXBUF 1024
+		27	#define DELIM "="
+		28
+		29	struct config {
+		30		char wifi[MAXBUF];
+		31		char cellular[MAXBUF];
+		32	};
+		33
+		34	struct config readConfig();
+		35
+		36	void addAllSubflows(int);
+		37	void addSubflow(int, char[]);
+		\end{lstlisting}
+
+		\subsection{core.c :}
+	 	\label{subsec:core.c}
+	 	\begin{lstlisting}
+		394	if(opt_addWifi) {
+		395		printf("\nEntering Wifi\n");
+		396		struct config configstruct = readConfig();
+		397		addSubflow(sock, configstruct.wifi);
+	    398	} else if(opt_addCellular) {
+		399		struct config configstruct = readConfig();
+		400		addSubflow(sock, configstruct.cellular);
+	    401	} else if(opt_addAllSubflows) {
+		402		addAllSubflows(sock);
+	    403	}else {
+		404		printf("\nNo supplementary flow initiation asked\n");
+		405	}
+
+		.
+		.
+		.
+
+		535	/* ... */
+		536
+		537
+		538	void addAllSubflows(int sock) { 
+		539	     
+		540	        // structure to store the list of subflows
+		541	        struct mptcp_sub_tuple_list *list;
+		542	    
+		543	        // d'abord trouver les interfaces disponible, puis établir les sous flux
+		544	    
+		545	        // get the subflow list 
+		546	        if(mptcp_get_sub_list(sock, &list) != 0) {
+		547	            printf("\nError getting the list of subflows !");
+		548	        }
+		549	        // structure to store the subflow src dst ip port
+		550	        struct mptcp_sub_tuple_info struc;
+		551	        // get the structure mptcp_sub_tuple_info
+		552	        if(mptcp_get_sub_tuple(sock, list->subid, &struc) != 0) {
+		553	            printf("\nError getting the structure mptcp_sub_tuple_info !");
+		554	        }
+		555	        // char array storing the client interface addresses
+		556	        char client_addr[4096];
+		557	        int client_port = struc.sourceP;
+		558	        int server_port = struc.destP;
+		559	        
+		560	        // structures and variables for getting the characteristics of the other interfaces
+		561	        struct ifaddrs *ifaddr, *ifa;
+		562	        int family;
+		563
+		564		if(getifaddrs(&ifaddr) != 0) {
+		565			printf("\nError getting the interface addresses !");
+		566		}
+		567		for(ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+		568			if(ifa->ifa_addr == NULL) {
+		569				continue;
+		570			}
+		571			family = ifa->ifa_addr->sa_family;
+		572			if(family == AF_INET) {
+		573				inet_ntop(AF_INET, &((struct sockaddr_in *)ifa->ifa_addr)->sin_addr, client_addr, INET_ADDRSTRLEN);
+		574				if((strcmp(client_addr, struc.sourceH) != 0) && (strcmp(client_addr, "127.0.0.1") != 0)) {
+		575					if(mptcp_add_subflow(sock, AF_INET, client_addr, ++client_port, struc.destH, server_port) != 0) {
+		576						printf("\nError adding a subflow !");
+		577					}
+		578				}
+		579			} else {
+		580				//inet_ntop(AF_INET6, &((struct sockaddr_in6 *)ifa->ifa_addr)->sin6_addr, client_addr, INET6_ADDRSTRLEN);
+		581				//if((strcmp(client_addr, struc.sourceH) != 0) && (strcmp(client_addr, "::1") != 0)) {
+		582				//	if(mptcp_add_subflow(sockfd, AF_INET6, client_addr, struc.sourceP, struc.destH, struc.destP) != 0) {
+		583				//		printf("\nError adding a subflow !");
+		584				//	}
+		585				//}
+		586				printf("\nCannot treat IPv6 for the moment :/ Sorry, Yes it's kinda lame :(\n"); 
+		587			}
+		588		}
+		589		freeifaddrs(ifaddr);
+		590	   
+		591	    
+		592
+		593	        /* display subflows */
+		594	    
+		595	        if(mptcp_get_sub_list(sock, &list) != 0) {
+		596		    printf("\nError getting the list of subflows !");
+		597	        }
+		598	        while(list != NULL){
+		599	            mptcp_get_sub_tuple(sock, list->subid, &struc);
+		600	            printf("(%s %d) -> (%s %d)\n", struc.sourceH, struc.sourceP, struc.destH, struc.destP);
+		601	            list = list->next;
+		602	        }
+		603	    
+		604
+		605
+		606
+		607	}
+		608	/* ... */
+		609
+		610	void addSubflow(int sock, char ip[]) {
+		611		/*
+		612		printf("\nRes = %d\n", mptcp_add_subflow(sock, AF_INET, "10.0.5.7", 64101, 10.0.4.7, 64000, 1));
+		613		*/
+		614		
+		615		printf("\nIP address read is %s\n", ip);
+		616		// structure to store the list of subflows
+		617	        struct mptcp_sub_tuple_list *list;
+		618	 
+		619	        // get the subflow list 
+		620	        if(mptcp_get_sub_list(sock, &list) != 0) {
+		621	            printf("\nError getting the list of subflows !");
+		622	        }
+		623	        // structure to store the subflow src dst ip port
+		624	        struct mptcp_sub_tuple_info struc;
+		625	        // get the structure mptcp_sub_tuple_info
+		626	        if(mptcp_get_sub_tuple(sock, list->subid, &struc) != 0) {
+		627	            printf("\nError getting the structure mptcp_sub_tuple_info !");
+		628	        }
+		629	        // char array storing the client interface addresses
+		630	        char client_addr[4096];
+		631	        int client_port = struc.sourceP;
+		632	        int server_port = struc.destP;
+		633	        int resultat; 
+		634		if((resultat = mptcp_add_subflow(sock, AF_INET, ip, ++client_port, struc.destH, server_port)) != 0) {
+		635						printf("\nError adding a subflow ! Result = %d\n", resultat);
+		636		}
+		637		
+		638
+		639		/* display subflows */
+		640	         
+		641	        if(mptcp_get_sub_list(sock, &list) != 0) {
+		642		    printf("\nError getting the list of subflows !");
+		643	        }
+		644	        while(list != NULL){
+		645	            mptcp_get_sub_tuple(sock, list->subid, &struc);
+		646	            printf("(%s %d) -> (%s %d)\n", struc.sourceH, struc.sourceP, struc.destH, struc.destP);
+		647	            list = list->next;
+		648	        }
+		649		
+		650
+		651	}
+		652
+		653
+		654	/* ... */
+		655
+		656	struct config readConfig() {
+		657		struct config configstruct;
+		658		printf("\nReading config file\n");
+		659		FILE *file = fopen("/home/mininet/netcat-mptcp/src/config.conf", "r");
+		660
+		661		if(file != NULL) {
+		662			char line[MAXBUF];
+		663			int i = 0;
+		664
+		665			while(fgets(line, sizeof(line), file) != NULL) {
+		666				char *cfline;
+		667				cfline = strstr((char *)line, DELIM);
+		668				cfline = cfline + strlen(DELIM);
+		669
+		670				if(i == 0) {
+		671					memcpy(configstruct.wifi, cfline, strlen(cfline));
+		672					printf("\nWifi ip address is %s\n", configstruct.wifi);
+		673				} else if(i == 1) {
+		674					memcpy(configstruct.cellular, cfline, strlen(cfline));
+		675					printf("\nCellular ip address is %s\n", configstruct.cellular);
+		676				} else {
+		677					printf("\nNo more lines\n");
+		678				}
+		679
+		680				i++;
+		681			}
+		682			fclose(file);
+		683		}
+		684		return configstruct;
+		685	}
+		686
+		687
+		688	/* ... */
+		\end{lstlisting}
 
 
 	\section{Glossary}

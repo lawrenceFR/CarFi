@@ -1,18 +1,41 @@
 \select@language {french}
-\contentsline {section}{\numberline {1}Introduction}{5}{section.1}
-\contentsline {subsection}{\numberline {1.1}Context}{5}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Document Outline}{5}{subsection.1.2}
-\contentsline {section}{\numberline {2}Setting up a debugging environment for MPTCP : }{6}{section.2}
-\contentsline {section}{\numberline {3}An Enhanced socket API for Multipath TCP : }{9}{section.3}
-\contentsline {subsection}{\numberline {3.1}Implementation}{9}{subsection.3.1}
+\contentsline {section}{\numberline {1}Introduction}{6}{section.1}
+\contentsline {subsection}{\numberline {1.1}Context}{6}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Document Outline}{6}{subsection.1.2}
+\contentsline {section}{\numberline {2}Setting up a debugging environment for MPTCP : }{7}{section.2}
+\contentsline {section}{\numberline {3}An Enhanced socket API for Multipath TCP : }{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Implementation}{10}{subsection.3.1}
 \contentsline {section}{\numberline {4}Netcat with MPTCP (netcat-mptcp) :}{12}{section.4}
-\contentsline {section}{\numberline {5}Results, Statistics and Utility}{13}{section.5}
-\contentsline {subsection}{\numberline {5.1}Results}{13}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Statistics}{13}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Utility}{13}{subsection.5.3}
-\contentsline {section}{\numberline {6}Conclusion}{14}{section.6}
-\contentsline {section}{\numberline {7}Further developments}{15}{section.7}
-\contentsline {section}{\numberline {8}Acknowledgements}{16}{section.8}
-\contentsline {section}{\numberline {9}Bibliography}{17}{section.9}
-\contentsline {section}{\numberline {10}Appendix}{18}{section.10}
-\contentsline {section}{\numberline {11}Glossary}{18}{section.11}
+\contentsline {subsection}{\numberline {4.1}Setup and structure}{12}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Configure Addresses and Routing}{13}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Client and Server}{13}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Routers}{14}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Code simplification, addition and function calls at the correct place}{14}{subsection.4.5}
+\contentsline {section}{\numberline {5}Results, Statistics and Utility}{16}{section.5}
+\contentsline {subsection}{\numberline {5.1}Results}{16}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Statistics}{16}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Utility}{16}{subsection.5.3}
+\contentsline {section}{\numberline {6}Conclusion}{17}{section.6}
+\contentsline {section}{\numberline {7}Further developments}{18}{section.7}
+\contentsline {section}{\numberline {8}Acknowledgements}{19}{section.8}
+\contentsline {section}{\numberline {9}Bibliography}{20}{section.9}
+\contentsline {section}{\numberline {10}Appendix}{21}{section.10}
+\contentsline {subsection}{\numberline {10.1}Client side address assignment with the following script :}{21}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Server side address assignment with the following script :}{21}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Client side routing :}{22}{subsection.10.3}
+\contentsline {subsection}{\numberline {10.4}Client routing output :}{22}{subsection.10.4}
+\contentsline {subsection}{\numberline {10.5}Server side routing :}{23}{subsection.10.5}
+\contentsline {subsection}{\numberline {10.6}Server routing output :}{23}{subsection.10.6}
+\contentsline {subsection}{\numberline {10.7}Router R1 :}{24}{subsection.10.7}
+\contentsline {subsection}{\numberline {10.8}Router R1 routing output :}{24}{subsection.10.8}
+\contentsline {subsection}{\numberline {10.9}Router R2 :}{24}{subsection.10.9}
+\contentsline {subsection}{\numberline {10.10}Router R2 routing output :}{25}{subsection.10.10}
+\contentsline {subsection}{\numberline {10.11}Router R3 :}{25}{subsection.10.11}
+\contentsline {subsection}{\numberline {10.12}Router R3 routing output :}{26}{subsection.10.12}
+\contentsline {subsection}{\numberline {10.13}Makefile.am :}{26}{subsection.10.13}
+\contentsline {subsection}{\numberline {10.14}Makefile.in :}{26}{subsection.10.14}
+\contentsline {subsection}{\numberline {10.15}netcat.h :}{26}{subsection.10.15}
+\contentsline {subsection}{\numberline {10.16}netcat.c :}{27}{subsection.10.16}
+\contentsline {subsection}{\numberline {10.17}core.h :}{27}{subsection.10.17}
+\contentsline {subsection}{\numberline {10.18}core.c :}{28}{subsection.10.18}
+\contentsline {section}{\numberline {11}Glossary}{31}{section.11}

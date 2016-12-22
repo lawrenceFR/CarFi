@@ -2,16 +2,30 @@
 
 \bibitem{libos}
 Hajime Tazaki.
-\newblock {libos-nuse : net-next-nuse}.
-\newblock \url{https://github.com/libos-nuse/net-next-nuse}.
+\newblock libos-nuse : net-next-nuse.
+\newblock https://github.com/libos-nuse/net-next-nuse.
 
 \bibitem{dce}
-{NS-3 : Direct Code Execution}.
-\newblock \url{https://www.nsnam.org/overview/projects/direct-code-execution}.
+Ns-3 : Direct code execution.
+\newblock https://www.nsnam.org/overview/projects/direct-code-execution.
 
 \bibitem{api}
 Olivier~Bonaventure Benjamin~Hesmans.
 \newblock An enhanced socket api for multipath tcp.
-\newblock 2016.
+
+\bibitem{nc}
+Netcat.
+\newblock http://netcat.sourceforge.net/.
+\newblock Accessed: 20/12/2016.
+
+\bibitem{routing}
+Configure routing : Manual configuration.
+\newblock http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting/.
+\newblock Accessed: 20/12/2016.
+
+\bibitem{github}
+netcat-mptcp.
+\newblock https://github.com/lawrenceFR/netcat-mptcp/.
+\newblock Accessed: 20/12/2016.
 
 \end{thebibliography}
