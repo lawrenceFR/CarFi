@@ -13,29 +13,32 @@
 \contentsline {subsection}{\numberline {4.5}Code simplification, addition and function calls at the correct place}{14}{subsection.4.5}
 \contentsline {section}{\numberline {5}Results, Statistics and Utility}{16}{section.5}
 \contentsline {subsection}{\numberline {5.1}Results}{16}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Statistics}{16}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Utility}{16}{subsection.5.3}
-\contentsline {section}{\numberline {6}Conclusion}{17}{section.6}
-\contentsline {section}{\numberline {7}Further developments}{18}{section.7}
-\contentsline {section}{\numberline {8}Acknowledgements}{19}{section.8}
-\contentsline {section}{\numberline {9}Bibliography}{20}{section.9}
-\contentsline {section}{\numberline {10}Appendix}{21}{section.10}
-\contentsline {subsection}{\numberline {10.1}Client side address assignment with the following script :}{21}{subsection.10.1}
-\contentsline {subsection}{\numberline {10.2}Server side address assignment with the following script :}{21}{subsection.10.2}
-\contentsline {subsection}{\numberline {10.3}Client side routing :}{22}{subsection.10.3}
-\contentsline {subsection}{\numberline {10.4}Client routing output :}{22}{subsection.10.4}
-\contentsline {subsection}{\numberline {10.5}Server side routing :}{23}{subsection.10.5}
-\contentsline {subsection}{\numberline {10.6}Server routing output :}{23}{subsection.10.6}
-\contentsline {subsection}{\numberline {10.7}Router R1 :}{24}{subsection.10.7}
-\contentsline {subsection}{\numberline {10.8}Router R1 routing output :}{24}{subsection.10.8}
-\contentsline {subsection}{\numberline {10.9}Router R2 :}{24}{subsection.10.9}
-\contentsline {subsection}{\numberline {10.10}Router R2 routing output :}{25}{subsection.10.10}
-\contentsline {subsection}{\numberline {10.11}Router R3 :}{25}{subsection.10.11}
-\contentsline {subsection}{\numberline {10.12}Router R3 routing output :}{26}{subsection.10.12}
-\contentsline {subsection}{\numberline {10.13}Makefile.am :}{26}{subsection.10.13}
-\contentsline {subsection}{\numberline {10.14}Makefile.in :}{26}{subsection.10.14}
-\contentsline {subsection}{\numberline {10.15}netcat.h :}{26}{subsection.10.15}
-\contentsline {subsection}{\numberline {10.16}netcat.c :}{27}{subsection.10.16}
-\contentsline {subsection}{\numberline {10.17}core.h :}{27}{subsection.10.17}
-\contentsline {subsection}{\numberline {10.18}core.c :}{28}{subsection.10.18}
-\contentsline {section}{\numberline {11}Glossary}{31}{section.11}
+\contentsline {subsection}{\numberline {5.2}Statistics}{19}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}IPv4/All Addresses packet distribution}{19}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Round Trip Time}{19}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}Cumulative Bytes}{21}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.4}MPTCP Close}{21}{subsubsection.5.2.4}
+\contentsline {section}{\numberline {6}Conclusion}{22}{section.6}
+\contentsline {section}{\numberline {7}Further developments}{22}{section.7}
+\contentsline {section}{\numberline {8}Acknowledgements}{23}{section.8}
+\contentsline {section}{\numberline {9}Bibliography}{24}{section.9}
+\contentsline {section}{\numberline {10}Appendix}{25}{section.10}
+\contentsline {subsection}{\numberline {10.1}Client side address assignment with the following script :}{25}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Server side address assignment with the following script :}{25}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Client side routing :}{26}{subsection.10.3}
+\contentsline {subsection}{\numberline {10.4}Client routing output :}{26}{subsection.10.4}
+\contentsline {subsection}{\numberline {10.5}Server side routing :}{27}{subsection.10.5}
+\contentsline {subsection}{\numberline {10.6}Server routing output :}{27}{subsection.10.6}
+\contentsline {subsection}{\numberline {10.7}Router R1 :}{28}{subsection.10.7}
+\contentsline {subsection}{\numberline {10.8}Router R1 routing output :}{28}{subsection.10.8}
+\contentsline {subsection}{\numberline {10.9}Router R2 :}{28}{subsection.10.9}
+\contentsline {subsection}{\numberline {10.10}Router R2 routing output :}{29}{subsection.10.10}
+\contentsline {subsection}{\numberline {10.11}Router R3 :}{29}{subsection.10.11}
+\contentsline {subsection}{\numberline {10.12}Router R3 routing output :}{30}{subsection.10.12}
+\contentsline {subsection}{\numberline {10.13}Makefile.am :}{30}{subsection.10.13}
+\contentsline {subsection}{\numberline {10.14}Makefile.in :}{30}{subsection.10.14}
+\contentsline {subsection}{\numberline {10.15}netcat.h :}{30}{subsection.10.15}
+\contentsline {subsection}{\numberline {10.16}netcat.c :}{31}{subsection.10.16}
+\contentsline {subsection}{\numberline {10.17}core.h :}{31}{subsection.10.17}
+\contentsline {subsection}{\numberline {10.18}core.c :}{32}{subsection.10.18}
+\contentsline {subsection}{\numberline {10.19}config.conf :}{35}{subsection.10.19}

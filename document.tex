@@ -17,7 +17,11 @@
 \usepackage{wrapfig}
 \usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{url}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{lipsum}
 \lstset{frame=tb,
   language=C,
   aboveskip=3mm,
@@ -378,15 +382,15 @@
 			Here is an example of the \textbf{Netcat} command : \\
 			On the server side, it listens on it's default interface \textbf{10.0.4.7} on port \textbf{64000} with the help of the following command : \\
 
-			\textbf{\emph{nc -l -p 64000}} \\
+			\textbf{nc -l -p 64000} \\
 
 			On the client side, we use our own \textbf{Netcat} executable to establish a flow / multiple flows as follows :
 
 			
 			\begin{tabbing}
-			-a : ~~~~~~~~\=\textbf{\emph{./netcat-mptcp/src/netcat -a 10.0.4.7 64000}} \\
-			-W : \> \textbf{\emph{./netcat-mptcp/src/netcat -W 10.0.4.7 64000}} \\
-			-C : \> \textbf{\emph{./netcat-mptcp/src/netcat -C 10.0.4.7 64000}}
+			-a : ~~~~~~~~\=\textbf{./netcat-mptcp/src/netcat -a 10.0.4.7 64000} \\
+			-W : \> \textbf{./netcat-mptcp/src/netcat -W 10.0.4.7 64000} \\
+			-C : \> \textbf{./netcat-mptcp/src/netcat -C 10.0.4.7 64000}
 			\end{tabbing}
 
 
@@ -437,27 +441,206 @@
 
 				\item In \textbf{\emph{netcat-mptcp/src/core.c}} line \textbf{394 - 405} and \textbf{535 - 688} : Appendix \hyperref[subsec:core.c]{core.c}
 			\end{enumerate}
+
+			Finally, a file \textbf{config.conf} is placed in \textbf{netcat-mptcp/src} so as to indicate the addresses of the available interfaces. The format of the config file is shown in Appendix \hyperref[subsec:config.conf]{config.conf}.
 			
 	\clearpage
 	\section{Results, Statistics and Utility}
 		\label{sec:res}
+		This section analyses packet captures (captured with the help of wireshark) to verify if the manipulation of \textbf{Netcat} was successful. It depicts the establishment of the different sub flows along with the details of the \textbf{TCP options} to prove that the \textbf{MP\_CAPABLE} option is actually passed. It also gives an idea of the distribution of packets sent from the three interfaces available on the client's side, keeping in mind that the \textbf{path\_manager} used is \textbf{``default''} (i.e. the kernel will not establish supplementary sub flows on its own).
 		\subsection{Results}
 			\label{subsec:result}
-		\subsection{Statistics}
-			\label{subsec:statistics}
-		\subsection{Utility}
-			\label{subsec:utility}
+			Figure \hyperref[fig:synack]{3} is a screenshot of a packet capture showing that the kernel successfully establishes the second and third sub flows when we use the option \textbf{-a} as explained previously. First, the see the \textbf{3 way handshake} from the client address \textbf{10.0.1.6} to the server address \textbf{10.0.4.7}. Next due our the manipulation in the \textbf{Netcat} source code we have the two other \textbf{3 way hanshakes} from the client addresses \textbf{10.0.2.6} and \textbf{10.0.3.6}. This is in accordance with the function of the option \textbf{-a} in the \textbf{Netcat} command defined by us (i.e. establish supplementary sub flows on all the remaining available interfaces of the client).
+			\begin{figure}[h]
+				\begin{center}
+					\label{fig:synack}
+					\includegraphics[scale=0.5]{pictures/synack.jpg}
+					\caption[]{Subflow establishment}
+				\end{center}
+			\end{figure}
+
+			The following figures give the details of the \textbf{TCP options} for the first sub flow established. We see the \textbf{Multipath Capable} option that is passed :
+
+			
+			\begin{figure}[h!]
+			\centering
+			\label{fig:firstsubflow}
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:firstflow}
+			  \includegraphics[width=0.8\linewidth]{pictures/firstflow.jpg}
+			  \caption{First subflow SYN}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:firstflowresponse}
+			  \includegraphics[width=0.8\linewidth]{pictures/firstflowresponse.jpg}
+			  \caption{First subflow SYN + ACK}
+			\end{subfigure}
+			\caption{First subflow details}
+			\end{figure}
+
+			\begin{figure}[h!]
+			\centering
+			\label{fig:firstsubflow}
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:firstflow}
+			  \includegraphics[width=0.8\linewidth]{pictures/firstflowack.jpg}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+			  The \textbf{3 way handshake} illustrates the key exchange procedure. We see that the \textbf{Multipath Capable} option contains the sender and receiver tokens. This ensures the security aspect of \textbf{MPTCP}. The \textbf{SYN} contains the client's key. The \textbf{SYN + ACK} contains the server's key. Finally the client replies with an \textbf{ACK} containing both the keys. \\
+			  \\
+			  In the following figures the second and third subflows contain the \textbf{TCP option Join Connection} proving the usage of \textbf{MP\_JOIN}.
+			\end{subfigure}
+			\caption{First subflow ACK}
+			\end{figure}
+
+			
+
+			
+			\begin{figure}[h!]
+			\centering
+			\label{fig:secondsubflow}
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:secondflow}
+			  \includegraphics[width=.8\linewidth]{pictures/secondflow.jpg}
+			  \caption{Second subflow SYN}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:secondflowresponse}
+			  \includegraphics[width=.8\linewidth]{pictures/secondflowresponse.jpg}
+			  \caption{Second subflow SYN + ACK}
+			\end{subfigure}
+			\caption{Second subflow details}
+			\end{figure}
+
+			
+			\begin{figure}[h!]
+			\centering
+			\label{fig:thirdsubflow}
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:secondflow}
+			  \includegraphics[width=.8\linewidth]{pictures/thirdflow.jpg}
+			  \caption{Third subflow SYN}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+			  \centering
+			  \label{fig:thirdflowresponse}
+			  \includegraphics[width=.8\linewidth]{pictures/thirdflowresponse.jpg}
+			  \caption{Third subflow SYN + ACK}
+			\end{subfigure}
+			\caption{Third subflow details}
+			\end{figure}
+
 
 	\clearpage
+		\subsection{Statistics}
+			\label{subsec:statistics}
+			This section mentions a few statistics regarding the performance of \textbf{MPTCP} once the supplementary subflows are established.\\
+			\subsubsection{IPv4/All Addresses packet distribution}
+			\label{subsubsec:packetdistribution}
+			Our first look is at the \textbf{IPv4/All Addresses} packet distribution which indicates the percentage contribution of each interface in the exchange of data. We have tried to send a fixed amount of random data (10MB) at bulks of 1MB for 10 counts. Command on the client side :\\
+			\textbf{dd if=/dev/zero bs=1M count=10 | ./netcat-mptcp/src/netcat -a 10.0.4.7 64000}
+
+			\begin{table}[h]
+				
+				
+				\centering
+				\begin{tabular}{l|l|l|l|l|l}
+					\hline
+					IP & Count & Rate(ms) & Percent & Burst rate & Burst start \\
+					\hline
+					\hline
+					10.0.4.7 & 14076 & 0.1870 & 100.00\% & 0.2200 & 64.072 \\
+					\hline
+					10.0.3.6 & 3331 & 0.0442 & 23.66\% & 0.2000 & 0.890 \\
+					\hline
+					10.0.2.6 & 5021 & 0.0667 & 35,67\% & 0.2000 & 0.516 \\
+					\hline
+					10.0.1.6 & 5724 & 0.0760 & 40.66\% & 0.2000 & 0.223 \\
+					\hline
+				\end{tabular}
+				\caption{Packet distribution per IPv4 address}
+			\end{table}
+
+			The table may seem to show that the distribution of packets is not equal. The interface \textbf{10.0.1.6} seemns to send more packets than the others. This is probably due the fact that the packet emission from the second and third interfaces start a little later only after the establishment of the corresponding sub flows. Hence the kernel gets to be aware of the other sub flows later given that the \textbf{path\_manager} used is the \textbf{``default''} one. This is not the case for \textbf{``fullmesh'' path\_manager} as the kernel knows from beforehand that it needs to use all the interfaces available for sending packets. Hence for the \textbf{``fullmesh'' path\_manager} we have an almost equal distribution of packet emission for all the three interfaces.
+
+			\subsubsection{Round Trip Time}
+			\label{subsubsec:rtt}
+			This section shows the round trip time for the three interfaces. \\
+			We see that they are almost the same for the three interfaces (a small exception for the third interface around sequence number 2000000). This shows if the three interfaces are homogeneous in terms of updating their receiving windows and hence the reception and emission of packets. However, when we compare this to the round trip time in the \textbf{``fullmesh'' path\_manager} there is hardly any anomaly in the sense that the round trip time very rarely crosses the \textbf{1800} mark.
+			\begin{figure}[h!]
+				\begin{center}
+					\label{fig:rtt1}
+					\includegraphics[scale=0.45]{pictures/rtt1.jpeg}
+					\caption[]{RTT for 10.0.1.6}
+				\end{center}
+			\end{figure}
+			\begin{figure}[h!]
+				\begin{center}
+					\label{fig:rtt2}
+					\includegraphics[scale=0.45]{pictures/rtt2.jpeg}
+					\caption[]{RTT for 10.0.2.6}
+				\end{center}
+			\end{figure}
+			\begin{figure}[h!]
+				\begin{center}
+					\label{fig:rtt3}
+					\includegraphics[scale=0.45]{pictures/rtt3.jpeg}
+					\caption[]{RTT for 10.0.3.6}
+				\end{center}
+			\end{figure}
+
+			\clearpage
+			\subsubsection{Cumulative Bytes}
+			\label{subsubsec:cumbytes}
+			This section illustrates the comparison of the number of bytes sent in due course of time for the three interfaces of the client. On the Y-axis we have the cumulative number of bytes. This figure shows that the interfaces \textbf{10.0.1.6} and \textbf{10.0.2.6} run almost parallel to one another, which means that their throughput is similar. The offset is attributed to the fact that the second interface starts to send packets later. For the third interface \textbf{10.0.3.6} the throughput seems to be less compared to the other two.
+			\begin{figure}[h!]
+				\centering
+					\label{fig:cumbytes}
+					\includegraphics[scale=0.5]{pictures/cumbytes.jpg}
+					\caption[]{Cumulative of bytes sent for the three interfaces}
+			\end{figure}
+
+			\subsubsection{MPTCP Close}
+			\label{subsubsec:mptcpclose}
+			This section we talk about another anomaly when the \textbf{MPTCP} connection is closed. Figure \hyperref[fig:fullmeshfin]{12} refers to the \textbf{``fullmesh'' path\_manager}. We see that the connection is neatly closed with the 3 \textbf{MPTCP [FIN, ACK]} for each interface. On the other hand, figure \hyperref[fig:defaultfin]{13} refers to the \textbf{``default'' path\_manager} where we initiate the supplementary flows. Here we observe only one \textbf{MPTCP [FIN, ACK]} and in some other simulations we don't see even a single one.
+			\begin{figure}[h!]
+				\centering
+					\label{fig:fullmeshfin}
+					\includegraphics[scale=0.5]{pictures/fullmeshfin.jpg}
+					\caption[]{MPTCP fullmesh close}
+			\end{figure}
+			\begin{figure}[h!]
+				\centering
+					\label{fig:defaultfin}
+					\includegraphics[scale=0.5]{pictures/defaultfin.jpg}
+					\caption[]{MPTCP default close}
+			\end{figure}
+
+
+	
 	\section{Conclusion}
 		\label{sec:conclusion}
-	 	Conclusion
+	 	This work is the first step towards the usage of the \textbf{Enhanced Socket API for Multipath TCP}. Our objective was to have a first functional prototype for the manipulation of subflows from the \textbf{Application Layer}. With \textbf{Netcat} as our application and the changes in its source code we have been successful in developing a versatile \textbf{netcat-mptcp}. Of course, this is a very preliminary. However the versatality and simplicity of \textbf{netcat-mptcp} will make it easy to bring in any kind of developement of new features and further manipulation.
 		 	
 		 
-	\clearpage
 	\section{Further developments}
 		\label{sec:furtherdevelopment}
-		In the above experiments 
+		As mentioned in section \hyperref[subsec:statistics]{Statistics}, we have certain underperformances and anomalies that need to be addressed. To list a few of them :
+
+		\begin{enumerate}
+			\item \textbf{Equitable packet distribution from the three interfaces of the client} : In \textbf{netcat-mptcp} it is not as fair as in the case of ordinary \textbf{MPTCP} with the \textbf{``fullmesh'' path\_manager}
+			\item \textbf{Round Trip Time} : \textbf{Netcat-mptcp} registered some \textbf{RTT}s to be quite large as compared to the \textbf{``fullmesh'' path\_manager} which showed very little variation.
+			\item \textbf{Cumulative Bytes for the individual interfaces} : In \textbf{netcat-mptcp} we found that the third interface had a lower throughout. This is contrary to the traditional \textbf{``fullmesh'' path\_manager}.
+			\item \textbf{Closing the MPTCP connection} : For \textbf{netcat-mptcp}, the closing of a connection does not respect the procedure as described in the \textbf{RFC} of \textbf{Multipath TCP}.
+		\end{enumerate}
+
+		There might be other glitches which may come up in the course of further developement of \textbf{netcat-mptcp}. However, the current version is functional and attains the objective of manipulation of \textbf{MPTCP} subflows from the \textbf{Application Layer}.
 			
 		 	
 		 	
@@ -904,7 +1087,7 @@
 		540	        // structure to store the list of subflows
 		541	        struct mptcp_sub_tuple_list *list;
 		542	    
-		543	        // d'abord trouver les interfaces disponible, puis établir les sous flux
+		543	        // d'abord trouver les interfaces disponible, puis etablir les sous flux
 		544	    
 		545	        // get the subflow list 
 		546	        if(mptcp_get_sub_list(sock, &list) != 0) {
@@ -1052,28 +1235,12 @@
 		688	/* ... */
 		\end{lstlisting}
 
-
-	\section{Glossary}
-			\begin{tabbing}
-	  		RA : ~~~~~~~~\= \textit{Département d'Informatique} \\
-	 	 	IETF : \> \textit{Internet Engineering Task Force} \\
-	  		L2 : \> \textit{Layer 2/Link Layer of the OSI model} \\
-	  		L3 : \> \textit{Layer 2/IP Layer of the OSI model} \\
-	 		DHCP : \> \textit{Dynamic Host Configuration Protocol} \\
-	  		DNS : \> \textit{Domain name system} \\
-	  		MLD : \> \textit{Multicast Listener Discovery} \\
-	  		IP : \> \textit{Internet Protocol} \\
-	  		RFC : \> \textit{Request for Comment} \\
-	  		ARP : \> \textit{Address Resolution Protocol} \\
-	  		VLAN : \> \textit{Virtual local area network} \\
-	  		AP : \> \textit{Access Point} \\
-	  		RS : \> \textit{Router Solicitation} \\
-	  		NS : \> \textit{Neighbour Solicitation} \\
-	  		NA : \> \textit{Neighbour Advertisement} \\
-	  		mDNS : \> \textit{ multicast Domain Name System} \\
-	  		LLMNR : \> \textit{ Link-Local Multicast Name Resolution} \\
-	  		SLAAC : \> \textit{ Stateless Address Autoconfiguration} \\
-			\end{tabbing}
+		\subsection{config.conf :}
+	 	\label{subsec:config.conf}
+	 	\begin{lstlisting}
+	 	WIFI=10.0.2.6
+	 	CELLULAR=10.0.3.6
+	 	\end{lstlisting}
 				
 				
 				

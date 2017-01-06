@@ -13,28 +13,31 @@
 \BOOKMARK [1][-]{section.5}{Results, Statistics and Utility}{}% 13
 \BOOKMARK [2][-]{subsection.5.1}{Results}{section.5}% 14
 \BOOKMARK [2][-]{subsection.5.2}{Statistics}{section.5}% 15
-\BOOKMARK [2][-]{subsection.5.3}{Utility}{section.5}% 16
-\BOOKMARK [1][-]{section.6}{Conclusion}{}% 17
-\BOOKMARK [1][-]{section.7}{Further developments}{}% 18
-\BOOKMARK [1][-]{section.8}{Acknowledgements}{}% 19
-\BOOKMARK [1][-]{section.9}{Bibliography}{}% 20
-\BOOKMARK [1][-]{section.10}{Appendix}{}% 21
-\BOOKMARK [2][-]{subsection.10.1}{Client side address assignment with the following script :}{section.10}% 22
-\BOOKMARK [2][-]{subsection.10.2}{Server side address assignment with the following script :}{section.10}% 23
-\BOOKMARK [2][-]{subsection.10.3}{Client side routing :}{section.10}% 24
-\BOOKMARK [2][-]{subsection.10.4}{Client routing output :}{section.10}% 25
-\BOOKMARK [2][-]{subsection.10.5}{Server side routing :}{section.10}% 26
-\BOOKMARK [2][-]{subsection.10.6}{Server routing output :}{section.10}% 27
-\BOOKMARK [2][-]{subsection.10.7}{Router R1 :}{section.10}% 28
-\BOOKMARK [2][-]{subsection.10.8}{Router R1 routing output :}{section.10}% 29
-\BOOKMARK [2][-]{subsection.10.9}{Router R2 :}{section.10}% 30
-\BOOKMARK [2][-]{subsection.10.10}{Router R2 routing output :}{section.10}% 31
-\BOOKMARK [2][-]{subsection.10.11}{Router R3 :}{section.10}% 32
-\BOOKMARK [2][-]{subsection.10.12}{Router R3 routing output :}{section.10}% 33
-\BOOKMARK [2][-]{subsection.10.13}{Makefile.am :}{section.10}% 34
-\BOOKMARK [2][-]{subsection.10.14}{Makefile.in :}{section.10}% 35
-\BOOKMARK [2][-]{subsection.10.15}{netcat.h :}{section.10}% 36
-\BOOKMARK [2][-]{subsection.10.16}{netcat.c :}{section.10}% 37
-\BOOKMARK [2][-]{subsection.10.17}{core.h :}{section.10}% 38
-\BOOKMARK [2][-]{subsection.10.18}{core.c :}{section.10}% 39
-\BOOKMARK [1][-]{section.11}{Glossary}{}% 40
+\BOOKMARK [3][-]{subsubsection.5.2.1}{IPv4/All Addresses packet distribution}{subsection.5.2}% 16
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Round Trip Time}{subsection.5.2}% 17
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Cumulative Bytes}{subsection.5.2}% 18
+\BOOKMARK [3][-]{subsubsection.5.2.4}{MPTCP Close}{subsection.5.2}% 19
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 20
+\BOOKMARK [1][-]{section.7}{Further developments}{}% 21
+\BOOKMARK [1][-]{section.8}{Acknowledgements}{}% 22
+\BOOKMARK [1][-]{section.9}{Bibliography}{}% 23
+\BOOKMARK [1][-]{section.10}{Appendix}{}% 24
+\BOOKMARK [2][-]{subsection.10.1}{Client side address assignment with the following script :}{section.10}% 25
+\BOOKMARK [2][-]{subsection.10.2}{Server side address assignment with the following script :}{section.10}% 26
+\BOOKMARK [2][-]{subsection.10.3}{Client side routing :}{section.10}% 27
+\BOOKMARK [2][-]{subsection.10.4}{Client routing output :}{section.10}% 28
+\BOOKMARK [2][-]{subsection.10.5}{Server side routing :}{section.10}% 29
+\BOOKMARK [2][-]{subsection.10.6}{Server routing output :}{section.10}% 30
+\BOOKMARK [2][-]{subsection.10.7}{Router R1 :}{section.10}% 31
+\BOOKMARK [2][-]{subsection.10.8}{Router R1 routing output :}{section.10}% 32
+\BOOKMARK [2][-]{subsection.10.9}{Router R2 :}{section.10}% 33
+\BOOKMARK [2][-]{subsection.10.10}{Router R2 routing output :}{section.10}% 34
+\BOOKMARK [2][-]{subsection.10.11}{Router R3 :}{section.10}% 35
+\BOOKMARK [2][-]{subsection.10.12}{Router R3 routing output :}{section.10}% 36
+\BOOKMARK [2][-]{subsection.10.13}{Makefile.am :}{section.10}% 37
+\BOOKMARK [2][-]{subsection.10.14}{Makefile.in :}{section.10}% 38
+\BOOKMARK [2][-]{subsection.10.15}{netcat.h :}{section.10}% 39
+\BOOKMARK [2][-]{subsection.10.16}{netcat.c :}{section.10}% 40
+\BOOKMARK [2][-]{subsection.10.17}{core.h :}{section.10}% 41
+\BOOKMARK [2][-]{subsection.10.18}{core.c :}{section.10}% 42
+\BOOKMARK [2][-]{subsection.10.19}{config.conf :}{section.10}% 43
