@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2016.12.28)  6 JAN 2017 10:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2016.12.28)  9 JAN 2017 19:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -709,9 +709,6 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 ) (./document.aux
 
-LaTeX Warning: Label `fig:firstsubflow' multiply defined.
-
-
 LaTeX Warning: Label `fig:firstflow' multiply defined.
 
 
@@ -882,197 +879,180 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout4 = `document.toc'.
 
  [5]
+Underfull \hbox (badness 10000) in paragraph at lines 149--150
 
-LaTeX Warning: Hyper reference `subsec:utility' on page 6 undefined on input li
-ne 155.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 153--154
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
 
 [6
 
 ]
-Underfull \hbox (badness 2245) in paragraph at lines 177--178
-[]\T1/cmr/m/n/12 sudo apt-get install vim git mercurial gcc g++ python python-d
-ev qt4-
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
+
  []
 
-
-Underfull \hbox (badness 3148) in paragraph at lines 177--178
-\T1/cmr/m/n/12 dev-tools libqt4-dev bzr cmake libc6-dev libc6-dev-i386 g++-mult
-ilib gdb
- []
-
-
-Underfull \hbox (badness 1859) in paragraph at lines 177--178
-\T1/cmr/m/n/12 font-utils dvipng python-sphinx dia python-pygraphviz python-kiw
-i python-
- []
-
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 183.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 188.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-Underfull \hbox (badness 10000) in paragraph at lines 198--199
-[]\T1/cmr/m/n/12 git clone -b mptcp_-trunk_-li-bos [][]$\T1/cmtt/m/n/12 https :
- / / github . com / libos-[]nuse /
- []
+) [7
 
-[7
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 213--215
-[][]$\T1/cmtt/m/it/12 https : / / kernel . googlesource . com / pub / scm /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 213--215
-\T1/cmtt/m/it/12 linux / kernel / git / shemminger / iproute2 / +archive /
- []
-
-
-Underfull \hbox (badness 4181) in paragraph at lines 213--215
-\T1/cmtt/m/it/12 fcae78992cab7bd267785b392b438306c621e583 . tar . gz$[][] \T1/c
-mr/m/n/12 , ex-tract it and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 236--237
-[]\T1/cmr/m/n/12 ./waf confi-gure --with-ns3=$HOME/dce/build --enable-kernel-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 243--244
+] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 225--226
 
  []
 
-[8] [9]
-<pictures/mptcp_socket_structure.jpg, id=377, 260.5653pt x 193.94908pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 227--229
+\T1/cmtt/m/it/12 com / pub / scm / linux / kernel / git / shemminger / iproute2
+ / +archive /
+ []
+
+[9] [10]
+<pictures/mptcp_socket_structure.jpg, id=415, 260.5653pt x 193.94908pt>
 File: pictures/mptcp_socket_structure.jpg Graphic file (type jpg)
 
 <use pictures/mptcp_socket_structure.jpg>
 Package pdftex.def Info: pictures/mptcp_socket_structure.jpg used on input line
- 278.
+ 309.
 (pdftex.def)             Requested size: 390.847pt x 290.92288pt.
- [10
+ [11
 
  <./pictures/mptcp_socket_structure.jpg>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 290.
+(Font)              <10.95> on input line 321.
 
-Overfull \hbox (10.81097pt too wide) in paragraph at lines 290--309
+Overfull \hbox (10.81097pt too wide) in paragraph at lines 321--340
 [][] 
  []
 
-[11] [12] <pictures/topologie.jpg, id=439, 1008.01593pt x 419.31656pt>
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 347.
+[12] [13] <pictures/topologie.jpg, id=476, 1008.01593pt x 419.31656pt>
 File: pictures/topologie.jpg Graphic file (type jpg)
 
 <use pictures/topologie.jpg>
-Package pdftex.def Info: pictures/topologie.jpg used on input line 377.
+Package pdftex.def Info: pictures/topologie.jpg used on input line 408.
 (pdftex.def)             Requested size: 453.60298pt x 188.6907pt.
- [13 <./pictures/topologie.jpg>] [14] [15]
-<pictures/synack.jpg, id=488, 713.66624pt x 491.8375pt>
+ [14 <./pictures/topologie.jpg>] [15] [16]
+<pictures/synack.jpg, id=526, 713.66624pt x 491.8375pt>
 File: pictures/synack.jpg Graphic file (type jpg)
 
 <use pictures/synack.jpg>
-Package pdftex.def Info: pictures/synack.jpg used on input line 457.
+Package pdftex.def Info: pictures/synack.jpg used on input line 494.
 (pdftex.def)             Requested size: 356.83224pt x 245.91814pt.
 
-<pictures/firstflow.jpg, id=489, 511.9125pt x 775.89874pt>
+<pictures/firstflow.jpg, id=527, 511.9125pt x 775.89874pt>
 File: pictures/firstflow.jpg Graphic file (type jpg)
 
 <use pictures/firstflow.jpg>
-Package pdftex.def Info: pictures/firstflow.jpg used on input line 471.
+Package pdftex.def Info: pictures/firstflow.jpg used on input line 508.
 (pdftex.def)             Requested size: 182.09833pt x 275.9965pt.
 
-<pictures/firstflowresponse.jpg, id=490, 512.91624pt x 788.9475pt>
+<pictures/firstflowresponse.jpg, id=528, 512.91624pt x 788.9475pt>
 File: pictures/firstflowresponse.jpg Graphic file (type jpg)
 
 <use pictures/firstflowresponse.jpg>
-Package pdftex.def Info: pictures/firstflowresponse.jpg used on input line 477.
+Package pdftex.def Info: pictures/firstflowresponse.jpg used on input line 514.
 
 (pdftex.def)             Requested size: 182.09833pt x 280.09637pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<pictures/firstflowack.jpg, id=491, 525.965pt x 710.655pt>
+<pictures/firstflowack.jpg, id=529, 525.965pt x 710.655pt>
 File: pictures/firstflowack.jpg Graphic file (type jpg)
 
 <use pictures/firstflowack.jpg>
-Package pdftex.def Info: pictures/firstflowack.jpg used on input line 489.
+Package pdftex.def Info: pictures/firstflowack.jpg used on input line 526.
 (pdftex.def)             Requested size: 182.09833pt x 246.04373pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 492--495
+Underfull \hbox (badness 10000) in paragraph at lines 529--532
 
  []
 
 
-Underfull \hbox (badness 6284) in paragraph at lines 492--495
+Underfull \hbox (badness 6284) in paragraph at lines 529--532
 \T1/cmr/m/n/10.95 In the fol-lo-wing fi-gures the se-cond and
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<pictures/secondflow.jpg, id=492, 512.91624pt x 708.6475pt>
+<pictures/secondflow.jpg, id=530, 512.91624pt x 708.6475pt>
 File: pictures/secondflow.jpg Graphic file (type jpg)
 
 <use pictures/secondflow.jpg>
-Package pdftex.def Info: pictures/secondflow.jpg used on input line 508.
+Package pdftex.def Info: pictures/secondflow.jpg used on input line 545.
 (pdftex.def)             Requested size: 182.09833pt x 251.58784pt.
 
-<pictures/secondflowresponse.jpg, id=493, 513.92pt x 691.58376pt>
+<pictures/secondflowresponse.jpg, id=531, 513.92pt x 691.58376pt>
 File: pictures/secondflowresponse.jpg Graphic file (type jpg)
 
 <use pictures/secondflowresponse.jpg>
-Package pdftex.def Info: pictures/secondflowresponse.jpg used on input line 514
+Package pdftex.def Info: pictures/secondflowresponse.jpg used on input line 551
 .
 (pdftex.def)             Requested size: 182.09833pt x 245.0549pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<pictures/thirdflow.jpg, id=494, 512.91624pt x 708.6475pt>
+<pictures/thirdflow.jpg, id=532, 512.91624pt x 708.6475pt>
 File: pictures/thirdflow.jpg Graphic file (type jpg)
 
 <use pictures/thirdflow.jpg>
-Package pdftex.def Info: pictures/thirdflow.jpg used on input line 527.
+Package pdftex.def Info: pictures/thirdflow.jpg used on input line 564.
 (pdftex.def)             Requested size: 182.09833pt x 251.58784pt.
 
-<pictures/thirdflowresponse.jpg, id=495, 513.92pt x 699.61375pt>
+<pictures/thirdflowresponse.jpg, id=533, 513.92pt x 699.61375pt>
 File: pictures/thirdflowresponse.jpg Graphic file (type jpg)
 
 <use pictures/thirdflowresponse.jpg>
-Package pdftex.def Info: pictures/thirdflowresponse.jpg used on input line 533.
+Package pdftex.def Info: pictures/thirdflowresponse.jpg used on input line 570.
 
 (pdftex.def)             Requested size: 182.09833pt x 247.90024pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[16
+[17
 
- <./pictures/synack.jpg>] [17 <./pictures/firstflow.jpg> <./pictures/firstflowr
-esponse.jpg> <./pictures/firstflowack.jpg>] [18 <./pictures/secondflow.jpg> <./
+ <./pictures/synack.jpg>] [18 <./pictures/firstflow.jpg> <./pictures/firstflowr
+esponse.jpg> <./pictures/firstflowack.jpg>] [19 <./pictures/secondflow.jpg> <./
 pictures/secondflowresponse.jpg> <./pictures/thirdflow.jpg> <./pictures/thirdfl
-owresponse.jpg>] <pictures/rtt1.jpeg, id=515, 623.32875pt x 375.65344pt>
+owresponse.jpg>] <pictures/rtt1.jpeg, id=555, 623.32875pt x 375.65344pt>
 File: pictures/rtt1.jpeg Graphic file (type jpg)
 
 <use pictures/rtt1.jpeg>
-Package pdftex.def Info: pictures/rtt1.jpeg used on input line 579.
+Package pdftex.def Info: pictures/rtt1.jpeg used on input line 616.
 (pdftex.def)             Requested size: 280.49535pt x 169.04248pt.
 
-<pictures/rtt2.jpeg, id=516, 623.32875pt x 375.65344pt>
+<pictures/rtt2.jpeg, id=556, 623.32875pt x 375.65344pt>
 File: pictures/rtt2.jpeg Graphic file (type jpg)
 
 <use pictures/rtt2.jpeg>
-Package pdftex.def Info: pictures/rtt2.jpeg used on input line 586.
+Package pdftex.def Info: pictures/rtt2.jpeg used on input line 623.
 (pdftex.def)             Requested size: 280.49535pt x 169.04248pt.
 
-<pictures/rtt3.jpeg, id=517, 623.32875pt x 375.65344pt>
+<pictures/rtt3.jpeg, id=557, 623.32875pt x 375.65344pt>
 File: pictures/rtt3.jpeg Graphic file (type jpg)
 
 <use pictures/rtt3.jpeg>
-Package pdftex.def Info: pictures/rtt3.jpeg used on input line 593.
+Package pdftex.def Info: pictures/rtt3.jpeg used on input line 630.
 (pdftex.def)             Requested size: 280.49535pt x 169.04248pt.
 
 
@@ -1084,81 +1064,78 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[19
+[20
 
 ]
 
-LaTeX Warning: Text page 20 contains only floats.
+LaTeX Warning: Text page 21 contains only floats.
 
-[20 <./pictures/rtt1.jpeg> <./pictures/rtt2.jpeg> <./pictures/rtt3.jpeg>]
-<pictures/cumbytes.jpg, id=531, 699.36281pt x 414.04688pt>
+[21 <./pictures/rtt1.jpeg> <./pictures/rtt2.jpeg> <./pictures/rtt3.jpeg>]
+<pictures/cumbytes.jpg, id=570, 699.36281pt x 414.04688pt>
 File: pictures/cumbytes.jpg Graphic file (type jpg)
 
 <use pictures/cumbytes.jpg>
-Package pdftex.def Info: pictures/cumbytes.jpg used on input line 605.
+Package pdftex.def Info: pictures/cumbytes.jpg used on input line 642.
 (pdftex.def)             Requested size: 349.68054pt x 207.02292pt.
 
-<pictures/fullmeshfin.jpg, id=534, 747.79375pt x 150.5625pt>
+<pictures/fullmeshfin.jpg, id=573, 747.79375pt x 150.5625pt>
 File: pictures/fullmeshfin.jpg Graphic file (type jpg)
 
 <use pictures/fullmeshfin.jpg>
-Package pdftex.def Info: pictures/fullmeshfin.jpg used on input line 615.
+Package pdftex.def Info: pictures/fullmeshfin.jpg used on input line 652.
 (pdftex.def)             Requested size: 373.89595pt x 75.28105pt.
 
-<pictures/defaultfin.jpg, id=535, 757.83125pt x 116.435pt>
+<pictures/defaultfin.jpg, id=574, 757.83125pt x 116.435pt>
 File: pictures/defaultfin.jpg Graphic file (type jpg)
 
 <use pictures/defaultfin.jpg>
-Package pdftex.def Info: pictures/defaultfin.jpg used on input line 621.
+Package pdftex.def Info: pictures/defaultfin.jpg used on input line 658.
 (pdftex.def)             Requested size: 378.9147pt x 58.21735pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[21
+[22
 
- <./pictures/cumbytes.jpg> <./pictures/fullmeshfin.jpg>] [22 <./pictures/defaul
-tfin.jpg>] [23
+ <./pictures/cumbytes.jpg> <./pictures/fullmeshfin.jpg>] [23 <./pictures/defaul
+tfin.jpg>] [24
 
-] (./document.bbl) [24
+] (./document.bbl [25
 
-] [25
+]) [26] [27
 
-] [26] [27] [28] [29] [30] [31]
-[32] [33] [34]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1248.
- [35]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1248.
+] [28] [29] [30] [31] [32]
+[33] [34] [35] [36]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1285.
+ [37]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1285.
  (./document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1248.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1248.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1285.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1285.
 
 Package rerunfilecheck Info: File `document.out' has not changed.
 (rerunfilecheck)             Checksum: 24257A7D69FE090A38BC34E7B79DA512;2992.
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1248.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1285.
  ) 
 Here is how much of TeX's memory you used:
- 13309 strings out of 494917
- 192335 string characters out of 6179770
- 499836 words of memory out of 5000000
- 15721 multiletter control sequences out of 15000+600000
- 21032 words of font info for 46 fonts, out of 8000000 for 9000
+ 13612 strings out of 494917
+ 195978 string characters out of 6179770
+ 498491 words of memory out of 5000000
+ 15995 multiletter control sequences out of 15000+600000
+ 21034 words of font info for 46 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 53i,9n,92p,1268b,1867s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,9n,92p,1117b,2011s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.6
 00pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm100
-0.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt
-1000.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/e
-ccc1095.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/e
-c/ecit1200.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappe
-n/ec/ectt1200.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jkna
+0.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc
+1095.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/e
+cit1200.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/e
+c/ecit1000.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jknappe
+n/ec/ectt1000.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/jkna
 ppen/ec/ecbx1728.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfour/j
 knappen/ec/ecbi2488.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/ljfou
 r/jknappen/ec/ecrm1200.600pk> </home/sylvain/.texlive2016/texmf-var/fonts/pk/lj
@@ -1169,10 +1146,10 @@ nts/pk/ljfour/jknappen/ec/ecbi1200.600pk> </home/sylvain/.texlive2016/texmf-var
 /fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/sylvain/.texlive2016/texmf-
 var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk> </home/sylvain/.texlive2016/tex
 mf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk>
-Output written on document.pdf (35 pages, 4214627 bytes).
+Output written on document.pdf (37 pages, 4233752 bytes).
 PDF statistics:
- 2002 PDF objects out of 2073 (max. 8388607)
- 1247 compressed objects within 13 object streams
- 699 named destinations out of 1000 (max. 500000)
+ 2096 PDF objects out of 2487 (max. 8388607)
+ 1296 compressed objects within 13 object streams
+ 728 named destinations out of 1000 (max. 500000)
  445 words of extra memory for PDF output out of 10000 (max. 10000000)
 

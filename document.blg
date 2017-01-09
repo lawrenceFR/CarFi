@@ -3,47 +3,51 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: document.aux
 The style file: unsrt.bst
 Database file #1: library.bib
+Too many commas in name 1 of "Nigel William, Prashan Abeysekera, Nathan Dyer, Hai Vu" for entry V2I
+while executing---line 944 of file unsrt.bst
+Warning--empty journal in V2I
+Warning--empty year in V2I
 Warning--empty journal in api
 Warning--empty year in api
-You've used 6 entries,
+You've used 15 entries,
             1791 wiz_defined-function locations,
-            465 strings with 4005 characters,
-and the built_in function-call counts, 696 in all, are:
-= -- 56
-> -- 12
+            492 strings with 5050 characters,
+and the built_in function-call counts, 1694 in all, are:
+= -- 144
+> -- 24
 < -- 0
-+ -- 8
-- -- 2
-* -- 8
-:= -- 91
-add.period$ -- 16
-call.type$ -- 6
-change.case$ -- 6
++ -- 18
+- -- 3
+* -- 14
+:= -- 202
+add.period$ -- 42
+call.type$ -- 15
+change.case$ -- 15
 chr.to.int$ -- 0
-cite$ -- 8
-duplicate$ -- 33
-empty$ -- 105
-format.name$ -- 2
-if$ -- 170
+cite$ -- 19
+duplicate$ -- 81
+empty$ -- 263
+format.name$ -- 3
+if$ -- 427
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 1
-newline$ -- 31
-num.names$ -- 2
-pop$ -- 41
+int.to.str$ -- 15
+missing$ -- 2
+newline$ -- 75
+num.names$ -- 3
+pop$ -- 111
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 23
+skip$ -- 49
 stack$ -- 0
 substring$ -- 0
-swap$ -- 5
+swap$ -- 13
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 2
-while$ -- 2
-width$ -- 7
-write$ -- 52
-(There were 2 warnings)
+warning$ -- 4
+while$ -- 3
+width$ -- 17
+write$ -- 131
+(There was 1 error message)

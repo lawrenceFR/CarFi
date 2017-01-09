@@ -30,9 +30,9 @@
   columns=flexible,
   basicstyle={\small\ttfamily},
   numbers=none,
-  numberstyle=\color{RedOrange},
-  keywordstyle=\color{blue},
-  commentstyle=\color{OliveGreen},
+  %numberstyle=\color{RedOrange},
+  %keywordstyle=\color{blue},
+  %commentstyle=\color{OliveGreen},
   breaklines=true,
   breakatwhitespace=true,
   tabsize=4
@@ -146,17 +146,27 @@
 		\vspace{0.5cm}
 		\subsection{Context}
 			\begin{description}
-				\item \hspace{2cm} Today, connected vehicles make use of 2G, 3G or 4G networks in order to connect to the internet while in motion. Whether it be for GPS, simple browsing or music, every consumer has his/her own needs. \\Apart from the usual connection glitches, such connectivity is rather expensive with limited bandwidth. Even though workarounds have been implemented, most of them are either inefficient or are not completely transparent. These limitations stand in the way of developement of connected vehicles. \\MultiPath TCP (MPTCP) is an effort towards enabling the simultaneous use of several IP-addresses/interfaces by a modification of TCP. It presents a regular TCP interface to applications, while in fact spreading data across several sub-flows. Benefits of this include better resource utilisation, better throughput and smoother reaction to failures. The project CarFi, aims to exploit these advantages of MPTCP. A potential add-on would be the usage of the WiFi network when available. Most urban areas are covered via Mobile Network Operator or ISP WiFi hotspots. One may envisage a scenario where the default connection is established over Wifi and when it is no longer available, the communication carries on over 3G.
+				\item \hspace{2cm} Today, connected vehicles make use of 2G, 3G or 4G networks in order to connect to the Internet while in motion. Whether it be for GPS, simple browsing, emergency calls, e-calls or music, every consumer has his/her own needs. \\
+
+				Apart from the usual connection glitches, such connectivity is rather expensive with limited bandwidth. Even though workarounds have been implemented, most of them are either inefficient or are not completely transparent. These limitations stand in the way of developement of connected vehicles. \\
+
+				In fact, there has been a lot of research work in present times on vehicule to vehicule and vehicule to infrastructure technologies \cite[V2x]{V2I}. Car manufacturers and infrastructure suppliers are investing in such projects to keep up with the growing demand. However we are still waiting for a concrete outcome which is immediately deployable. Our project \textbf{CarFi} may play the role of an intermediary as something functional but which can be further developed with these vehicle to vehicule and vehicule to infrastructure technologies \cite[V2x]{V2x, smartcities}. \\
+
+				MultiPath TCP (MPTCP) is an effort towards enabling the simultaneous use of several IP-addresses/interfaces by a modification of TCP. It presents a regular TCP interface to applications, while in fact spreading data across several sub-flows. Benefits of this include better resource utilisation, better throughput and smoother reaction to failures. The \textbf{CarFi} project aims to exploit these advantages of MPTCP. A potential add-on would be the usage of the WiFi network when available. Most urban areas are covered via Mobile Network Operator or ISP WiFi hotspots. One may envisage a scenario where the default connection is established over Wifi and when it is no longer available, the communication carries on over 3G. \\
+
+				\textbf{Our Objective :} To develop a functional prototype for the \textbf{CarFi} project. This prototype is based on the \textbf{Enhanced Socket API for Multipath TCP} \cite[API]{api}. It ensures continuous connectivity to the network, keeping certain channels like the 3G as pivots/fallbacks and others like the Wifi to join and leave. It may also be used for optimum usage of network resources while using all the channels available.
+				
 			\end{description}
 	
-		\vspace{0.5cm}
+		\clearpage
 		\subsection{Document Outline}
 			\begin{description}
-				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API along with some details on its implementation. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and emphasises on the utility \hyperref[subsec:utility]{5.3} of our work.
+				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API along with some details on its implementation. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and mentions some of the underperformances and anomalies \hyperref[sec:furtherdevelopment]{7} encountered.
 			\end{description}
 
 
-	\clearpage
+
+	\vspace*{1.5cm}
 
 	\begin{center}
 		\LARGE\textbf{PART I}
@@ -167,81 +177,102 @@
 
 		\label{sec:mptcpdebug}
 
-		In order to understand the different stages of running of the MPTCP linux kernel, we have put in place a debugging environment. This has been done with \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) and \cite[DCE]{dce} (Direct Code Execution). Everything was done on a XUbuntu 14.04 64bit virtual machine with DCE 1.8. The following illustrates how :
+		In order to understand the different stages of running of the MPTCP linux kernel, we have put in place a debugging environment. In fact, after doing a little bit of research, we have come across various methods for debugging a protocol. Solutions like \textbf{Eclipse + GDB}, \textbf{NS3 + DCE for in-kernel protocol implementation} \cite[NS3+DCE]{inkernel}, \textbf{net-next-nuse} \cite[net-next-nuse]{net-next-nuse} or \textbf{net-next-sim} \cite[net-next-sim]{net-next-sim} exist. In any case, all debugging systems involving a protocol implementation are very complex. \\
+
+		We have chosen and succesfully implemented \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) with \cite[DCE]{dce} (Direct Code Execution). A library version of a protocol is faster and easier to compile and put in place, hence the choice. Everything was done on a XUbuntu 14.04 64bit virtual machine with DCE 1.8. During the setting up of the debugging system we received the valuable help from \textbf{M. Matthieu Coudron} of \textbf{L'Université Pierre-et-Marie-Curie}. The discussions can be found here : \cite[ns-3-dce]{ns-3-dce}. The following illustrates how to set up the debug environment :
 
 		\begin{enumerate}
-			\sloppy
-			\item \textbf{Install the dependencies :}
+			
+			\item \textbf{Install the dependencies :} \\Since we are doing everything on a virgin operating system, we need to install certain dependencies to make things work. These dependencies are essential for the different components of the debugging system viz. \textbf{NS3}, \textbf{DCE} etc. to run properly and collaborate with one another.
 				
-			\nohyphens{
-				sudo apt-get install vim git mercurial gcc g++ python python-dev qt4-dev-tools libqt4-dev bzr cmake libc6-dev libc6-dev-i386 g++-multilib gdb valgrind gsl-bin libgsl0-dev libgsl0ldbl flex bison libfl-dev tcpdump sqlite sqlite3 libsqlite3-dev libxml2 libxml2-dev libgtk2.0-0 libgtk2.0-dev vtun lxc uncrustify doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng python-sphinx dia python-pygraphviz python-kiwi python-pygoocanvas libgoocanvas-dev ipython libboost-signals-dev libboost-filesystem-dev openmpi-bin openmpi-common openmpi-doc libopenmpi-dev libncurses5-dev libncursesw5-dev unrar unrar-free p7zip-full autoconf libpcap-dev cvs libssl-dev wireshark}
+			\begin{lstlisting}
+				sudo apt-get install vim git mercurial gcc g++ python python-dev qt4-dev-tools libqt4-dev bzr cmake libc6-dev libc6-dev-i386 g++-multilib gdb valgrind gsl-bin libgsl0-dev libgsl0ldbl flex bison libfl-dev tcpdump sqlite sqlite3 libsqlite3-dev libxml2 libxml2-dev libgtk2.0-0 libgtk2.0-dev vtun lxc uncrustify doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng python-sphinx dia python-pygraphviz python-kiwi python-pygoocanvas libgoocanvas-dev ipython libboost-signals-dev libboost-filesystem-dev openmpi-bin openmpi-common openmpi-doc libopenmpi-dev libncurses5-dev libncursesw5-dev unrar unrar-free p7zip-full autoconf libpcap-dev cvs libssl-dev wireshark
+			\end{lstlisting}
 
-			\item \textbf{Build DCE using bake :}
+			\item \textbf{Build DCE using bake :} \\The easiest way to build \textbf{DCE} is to use \textbf{bake} \cite[bake]{bake}. It automates the building process by handling dependencies, downloading required sources, correctly building required modules, providing off-line installation and build capabilities and providing the possibility to configure according to one's needs.
 
-				\begin{enumerate}
+				\begin{lstlisting}
+					hg clone http://code.nsnam.org/bake bake
+					export BAKE_HOME=`pwd`/bake
+					export PATH=$PATH:$BAKE_HOME
+					export PYTHONPATH=$PYTHONPATH:$BAKE_HOME
+					mkdir dce
+					cd dce
+					bake.py configure -e dce-ns3-1.8
+					bake.py download
+					bake.py build
+				\end{lstlisting}
 
-					\item hg clone \url{http://code.nsnam.org/bake} bake
-					\item export BAKE\_HOME=`pwd`/bake
-					\item export PATH=\$PATH:\$BAKE\_HOME
-					\item export PYTHONPATH=\$PYTHONPATH:\$BAKE\_HOME
-					\item mkdir dce
-					\item cd dce
-					\item bake.py configure -e dce-ns3-1.8
-					\item bake.py download
-					\item bake.py build
+			\item \textbf{Download and build the \emph{mptcp\_trunk\_libos} branch of \emph{net-next-nuse} :} \\Now we need the \textbf{mptcp\_trunk\_libos} of \textbf{net-next-nuse}. This trunk contains the source code of \textbf{MPTCP} that we can modify. We may include the modules that are needed by using \emph{make menuconfig}. Once we build the shared library, we obtain the file \emph{liblinux.so} which \textbf{DCE} loads by default. This is however not the correct library for \textbf{DCE} as it searches for the function \emph{sim\_init} unavailable in \emph{liblinux.so} (which rather has the initiation function as \emph{lib\_init}). The correct shared library however is \emph{libsim-linux.so} found at \emph{\$HOME/net-next-nuse/arch/lib/tools} which contains the \emph{sim\_init} function required by \textbf{DCE}. Hence we try to mislead \textbf{DCE} by renaming the current \emph{liblinux.so} to \emph{liblinux0.so} and by creating a symbolic link for \emph{libsim-linux.so} under the name \emph{liblinux.so} in the default \textbf{DCE} search folder \emph{\$HOME/net-next-nuse}.
+				\begin{lstlisting}
+					git clone -b mptcp_trunk_libos https://github.com/libos-nuse/net-next-nuse.git
+					cd net-next-nuse
+					make menuconfig ARCH=lib
+					make library ARCH=lib
+				\end{lstlisting}
+				Now we rename \emph{liblinux.so} to \emph{liblinux0.so} and create the symbolic link for \emph{libsim-linux.so} as follows :
+				\begin{lstlisting}
+					ln -s $HOME/net-next-nuse/arch/lib/tools/libsim-linux.so $HOME/net-next-nuse/liblinux.so}
+				\end{lstlisting}
 
-				\end{enumerate}
+			\item \textbf{Download \emph{DCE 1.8} :} \\We now download the source code of \textbf{DCE} in the \textbf{\$HOME} directory. We have found the compatible version to be \textbf{dce-1.8}.
+				\begin{lstlisting}
+					hg clone http://code.nsnam.org/ns-3-dce  -r dce-1.8
+				\end{lstlisting}
+				\textbf{DCE 1.8} is found in the folder \emph{\$HOME/ns-3-dce}
 
-			\item \textbf{Build the \emph{mptcp\_trunk\_libos} branch of \emph{net-next-nuse}}
-				\begin{enumerate}
 
-					\item git clone -b mptcp\_trunk\_libos \url{https://github.com/libos-nuse/net-next-nuse.git}
-					\item cd net-next-nuse
-					\item make menuconfig ARCH=lib
-					\item make library ARCH=lib
-					\item Since DCE by default, calls the library \emph{liblinux.so} (not exactly the correct one), and that the correct library is \emph{libsim-linux.so} found at \emph{\$HOME/net-next-nuse/arch/lib/tools} we rename the existing \emph{liblinux.so} to \emph{liblinux0.so} and create a symbolic link for the correct library as follows :
+			\item \textbf{Build \emph{iproute2} version \emph{2.6.38} :} \\For \textbf{DCE} to function correctly, we need the correct version of one of it's dependency \emph{iproute}. For us it is the version \emph{iproute2-2.6.38}. Hence we need to dowload the correct source code and apply the patch avaiable at \emph{\$HOME/ns-3-dce/utils/iproute-2.6.38-fix-01.patch}. \\
 
-					\emph{ln -s \$HOME/net-next-nuse/arch/lib/tools/libsim-linux.so \$HOME/net-next-nuse/liblinux.so}.
-					This will ``mislead'' DCE into loading the correct library.
+			Download the compressed source code from :
+					\nohyphens{\emph{\url{https://kernel.googlesource.com/pub/scm/linux/kernel/git/shemminger/iproute2/+archive/fcae78992cab7bd267785b392b438306c621e583.tar.gz}}}
 
-				\end{enumerate}
+			Now extract it and rename the folder to \emph{iproute2-2.6.38}.\\
+			Next we apply the patch as follows :
+				\begin{lstlisting}
+					cd iproute2-2.6.38
+					patch -p1 -i ../ns-3-dce/utils/iproute-2.6.38-fix-01.patch
+				\end{lstlisting}
+			Now the \$(KERNEL\_INCLUDE) variable in the \emph{Config} section of the \emph{Makefile} of \emph{iproute2-2.6.38} should point to the liblinux.so directory ( for us it is \$HOME/net-next-nuse ). Hence we modified the following part in the \emph{Makefile} :
 
-			\item \textbf{Build \emph{iproute2} version \emph{2.6.38}}
+				\begin{lstlisting}	
+					Config:
+	                   sh configure /home/lawrence/net-next-nuse
+	                   # sh configure $(KERNEL_INCLUDE)
+	            \end{lstlisting}
+	        Finally we make \emph{iproute2-2.6.38} as follows : 
+	        	\begin{lstlisting}
+	        		cd iproute2-2.6.38
+	                LDFLAGS=-pie make CCOPTS='-fpic -D_GNU_SOURCE -O0 -U_FORTIFY_SOURCE'
+	            \end{lstlisting}
 
-				\begin{enumerate}
-					\sloppy
-					\item Download the compressed source code from \\
-					\nohyphens{\emph{\url{https://kernel.googlesource.com/pub/scm/linux/kernel/git/shemminger/iproute2/+archive/fcae78992cab7bd267785b392b438306c621e583.tar.gz}}} , extract it and rename the folder to \emph{iproute2-2.6.38}. 
-					\item cd iproute2-2.6.38
-					\item patch -p1 -i ../ns-3-dce/utils/iproute-2.6.38-fix-01.patch
-					\item \$(KERNEL\_INCLUDE) should point to the liblinux.so directory ( for me it is \$HOME/net-next-nuse ) \\
-					Hence I modified the following part in the Makefile:
-
-					\emph{
-					Config: \\
-	                   \hspace*{2cm}sh configure /home/lawrence/net-next-nuse \\
-	                   \hspace*{2cm}\# sh configure \$(KERNEL\_MODULE) }
-	                \item \raggedright{LDFLAGS=-pie make CCOPTS='-fpic -D\_GNU\_SOURCE -O0 -U\_FORTIFY\_SOURCE'}
-
-				\end{enumerate}
-
-			\item \textbf{Set the \emph{DCE\_PATH}} \\
-				export DCE\_PATH=\$HOME/net-next-nuse:\$HOME/iproute2-2.6.38/ip
-
-			\item \textbf{Build \emph{ns-3-dce }}
-				\begin{enumerate}
 				
-					\item hg clone \url{http://code.nsnam.org/ns-3-dce}  -r dce-1.8
-					\item cd ns-3-dce
-					\item ./waf configure --with-ns3=\$HOME/dce/build --enable-kernel-stack=\$HOME/net-next-nuse/arch --prefix=\$HOME/dce/build
-					\item ./waf build
-				\end{enumerate}
+
+			\item \textbf{Set the \emph{\$DCE\_PATH} variable :}\\
+			We need to adjust the \emph{\$DCE\_PATH} so as to indicate to \textbf{DCE} where to look for the shared libraries and executables.
+				\begin{lstlisting}
+					export DCE\_PATH=\$HOME/net-next-nuse:\$HOME/iproute2-2.6.38/ip
+				\end{lstlisting}
+
+			\item \textbf{Build \emph{DCE 1.8} :}
+				\begin{lstlisting}
+					cd ns-3-dce
+					./waf configure --with-ns3=$HOME/dce/build --enable-kernel-stack=$HOME/net-next-nuse/arch --prefix=$HOME/dce/build
+					./waf build
+				\end{lstlisting}
 
 			\item \textbf{Run \emph{dce-iperf-mptcp} with or without \emph{GDB}}
-				\begin{enumerate}
-					\item cd ns-3-dce
-					\item Without \emph{GDB} : \emph{./waf --run dce-iperf-mptcp} \\
-					\item With \emph{GDB} : \emph{./waf --run dce-iperf-mptcp --command-template=``gdb --args \%s''} \\
+				\begin{lstlisting}
+					cd ns-3-dce
+				\end{lstlisting}
+					Without \textbf{GDB} : 
+				\begin{lstlisting}
+					./waf --run dce-iperf-mptcp
+				\end{lstlisting}
+					With \textbf{GDB} :
+				\begin{lstlisting}
+					./waf --run dce-iperf-mptcp --command-template=``gdb --args %s''
+				\end{lstlisting}
 					Once we enter the \emph{GDB} prompt we must put a breakpoint at one of the functions in the \emph{mptcp} folder to stop there. Kindly refer to the files found at \emph{\$HOME/net-next-nuse/net/mptcp} to choose the function to define as a breakpoint. \\
 					An example : \\
 					Suppose we would like to stop the execution at the function \raggedright{\emph{mptcp\_set\_default\_path\_manager()}} found at \emph{\$HOME/net-next-nuse/net/mptcp/mptcp\_pm.c}, then we give the following command at the \emph{GDB} prompt : \\
@@ -249,8 +280,8 @@
 					\emph{GDB} will ask the following : \\
 					\emph{Function ``mptcp\_set\_default\_path\_manager'' not defined.\\
 					      Make breakpoint available on future shared library load? (y or [n])} \\
-					Type in \textbf{\emph{y}} and press enter. We may run the program by typing \textbf{\emph{r}} and then pressing enter. \emph{GDB} will pause at the necessary breakpoint. \\
-				\end{enumerate}
+					Type in \textbf{\emph{y}} and press enter. We may run the program by typing \textbf{\emph{r}} and then pressing enter. \emph{GDB} will pause at the necessary breakpoint.
+				
 
 		\end{enumerate}
 
@@ -268,7 +299,7 @@
 	\section{An Enhanced socket API for Multipath TCP : }
 
 		\label{sec:mptcpapi}
-		 In our project CarFi, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it. For example, for a streaming application it is preferable to communicate over the Wifi channel. In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the state of the active sub flows. When the application possesses such information it may want to create a new sub flow, terminate an existing one, change a sub flow's priority etc.
+		 In the CarFi project, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it and its requirements. For example, for a streaming application it is preferable to communicate over the Wifi channel. In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the state of the active sub flows. When the application possesses such information it may want to create a new sub flow, terminate an existing one, change a sub flow's priority etc.
 
 		\subsection{Implementation}
 			\label{subsec:implement}
@@ -352,7 +383,7 @@
                     sub_tuple, &optlen); // establishment of sub flow using getsockopt()
 			\end{lstlisting}
 
-		
+		The result is a flow from the pair \textbf{(10.0.0.1: 12345)} to the pair \textbf{(10.1.0.1: 1234)}.
 
 	
 	\section{Netcat with MPTCP (netcat-mptcp) :}
@@ -361,7 +392,7 @@
 
 		\subsection{Setup and structure}
 			\label{subsec:setup}
-			Usually with \textbf{Netcat}, there is only one flow between a client and a server. Our objective is to have multiple interfaces on the client side which will connect to the same or multiple interfaces on the server side. For simplicity we have envisaged a scenario where the client has three interfaces (viz. default, wifi and cellular) and the server has three (however for demonstration purposes we need to connect to only one of them). The way the client connects to the server is changed. In fact, with our modifications in the source code, we are able to pass three additional arguments in the netcat command :
+			Usually with \textbf{Netcat}, there is only one flow between a client and a server. Our objective is to have multiple interfaces on the client side which will connect to the same or multiple interfaces on the server side. For simplicity we have envisaged a scenario where the client has three interfaces (viz. default, wifi and cellular) and the server has three. However for demonstration purposes we need to connect to only one of them. Our goal after the modifications is to use either the Cellular or Wifi or both interfaces, the interface type and address being defined in a configuration file accessible by the client. The way the client connects to the server is changed. In fact, with our modifications in the source code, we are able to pass three additional arguments in the netcat command :
 
 			\begin{enumerate}
 				\item \textbf{-a} : Find all the remaining interfaces on the client side and establish sub flows to the server.
@@ -369,7 +400,7 @@
 				\item \textbf{-C} : Read the configuration file, extract the IP corresponding to the cellular interface and establish a sub flow using this interface to the server.
 			\end{enumerate}
 
-			What happens is, the client usually connects to the server via the default interface. Then according to the option passed in the \textbf{Netcat} command, it either opens subflows on a single interface or on all available interfaces. This is done using the function \emph{getsockopt()} in the source code just after the TCP \emph{connect()} system call. \\
+			For our purpose, we need the kernel not to do anything \emph{suo moto}. Hence the \textbf{path\_manager} used is the \textbf{``default'' path\_manager}. What happens after our modifications is that the client connects to the server via the default interface as usual. Then according to the option passed in the \textbf{Netcat} command, it either opens a subflow on the default interface or in addition on a subset of all available interfaces. This is done using the function \emph{getsockopt()} in the source code just after the TCP \emph{connect()} system call. \\
 			The following diagram depicts the setup along with the addresses :
 			\begin{figure}[h]
 				\begin{center}
@@ -396,7 +427,7 @@
 
 		\subsection{Configure Addresses and Routing}
 			\label{subsec:addressandroute}
-			For the testbed, have set up the above topology on \textbf{GNS3} using the Cisco Router \textbf{c3745} and the virtual machine enabled with the enhanced Multipath TCP API.
+			For the testbed, we have set up the above topology on \textbf{GNS3} using the Cisco Router \textbf{c3745} and the virtual machine enabled with the enhanced Multipath TCP API.
 
 			\subsection{Client and Server}
 			\label{subsec:clientandserver}
@@ -425,21 +456,27 @@
 
 		\subsection{Code simplification, addition and function calls at the correct place}
 			\label{subsec:codesimplify}
-			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{Netcat} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the sunflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}.
+			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain} \cite[hackathon]{ucl}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{Netcat} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the sunflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}. We have three different options while the \textbf{Netcat} connection : \textbf{``-a''} for opening subflows on all remaining interfaces, \textbf{``-C''} for opening a subflow on the Cellular interface and \textbf{``-W''} for opening a subflow on the Wifi interface.
 
-			Besides the classes \textbf{\emph{makeaddr.c, subinfo.c, submanip.c and suboption.c}} and the header files \textbf{\emph{makeaddr.h, subinfo.h, submanip.h and suboption.h}} which are avaiable at the \textbf{src} folder of the github repository : \cite[https://github.com/lawrenceFR/netcat-mptcp]{github}, the following addition of code was also necessary for the proper functioning of \textbf{\emph{netcat-mptcp}} :
+			Besides the classes \textbf{\emph{makeaddr.c, subinfo.c, submanip.c and suboption.c}} and the header files \textbf{\emph{makeaddr.h, subinfo.h, submanip.h and suboption.h}} which are required simplify the opening of subflows and which are available at the \textbf{src} folder of the github repository : \cite[https://github.com/lawrenceFR/netcat-mptcp]{github}, the following addition of code was also necessary for the proper functioning of \textbf{\emph{netcat-mptcp}} :
 			\begin{enumerate}
-				\item In \textbf{\emph{netcat-mptcp/src/Makefile.am}} line \textbf{28 - 39} : Appendix \hyperref[subsec:Makefile.am]{Makefile.am}
+				\item In \textbf{\emph{netcat-mptcp/src/Makefile.am}} line \textbf{28 - 39} : Appendix \hyperref[subsec:Makefile.am]{Makefile.am} \\
+				Required to include the added \textbf{.c} files during \textbf{make}.
 
-				\item In \textbf{\emph{netcat-mptcp/src/Makefile.in}} line \textbf{153 - 164} and \textbf{183 - 186} : Appendix \hyperref[subsec:Makefile.in]{Makefile.in}
+				\item In \textbf{\emph{netcat-mptcp/src/Makefile.in}} line \textbf{153 - 164} and \textbf{183 - 186} : Appendix \hyperref[subsec:Makefile.in]{Makefile.in} \\
+				Required to include the added \textbf{.c} files during \textbf{make}.
 
-				\item In \textbf{\emph{netcat-mptcp/src/netcat.h}} line \textbf{203 - 205} : Appendix \hyperref[subsec:netcat.h]{netcat.h}
+				\item In \textbf{\emph{netcat-mptcp/src/netcat.h}} line \textbf{203 - 205} : Appendix \hyperref[subsec:netcat.h]{netcat.h} \\
+				Here we declare the three options as \textbf{extern} variables.
 
-				\item In \textbf{\emph{netcat-mptcp/src/netcat.c}} line \textbf{58 - 60}, \textbf{192}, \textbf{194}, \textbf{222}, \textbf{227}, \textbf{233 - 235}, \textbf{239 - 241}, \textbf{357 - 359} : Appendix \hyperref[subsec:netcat.c]{netcat.c}
+				\item In \textbf{\emph{netcat-mptcp/src/netcat.c}} line \textbf{58 - 60}, \textbf{192}, \textbf{194}, \textbf{222}, \textbf{227}, \textbf{233 - 235}, \textbf{239 - 241}, \textbf{357 - 359} : Appendix \hyperref[subsec:netcat.c]{netcat.c} \\
+				Here we add the three cases corresponding to the three different options (\textbf{switch} variable).
 
-				\item In \textbf{\emph{netcat-mptcp/src/core.h}} line \textbf{1 - 37} : Appendix \hyperref[subsec:core.h]{core.h}
+				\item In \textbf{\emph{netcat-mptcp/src/core.h}} line \textbf{1 - 37} : Appendix \hyperref[subsec:core.h]{core.h} \\
+				Here we declare the variables and methods that we have defined and used in \textbf{core.c} in order to bring about the modifications.
 
-				\item In \textbf{\emph{netcat-mptcp/src/core.c}} line \textbf{394 - 405} and \textbf{535 - 688} : Appendix \hyperref[subsec:core.c]{core.c}
+				\item In \textbf{\emph{netcat-mptcp/src/core.c}} line \textbf{394 - 405} and \textbf{535 - 688} : Appendix \hyperref[subsec:core.c]{core.c} \\
+				Here we define the functions that bring in the actual modifications in the functioning of \textbf{Netcat}.
 			\end{enumerate}
 
 			Finally, a file \textbf{config.conf} is placed in \textbf{netcat-mptcp/src} so as to indicate the addresses of the available interfaces. The format of the config file is shown in Appendix \hyperref[subsec:config.conf]{config.conf}.
@@ -447,7 +484,7 @@
 	\clearpage
 	\section{Results, Statistics and Utility}
 		\label{sec:res}
-		This section analyses packet captures (captured with the help of wireshark) to verify if the manipulation of \textbf{Netcat} was successful. It depicts the establishment of the different sub flows along with the details of the \textbf{TCP options} to prove that the \textbf{MP\_CAPABLE} option is actually passed. It also gives an idea of the distribution of packets sent from the three interfaces available on the client's side, keeping in mind that the \textbf{path\_manager} used is \textbf{``default''} (i.e. the kernel will not establish supplementary sub flows on its own).
+		This section analyses packet captures (captured with the help of \textbf{Wireshark} with a topology simulation on \textbf{GNS3}) to verify if the manipulation of \textbf{Netcat} was successful. It depicts the establishment of the different sub flows along with the details of the \textbf{TCP options} to prove that the \textbf{MP\_CAPABLE} option is actually passed. It also gives an idea of the distribution of packets sent from the three interfaces available on the client's side, keeping in mind that the \textbf{path\_manager} used is \textbf{``default''} (i.e. the kernel will not establish supplementary sub flows on its own).
 		\subsection{Results}
 			\label{subsec:result}
 			Figure \hyperref[fig:synack]{3} is a screenshot of a packet capture showing that the kernel successfully establishes the second and third sub flows when we use the option \textbf{-a} as explained previously. First, the see the \textbf{3 way handshake} from the client address \textbf{10.0.1.6} to the server address \textbf{10.0.4.7}. Next due our the manipulation in the \textbf{Netcat} source code we have the two other \textbf{3 way hanshakes} from the client addresses \textbf{10.0.2.6} and \textbf{10.0.3.6}. This is in accordance with the function of the option \textbf{-a} in the \textbf{Netcat} command defined by us (i.e. establish supplementary sub flows on all the remaining available interfaces of the client).
@@ -482,7 +519,7 @@
 
 			\begin{figure}[h!]
 			\centering
-			\label{fig:firstsubflow}
+			\label{fig:firstflowack}
 			\begin{subfigure}{.5\textwidth}
 			  \centering
 			  \label{fig:firstflow}
@@ -567,7 +604,7 @@
 				\caption{Packet distribution per IPv4 address}
 			\end{table}
 
-			The table may seem to show that the distribution of packets is not equal. The interface \textbf{10.0.1.6} seemns to send more packets than the others. This is probably due the fact that the packet emission from the second and third interfaces start a little later only after the establishment of the corresponding sub flows. Hence the kernel gets to be aware of the other sub flows later given that the \textbf{path\_manager} used is the \textbf{``default''} one. This is not the case for \textbf{``fullmesh'' path\_manager} as the kernel knows from beforehand that it needs to use all the interfaces available for sending packets. Hence for the \textbf{``fullmesh'' path\_manager} we have an almost equal distribution of packet emission for all the three interfaces.
+			The table may seem to show that the distribution of packets is not equal. The interface \textbf{10.0.1.6} seems to send more packets than the others. This is probably due the fact that the packet emission from the second and third interfaces start a little later only after the establishment of the corresponding sub flows. Hence the kernel gets to be aware of the other sub flows later given that the \textbf{path\_manager} used is the \textbf{``default''} one. This is not the case for \textbf{``fullmesh'' path\_manager} as the kernel knows from beforehand that it needs to use all the interfaces available for sending packets. Hence for the \textbf{``fullmesh'' path\_manager} we have an almost equal distribution of packet emission for all the three interfaces.
 
 			\subsubsection{Round Trip Time}
 			\label{subsubsec:rtt}
