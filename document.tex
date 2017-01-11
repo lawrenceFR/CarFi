@@ -22,6 +22,8 @@
 \usepackage{listings}
 \usepackage{wrapfig}
 \usepackage{lipsum}
+\usepackage{titlesec}
+\setcounter{secnumdepth}{4}
 \lstset{frame=tb,
   language=C,
   aboveskip=3mm,
@@ -57,10 +59,10 @@
 	\end{figure}
 
 	\begin{center}
-	\section*{Télécom ParisTech \\
-	Promotion 2017 \\
-	Sylvain DASSIER
-	}
+	\textbf{\Large{Télécom ParisTech \\
+			Promotion 2017 \\
+			Sylvain DASSIER}}
+	
 	\end{center}
 
 
@@ -318,7 +320,7 @@
 				
 				
 
-				\begin{tabular}{l|l|l|l}
+				\begin{tabular}{|l|c|c|r|}
 					\hline
 					Name & Input & Output & Description \\
 					\hline
@@ -456,7 +458,7 @@
 
 		\subsection{Code simplification, addition and function calls at the correct place}
 			\label{subsec:codesimplify}
-			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain} \cite[hackathon]{ucl}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{Netcat} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the sunflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}. We have three different options while the \textbf{Netcat} connection : \textbf{``-a''} for opening subflows on all remaining interfaces, \textbf{``-C''} for opening a subflow on the Cellular interface and \textbf{``-W''} for opening a subflow on the Wifi interface.
+			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain} \cite[hackathon]{ucl}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{Netcat} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the subflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}. We have three different options while the \textbf{Netcat} connection : \textbf{``-a''} for opening subflows on all remaining interfaces, \textbf{``-C''} for opening a subflow on the Cellular interface and \textbf{``-W''} for opening a subflow on the Wifi interface.
 
 			Besides the classes \textbf{\emph{makeaddr.c, subinfo.c, submanip.c and suboption.c}} and the header files \textbf{\emph{makeaddr.h, subinfo.h, submanip.h and suboption.h}} which are required simplify the opening of subflows and which are available at the \textbf{src} folder of the github repository : \cite[https://github.com/lawrenceFR/netcat-mptcp]{github}, the following addition of code was also necessary for the proper functioning of \textbf{\emph{netcat-mptcp}} :
 			\begin{enumerate}
@@ -587,7 +589,7 @@
 				
 				
 				\centering
-				\begin{tabular}{l|l|l|l|l|l}
+				\begin{tabular}{|c|c|c|c|c|c|}
 					\hline
 					IP & Count & Rate(ms) & Percent & Burst rate & Burst start \\
 					\hline
@@ -643,24 +645,140 @@
 					\caption[]{Cumulative of bytes sent for the three interfaces}
 			\end{figure}
 
-			\subsubsection{MPTCP Close}
-			\label{subsubsec:mptcpclose}
-			This section we talk about another anomaly when the \textbf{MPTCP} connection is closed. Figure \hyperref[fig:fullmeshfin]{12} refers to the \textbf{``fullmesh'' path\_manager}. We see that the connection is neatly closed with the 3 \textbf{MPTCP [FIN, ACK]} for each interface. On the other hand, figure \hyperref[fig:defaultfin]{13} refers to the \textbf{``default'' path\_manager} where we initiate the supplementary flows. Here we observe only one \textbf{MPTCP [FIN, ACK]} and in some other simulations we don't see even a single one.
-			\begin{figure}[h!]
-				\centering
-					\label{fig:fullmeshfin}
-					\includegraphics[scale=0.5]{pictures/fullmeshfin.jpg}
-					\caption[]{MPTCP fullmesh close}
-			\end{figure}
-			\begin{figure}[h!]
-				\centering
-					\label{fig:defaultfin}
-					\includegraphics[scale=0.5]{pictures/defaultfin.jpg}
-					\caption[]{MPTCP default close}
-			\end{figure}
+			\subsubsection{Data transfer and flow establishment statistics}
+			\label{subsubsec:datatransferandflowestablish}
+			In this section we talk about the latency, the rate of data transfer and the interval lapse among the sub flows for the two cases. The first case is where we use the \textbf{``fullmesh'' path\_manager} and establish a \textbf{Netcat} connection without any of the three defined command options. The second case is where we use the \textbf{``default'' path\_manager} and the defined \textbf{Netcat} command option \textbf{``-a''} to open sub flows on the remaining available interfaces. \\
 
+			To compare the two cases we caculate the mean and standard deviation for the different measures. \\
 
-	
+			The mean is given by the formula :
+			$$\mu = \frac{1}{n}\sum_{i=1}^{n}x_i$$
+			The standard deviation is given by the formula :
+			$$\sigma = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2}$$
+			In the experiment, we sent 10MB of random data at bulks of 1MB for 10 counts from the client to the server using the command : \\
+			\textbf{dd if=/dev/zero bs=1M count=10 | ./netcat-mptcp/src/netcat -a 10.0.4.7 64000} \\
+			The experiment was repeated 10 times.
+
+			\paragraph{Data Transfer : }
+			\label{subsubsubsec:datatransfer}
+			After sending 10MB of data it was seen that in the two cases, the rate of data transfer and hence the duration was drastically different. The observations were as follows :
+			\begin{table}[h!]
+				
+				
+				\centering
+				\begin{tabular}{|c|c|c|c|c|c|}
+					\hline
+					Obs & \multicolumn{2}{|c|}{Fullmesh} &  & \multicolumn{2}{|c|}{Default} \\
+					\hline
+					\hline
+					& Rate(kB/s) & Time(s) &  & Rate(kB/s) & Time(s) \\
+					\hline
+					\hline
+					1 & 515 & 20.3492 &  & 153 & 68.4308 \\
+					\hline
+					2 & 516 & 20.3332 &  & 147 & 71.4054 \\
+					\hline
+					3 & 549 & 19.105 &  & 151 & 69.5162 \\
+					\hline
+					4 & 551 & 19.0169 &  & 152 & 68.7636 \\
+					\hline
+					5 & 463 & 22.6526 &  & 149 & 70.567 \\
+					\hline
+					6 & 521 & 20.1181 &  & 151 & 69.6091 \\
+					\hline
+					7 & 502 & 20.8867 &  & 150 & 69.7403 \\
+					\hline
+					8 & 446 & 23.4884 &  & 156 & 67.2153 \\
+					\hline
+					9 & 507 & 20.7018 &  & 148 & 70.8937 \\
+					\hline
+					10 & 515 & 20.3454 &  & 157 & 66.5856 \\
+					\hline
+				\end{tabular}
+				\caption{Data transfer rate and time taken to send 10MB from client to server}
+			\end{table} \\
+			We define :
+			$$\mu_{fm}^{rate} := mean\ of\ data\ transfer\ rate\ for\ fullmesh\ configuration$$ 
+			$$\mu_{df}^{rate} := mean\ of\ data\ transfer\ rate\ for\ default\ configuration$$
+			$$\sigma_{fm}^{rate} := standard deviation\ of\ data\ transfer\ rate\ for\ fullmesh\ configuration$$
+			$$\sigma_{df}^{rate} := standard deviation\ of\ data\ transfer\ rate\ for\ default\ configuration$$
+
+			From our observations we have :
+			$\mu_{fm}^{rate} = 508.5\ kB/s$ and $\mu_{df}^{rate} = 151.4\ kB/s$
+			Hence we observe that the data transfer rate is reduced when we initiate subflows from the application level. In case of \textbf{``fullmesh''}, it is the kernel that initiates the subflows.
+			Next if we compare the standard deviations in the two cases. While $\sigma_{fm}^{rate} = 31.2482\ kB/s$, $\sigma_{df}^{rate} = 3.07246\ kB/s$. This shows that in case of \textbf{``fullmesh''}, the fluctuation of bandwidth is higher. The same conclusions may be drawn for the total time taken to transfer 10MB ranfom data in the two cases.
+
+			\clearpage
+			\paragraph{Flow establishment statistics :}
+			\label{subsubsubsec:flowestablish}
+			Here we compare the time intervals among the first, second and third subflow establishments. The observations were as follows :
+			\begin{table}[h!]
+				
+				
+				\centering
+				\begin{tabular}{|c|c|c|c|c|c|c|c|}
+					\hline
+					Obs & \multicolumn{3}{|c|}{Fullmesh} &  & \multicolumn{3}{|c|}{Default} \\
+					\hline
+					\hline
+					& flow1 - flow2 & flow2 - flow3 & flow1 - flow3 & & flow1 - flow2 & flow2 - flow3 & flow1 - flow3 \\
+					\hline
+					\hline
+					1 & 0.172115 & 0.030324 & 0.202439 & & 0.030288 & 0.111036 & 0.141324 \\
+					\hline
+					2 & 0.171439 & 0.030272 & 0.201711 & & 0.030233 & 0.111062 & 0.141295 \\
+					\hline
+					3 & 0.171637 & 0.030321 & 0.201958 & & 0.131091 & 0.010066 & 0.141157 \\
+					\hline
+					4 & 0.171403 & 0.030351 & 0.201754 & & 0.131221 & 0.010084 & 0.141305 \\
+					\hline
+					5 & 0.171689 & 0.030322 & 0.202011 & & 0.130997 & 0.010079 & 0.141076 \\
+					\hline
+					6 & 0.171472 & 0.030259 & 0.201731 & & 0.131214 & 0.010097 & 0.141311 \\
+					\hline
+					7 & 0.171598 & 0.030268 & 0.201866 & & 0.030258 & 0.11108 & 0.141338 \\
+					\hline
+					8 & 0.171551 & 0.030333 & 0.201884 & & 0.130936 & 0.010069 & 0.141005 \\
+					\hline
+					9 & 0.171399 & 0.010085 & 0.181484 & & 0.030226 & 0.111013 & 0.141239 \\
+					\hline
+					10 & 0.171555 & 0.030348 & 0.201903 & & 0.131156 & 0.010118 & 0.141274 \\
+					\hline
+				\end{tabular}
+				\caption{Time intervals among the first, second and third flow initiations}
+			\end{table} \\
+			\iffalse
+			We define :
+			$$\mu_{fm}^{12} := mean3 of\ time\ interval\ for\ fullmesh\ configuration\ between\ flow1\ and\ flow2$$ 
+			$$\mu_{df}^{12} := mean\ of\ time\ interval\ for\ default\ configuration\ between\ flow1\ and\ flow2$$
+			$$\mu_{fm}^{23} := mean\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flow2\ and\ flow3$$ 
+			$$\mu_{df}^{23} := mean\ of\ time\ interval\ for\ default\ configuration\ between\ flow2\ and\ flow3$$
+			$$\mu_{fm}^{31} := mean\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flow3\ and\ flow1$$ 
+			$$\mu_{df}^{31} := mean\ of\ time\ interval\ for\ default\ configuration\ between\ flow3\ and\ flow1$$
+			$$\sigma_{fm}^{12} := standard\ deviation\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flow1\ and\ flow2$$
+			$$\sigma_{df}^{12} := standard\ deviation\ of\ time\ interval\ for\ default\ configuration\ between\ flow1\ and\ flow2$$
+			$$\sigma_{fm}^{23} := standard\ deviation\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flow2\ and\ flow3$$
+			$$\sigma_{df}^{23} := standard\ deviation\ of\ time\ interval\ for\ default\ configuration\ between\ flow2\ and\ flow3$$
+			$$\sigma_{fm}^{31} := standard\ deviation\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flow3\ and\ flow1$$
+			$$\sigma_{df}^{31} := standard\ deviation\ of\ time\ interval\ for\ default\ configuration\ between\ flow3\ and\ flow1$$
+			\fi
+			We define for $i,j \in \{1, 2, 3\}$:
+			$$\mu_{fm}^{ij} := mean\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flowi\ and\ flowj$$ 
+			$$\mu_{df}^{ij} := mean\ of\ time\ interval\ for\ default\ configuration\ between\ flowi\ and\ flowj$$
+			$$\sigma_{fm}^{ij} := standard\ deviation\ of\ time\ interval\ for\ fullmesh\ configuration\ between\ flowi\ and\ flowj$$
+			$$\sigma_{df}^{ij} := standard\ deviation\ of\ time\ interval\ for\ default\ configuration\ between\ flowi\ and\ flowj$$
+			From our observations we have :
+			\begin{enumerate}
+				\item $\mu_{fm}^{12} = 0.1715858\ s$ and $\mu_{df}^{12} = 0.090762\ s$
+				\item $\mu_{fm}^{23} = 0.0282883\ s$ and $\mu_{df}^{23} = 0.0504704\ s$
+				\item $\mu_{fm}^{13} = 0.1998741\ s$ and $\mu_{df}^{13} = 0.1412324\ s$ \\
+				\item $\sigma_{fm}^{12} = 0.000210408\ s$ and $\sigma_{df}^{12} = 0.052079437\ s$
+				\item $\sigma_{fm}^{23} = 0.0063960738\ s$ and $\sigma_{df}^{23} = 0.0521366865\ s$
+				\item $\sigma_{fm}^{13} = 0.0064649789\ s$ and $\sigma_{df}^{13} = 0.0001147657\ s$
+			\end{enumerate}
+			Apart from the differences that we observe in the time intervals of establishment of the sub flows, we also have an idea of the variability of these time intervals from one observation to another with.
+
+	\clearpage
 	\section{Conclusion}
 		\label{sec:conclusion}
 	 	This work is the first step towards the usage of the \textbf{Enhanced Socket API for Multipath TCP}. Our objective was to have a first functional prototype for the manipulation of subflows from the \textbf{Application Layer}. With \textbf{Netcat} as our application and the changes in its source code we have been successful in developing a versatile \textbf{netcat-mptcp}. Of course, this is a very preliminary. However the versatality and simplicity of \textbf{netcat-mptcp} will make it easy to bring in any kind of developement of new features and further manipulation.
@@ -674,7 +792,7 @@
 			\item \textbf{Equitable packet distribution from the three interfaces of the client} : In \textbf{netcat-mptcp} it is not as fair as in the case of ordinary \textbf{MPTCP} with the \textbf{``fullmesh'' path\_manager}
 			\item \textbf{Round Trip Time} : \textbf{Netcat-mptcp} registered some \textbf{RTT}s to be quite large as compared to the \textbf{``fullmesh'' path\_manager} which showed very little variation.
 			\item \textbf{Cumulative Bytes for the individual interfaces} : In \textbf{netcat-mptcp} we found that the third interface had a lower throughout. This is contrary to the traditional \textbf{``fullmesh'' path\_manager}.
-			\item \textbf{Closing the MPTCP connection} : For \textbf{netcat-mptcp}, the closing of a connection does not respect the procedure as described in the \textbf{RFC} of \textbf{Multipath TCP}.
+			\item \textbf{Performance after modifications and further tests} : We observe a declination in the performance in the \textbf{``default'' path\_manager} compared to the \textbf{``fullmesh'' path\_manager}. Our testbed conditions are not optimal to acertain de drop in performance. There are different factors that comme into play such as the allocation of resources while using \textbf{GNS3} etc. Hence we need to retry the observations in a real environment. We may also vary the amount of random data passed (1MB, 10MB, 100MB etc.) to see how the graphs evolve.
 		\end{enumerate}
 
 		There might be other glitches which may come up in the course of further developement of \textbf{netcat-mptcp}. However, the current version is functional and attains the objective of manipulation of \textbf{MPTCP} subflows from the \textbf{Application Layer}.
@@ -684,9 +802,9 @@
 	\clearpage
 	\section{Acknowledgements}
 	 
-	  	Acknowledgement
+	  	I had the honour to work with M. Antoine Fressancourt and M. Tony Ducrocq on the CarFi project. They have been very helpful not only at work but also at other formalities not related to work. I take this opportunity to thank the organisers of the Hackathon at \textbf{L'Université Catholique de Louvain}. In particular M. Olivier Bonaventure, M. Mathieu Jadin and M. Quentin De Coninck. I must mention my fellow participant Alexis Clarembeau, for helping me out with the code during the Hackathon. Finally, I owe a lot to M. Matthieu Coudron who gave me his valuable time and support.
 		 
- 	\clearpage
+ 	\vspace*{2cm}
  	\section{Bibliography}
 		\bibliographystyle{unsrt}
 		\bibliography{library}
