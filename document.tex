@@ -120,7 +120,7 @@
 	
 		\begin{description}
 		
-			\item \hspace{2cm} In urban developed areas characterised by sustainable economic growth and high quality of life, we have seen high levels of investment in the domain of vehicle to vehicle and vehicle to infrastructure technologies. CarFi is a project that deals with connected vehicles and allows them to take advantage of Wifi hotspots in addition to 2G, 3G or 4G to connect to the Internet while on the move. During this internship we have tried to look at the solutions provided by the MPTCP protocol in order to maintain perpetual connection to the Internet. A part of our work is dedicated to putting in place a debugging system for the better comprehension of the MPTCP protocol. We have particularly looked at the enhanced socket API for Multipath TCP developed by L'Université Catholique de Louvain. This API allows us to manipulate sub flows from the Application Layer. In fact, we have put in place a testbed with the application Netcat to verify the functioning of the API according to our needs. Finally we have tried to evaluate the performance of our developed netcat-mptcp.
+			\item \hspace{2cm} In urban developed areas characterised by sustainable economic growth and high quality of life, we have seen high levels of investment in the domain of vehicle to vehicle and vehicle to infrastructure technologies. CarFi is a project that deals with connected vehicles and allows them to take advantage of Wifi hotspots in addition to 2G, 3G or 4G to connect to the Internet while on the move. During this internship we have tried to look at the solutions provided by the MPTCP protocol in order to maintain perpetual connection to the Internet. A part of our work is dedicated to putting in place a debugging system for the better comprehension of the MPTCP protocol. We have particularly looked at the enhanced socket API for Multipath TCP developed by L'Université Catholique de Louvain. This API allows us to manipulate sub flows from the Application Layer. In fact, we have put in place a testbed with the application \textbf{\emph{netcat}} to verify the functioning of the API according to our needs. Finally we have tried to evaluate the performance of our developed \textbf{\emph{netcat-mptcp}}.
 			
 		\end{description}
 		
@@ -128,7 +128,7 @@
 	
 		\begin{description}
 
-			\item \hspace{2cm} Dans les villes urbaines et dévéloppées, caractérisées par une croissance économique stable et une qualité de vie élevée, nous avons constaté un grand nombre d'investissements dans le domaine des technologies véhicule à véhicule et véhicule à infrastructure. CarFi est un projet qui inclut les véhicules connectées et qui leur permet de profiter des avantages des hotspots Wifi en complément des réseaux 2G, 3G ou 4G pour se connecter à Internet en étant en mouvement. Pendant ce stage nous avons essayé de voir les solutions proposées par le protocol MPTCP pour maintenir une connexion internet perpetuelle. Une partie de notre travail est dédiée à la mis en place d'un système de déboggage pour mieux comprendre le protocol MPTCP. Nous avons en particulier regardé une API basée sur MPTCP et dévéloppée par l'Université Catholique de Louvain. L'API nous a permis de manipuler les sous flux de la couche application. Nous avons également mis en place un banc d'essai avec l'application Netcat pour vérifier le bon fonctionnement de l'API selon nos besoins. Par ailleurs, nous avons évalué la performance de notre solution proposée (netcat-mptcp).
+			\item \hspace{2cm} Dans les villes urbaines et dévéloppées, caractérisées par une croissance économique stable et une qualité de vie élevée, nous avons constaté un grand nombre d'investissements dans le domaine des technologies véhicule à véhicule et véhicule à infrastructure. CarFi est un projet qui inclut les véhicules connectées et qui leur permet de profiter des avantages des hotspots Wifi en complément des réseaux 2G, 3G ou 4G pour se connecter à Internet en étant en mouvement. Pendant ce stage nous avons essayé de voir les solutions proposées par le protocol MPTCP pour maintenir une connexion internet perpetuelle. Une partie de notre travail est dédiée à la mis en place d'un système de déboggage pour mieux comprendre le protocol MPTCP. Nous avons en particulier regardé une API basée sur MPTCP et dévéloppée par l'Université Catholique de Louvain. L'API nous a permis de manipuler les sous flux de la couche application. Nous avons également mis en place un banc d'essai avec l'application \textbf{\emph{netcat}} pour vérifier le bon fonctionnement de l'API selon nos besoins. Par ailleurs, nous avons évalué la performance de notre solution proposée (\textbf{\emph{netcat-mptcp}}).
 			
 		\end{description}
 		
@@ -148,7 +148,7 @@
 		\vspace{0.5cm}
 		\subsection{Context}
 			\begin{description}
-				\item \hspace{2cm} Today, connected vehicles make use of 2G, 3G or 4G networks in order to connect to the Internet while in motion. Whether it be for GPS, simple browsing, emergency calls, e-calls or music, every consumer has his/her own needs. \\
+				\item \hspace{2cm} Today, connected vehicles make use of 2G, 3G or 4G networks in order to connect to the Internet while in motion. Whether it be for navigation systems, simple browsing, emergency calls or music, every consumer has his/her own needs. \\
 
 				Apart from the usual connection glitches, such connectivity is rather expensive with limited bandwidth. Even though workarounds have been implemented, most of them are either inefficient or are not completely transparent. These limitations stand in the way of developement of connected vehicles. \\
 
@@ -163,7 +163,7 @@
 		\clearpage
 		\subsection{Document Outline}
 			\begin{description}
-				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API along with some details on its implementation. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{Netcat} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and mentions some of the underperformances and anomalies \hyperref[sec:furtherdevelopment]{7} encountered.
+				\item \hspace{2cm} This document is divided into two main parts comprising different sections. The first part involves section \hyperref[sec:mptcpdebug]{2} where we describe how to set up a \textbf{\emph{debugging environment for MPTCP}}. This will help us to follow the different system calls during the establishment of a flow or a sub-flow. The next sections form the other part, dealing with the new socket API that enables us to control the MPTCP stack from user space. Section \hyperref[sec:mptcpapi]{3} gives a description of the socket API along with some details on its implementation. Section \hyperref[sec:netcat-mptcp]{4} elaborates a use case of this API, in our case a \textbf{\emph{netcat}} with \textbf{MPTCP}. Section \hyperref[sec:res]{5} summarises our results \hyperref[subsec:result]{5.1}, elucidates certain statistics \hyperref[subsec:statistics]{5.2} and mentions some of the underperformances and anomalies encountered.
 			\end{description}
 
 
@@ -178,10 +178,11 @@
 	\section{Setting up a debugging environment for MPTCP : }
 
 		\label{sec:mptcpdebug}
+		To manipulate the established MPTCP subflows we had initially envisaged to modify the source code of the MPTCP Linux kernel implementation to obtain something which resembles the enhanced socket API for MPTCP \cite[API]{api}. This was because the API was not yet publc. We had successfully implemented a debugging environment when we learned about the Hackathon \cite[hackathon]{ucl} at l'Université Catholique de Louvain. We were fortunate to obtain an MPTCP VM with the API at the hackathon. Hence we continued our work on the VM.
 
 		In order to understand the different stages of running of the MPTCP linux kernel, we have put in place a debugging environment. In fact, after doing a little bit of research, we have come across various methods for debugging a protocol. Solutions like \textbf{Eclipse + GDB}, \textbf{NS3 + DCE for in-kernel protocol implementation} \cite[NS3+DCE]{inkernel}, \textbf{net-next-nuse} \cite[net-next-nuse]{net-next-nuse} or \textbf{net-next-sim} \cite[net-next-sim]{net-next-sim} exist. In any case, all debugging systems involving a protocol implementation are very complex. \\
 
-		We have chosen and succesfully implemented \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) with \cite[DCE]{dce} (Direct Code Execution). A library version of a protocol is faster and easier to compile and put in place, hence the choice. Everything was done on a XUbuntu 14.04 64bit virtual machine with DCE 1.8. During the setting up of the debugging system we received the valuable help from \textbf{M. Matthieu Coudron} of \textbf{L'Université Pierre-et-Marie-Curie}. The discussions can be found here : \cite[ns-3-dce]{ns-3-dce}. The following illustrates how to set up the debug environment :
+		We have chosen and succesfully implemented LibOS \cite[LibOS]{libos} (an MPTCP version of the library operating system of the linux kernel) with DCE \cite[DCE]{dce} (Direct Code Execution). A library version of a protocol is faster and easier to compile and put in place, hence the choice. Everything was done on a XUbuntu 14.04 64bit virtual machine with DCE 1.8. During the setting up of the debugging system we received the valuable help from \textbf{M. Matthieu Coudron} of \textbf{L'Université Pierre-et-Marie-Curie}. The discussions can be found here : \cite[ns-3-dce]{ns-3-dce}. The following illustrates how to set up the debug environment :
 
 		\begin{enumerate}
 			
@@ -224,7 +225,7 @@
 				\textbf{DCE 1.8} is found in the folder \emph{\$HOME/ns-3-dce}
 
 
-			\item \textbf{Build \emph{iproute2} version \emph{2.6.38} :} \\For \textbf{DCE} to function correctly, we need the correct version of one of it's dependency \emph{iproute}. For us it is the version \emph{iproute2-2.6.38}. Hence we need to dowload the correct source code and apply the patch avaiable at \emph{\$HOME/ns-3-dce/utils/iproute-2.6.38-fix-01.patch}. \\
+			\item \textbf{Build \emph{iproute2} version \emph{2.6.38} :} \\For \textbf{DCE} to function correctly, we need the correct version of one of it's dependency \emph{iproute}. For us it is the version \emph{iproute2-2.6.38}. Hence we need to dowload the correct source code and apply the patch available at \emph{\$HOME/ns-3-dce/utils/iproute-2.6.38-fix-01.patch}. \\
 
 			Download the compressed source code from :
 					\nohyphens{\emph{\url{https://kernel.googlesource.com/pub/scm/linux/kernel/git/shemminger/iproute2/+archive/fcae78992cab7bd267785b392b438306c621e583.tar.gz}}}
@@ -301,7 +302,7 @@
 	\section{An Enhanced socket API for Multipath TCP : }
 
 		\label{sec:mptcpapi}
-		 In the CarFi project, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it and its requirements. For example, for a streaming application it is preferable to communicate over the Wifi channel. In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the state of the active sub flows. When the application possesses such information it may want to create a new sub flow, terminate an existing one, change a sub flow's priority etc.
+		 In the CarFi project, we would like to control the MPTCP kernel stack from the application layer i.e. manage(open/close) sub flows according to the kind of application that uses it and its requirements. For example, for a streaming application it is preferable to communicate over the Wifi channel. In the current Linux Kernel implementation of MPTCP, the path managers may not be fit for all kinds of applications. For optimum usage, advanced applications may want to know the number of sub flows available or the state of the active sub flows. When the application possesses such information it may want to create a new sub flow, terminate an existing one, change a sub flow's priority etc. The concerete use cases of CarFi include navigation systems, simple browsing, emergency calls, music download etc. while on the move.
 
 		\subsection{Implementation}
 			\label{subsec:implement}
@@ -390,11 +391,11 @@
 	
 	\section{Netcat with MPTCP (netcat-mptcp) :}
 		\label{sec:netcat-mptcp}
-		In order to have a concrete testbed for the enhanced socket API, we have thought of a usecase involving \textbf{Netcat}. \textbf{Netcat} or \textbf{nc} is a featured networking utility which reads and writes data across network connections, using the TCP/IP protocol \cite{nc}. It will serve as our application that will establish multiple subflows.
+		In order to have a concrete testbed for the enhanced socket API, we have thought of a usecase involving \textbf{\emph{netcat}}. \textbf{\emph{netcat}} or \textbf{nc} is a featured networking utility which reads and writes data across network connections, using the TCP/IP protocol \cite{nc}. It will serve as our application that will establish multiple subflows.
 
 		\subsection{Setup and structure}
 			\label{subsec:setup}
-			Usually with \textbf{Netcat}, there is only one flow between a client and a server. Our objective is to have multiple interfaces on the client side which will connect to the same or multiple interfaces on the server side. For simplicity we have envisaged a scenario where the client has three interfaces (viz. default, wifi and cellular) and the server has three. However for demonstration purposes we need to connect to only one of them. Our goal after the modifications is to use either the Cellular or Wifi or both interfaces, the interface type and address being defined in a configuration file accessible by the client. The way the client connects to the server is changed. In fact, with our modifications in the source code, we are able to pass three additional arguments in the netcat command :
+			Usually with \textbf{\emph{netcat}}, there is only one flow between a client and a server. Our objective is to have multiple interfaces on the client side which will connect to the same or multiple interfaces on the server side. For simplicity we have envisaged a scenario where the client has three interfaces (viz. default, wifi and cellular) and the server has three. However for demonstration purposes we connect to only one of the interfaces on the server side. Our goal after the modifications is to use either the Cellular or Wifi or both interfaces, the interface type and address being defined in a configuration file accessible by the client. The way the client connects to the server is changed. In fact, with our modifications in the source code, we are able to pass three additional arguments in the \textbf{\emph{netcat}} command :
 
 			\begin{enumerate}
 				\item \textbf{-a} : Find all the remaining interfaces on the client side and establish sub flows to the server.
@@ -402,7 +403,7 @@
 				\item \textbf{-C} : Read the configuration file, extract the IP corresponding to the cellular interface and establish a sub flow using this interface to the server.
 			\end{enumerate}
 
-			For our purpose, we need the kernel not to do anything \emph{suo moto}. Hence the \textbf{path\_manager} used is the \textbf{``default'' path\_manager}. What happens after our modifications is that the client connects to the server via the default interface as usual. Then according to the option passed in the \textbf{Netcat} command, it either opens a subflow on the default interface or in addition on a subset of all available interfaces. This is done using the function \emph{getsockopt()} in the source code just after the TCP \emph{connect()} system call. \\
+			For our purpose, we need the kernel not to do anything \emph{suo moto}. Hence the \textbf{path\_manager} used is the \textbf{``default'' path\_manager}. What happens after our modifications is that the client connects to the server via the default interface as usual. Then according to the option passed in the \textbf{\emph{netcat}} command, it either opens a subflow on the default interface or in addition on a subset of all available interfaces. This is done using the function \emph{getsockopt()} in the source code just after the TCP \emph{connect()} system call. \\
 			The following diagram depicts the setup along with the addresses :
 			\begin{figure}[h]
 				\begin{center}
@@ -412,12 +413,12 @@
 				\end{center}
 			\end{figure}
 
-			Here is an example of the \textbf{Netcat} command : \\
+			Here is an example of the \textbf{\emph{netcat}} command : \\
 			On the server side, it listens on it's default interface \textbf{10.0.4.7} on port \textbf{64000} with the help of the following command : \\
 
 			\textbf{nc -l -p 64000} \\
 
-			On the client side, we use our own \textbf{Netcat} executable to establish a flow / multiple flows as follows :
+			On the client side, we use our own \textbf{\emph{netcat}} executable to establish a flow / multiple flows as follows :
 
 			
 			\begin{tabbing}
@@ -458,7 +459,7 @@
 
 		\subsection{Code simplification, addition and function calls at the correct place}
 			\label{subsec:codesimplify}
-			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain} \cite[hackathon]{ucl}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{Netcat} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the subflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}. We have three different options while the \textbf{Netcat} connection : \textbf{``-a''} for opening subflows on all remaining interfaces, \textbf{``-C''} for opening a subflow on the Cellular interface and \textbf{``-W''} for opening a subflow on the Wifi interface.
+			The above code involving opening a sub flow may appear complex. During our participation at the \textbf{IETF'97 Hackathon} at \textbf{École Polytechnique de Louvain} \cite[hackathon]{ucl}, one of my fellow participants had simplified the usage of the \textbf{getsockopt()} function by deploying simpler function calls. Our aim was to find in the source code of \textbf{\emph{netcat}} where the \textbf{connect()} system call was being made. Once the the exact place found, we were to simply use the subflow opening code in the simplified form and establish the desired subflows. We have added three different scenarios for the establishment of subflows as described in the section \hyperref[subsec:setup]{Setup and structure}. We have three different options while the \textbf{\emph{netcat}} connection : \textbf{``-a''} for opening subflows on all remaining interfaces, \textbf{``-C''} for opening a subflow on the Cellular interface and \textbf{``-W''} for opening a subflow on the Wifi interface.
 
 			Besides the classes \textbf{\emph{makeaddr.c, subinfo.c, submanip.c and suboption.c}} and the header files \textbf{\emph{makeaddr.h, subinfo.h, submanip.h and suboption.h}} which are required simplify the opening of subflows and which are available at the \textbf{src} folder of the github repository : \cite[https://github.com/lawrenceFR/netcat-mptcp]{github}, the following addition of code was also necessary for the proper functioning of \textbf{\emph{netcat-mptcp}} :
 			\begin{enumerate}
@@ -478,7 +479,7 @@
 				Here we declare the variables and methods that we have defined and used in \textbf{core.c} in order to bring about the modifications.
 
 				\item In \textbf{\emph{netcat-mptcp/src/core.c}} line \textbf{394 - 405} and \textbf{535 - 688} : Appendix \hyperref[subsec:core.c]{core.c} \\
-				Here we define the functions that bring in the actual modifications in the functioning of \textbf{Netcat}.
+				Here we define the functions that bring in the actual modifications in the functioning of \textbf{\emph{netcat}}.
 			\end{enumerate}
 
 			Finally, a file \textbf{config.conf} is placed in \textbf{netcat-mptcp/src} so as to indicate the addresses of the available interfaces. The format of the config file is shown in Appendix \hyperref[subsec:config.conf]{config.conf}.
@@ -486,10 +487,10 @@
 	\clearpage
 	\section{Results, Statistics and Utility}
 		\label{sec:res}
-		This section analyses packet captures (captured with the help of \textbf{Wireshark} with a topology simulation on \textbf{GNS3}) to verify if the manipulation of \textbf{Netcat} was successful. It depicts the establishment of the different sub flows along with the details of the \textbf{TCP options} to prove that the \textbf{MP\_CAPABLE} option is actually passed. It also gives an idea of the distribution of packets sent from the three interfaces available on the client's side, keeping in mind that the \textbf{path\_manager} used is \textbf{``default''} (i.e. the kernel will not establish supplementary sub flows on its own).
+		This section analyses packet captures (captured with the help of \textbf{Wireshark} with a topology simulation on \textbf{GNS3}) to verify if the manipulation of \textbf{\emph{netcat}} was successful. It depicts the establishment of the different sub flows along with the details of the \textbf{TCP options} to prove that the \textbf{MP\_CAPABLE} option is actually passed. It also gives an idea of the distribution of packets sent from the three interfaces available on the client's side, keeping in mind that the \textbf{path\_manager} used is \textbf{``default''} (i.e. the kernel will not establish supplementary sub flows on its own).
 		\subsection{Results}
 			\label{subsec:result}
-			Figure \hyperref[fig:synack]{3} is a screenshot of a packet capture showing that the kernel successfully establishes the second and third sub flows when we use the option \textbf{-a} as explained previously. First, the see the \textbf{3 way handshake} from the client address \textbf{10.0.1.6} to the server address \textbf{10.0.4.7}. Next due our the manipulation in the \textbf{Netcat} source code we have the two other \textbf{3 way hanshakes} from the client addresses \textbf{10.0.2.6} and \textbf{10.0.3.6}. This is in accordance with the function of the option \textbf{-a} in the \textbf{Netcat} command defined by us (i.e. establish supplementary sub flows on all the remaining available interfaces of the client).
+			Figure \hyperref[fig:synack]{3} is a screenshot of a packet capture showing that the kernel successfully establishes the second and third sub flows when we use the option \textbf{-a} as explained previously. First, the see the \textbf{3 way handshake} from the client address \textbf{10.0.1.6} to the server address \textbf{10.0.4.7}. Next due our the manipulation in the \textbf{\emph{netcat}} source code we have the two other \textbf{3 way hanshakes} from the client addresses \textbf{10.0.2.6} and \textbf{10.0.3.6}. This is in accordance with the function of the option \textbf{-a} in the \textbf{\emph{netcat}} command defined by us (i.e. establish supplementary sub flows on all the remaining available interfaces of the client).
 			\begin{figure}[h]
 				\begin{center}
 					\label{fig:synack}
@@ -582,7 +583,7 @@
 			This section mentions a few statistics regarding the performance of \textbf{MPTCP} once the supplementary subflows are established.\\
 			\subsubsection{IPv4/All Addresses packet distribution}
 			\label{subsubsec:packetdistribution}
-			Our first look is at the \textbf{IPv4/All Addresses} packet distribution which indicates the percentage contribution of each interface in the exchange of data. We have tried to send a fixed amount of random data (10MB) at bulks of 1MB for 10 counts. Command on the client side :\\
+			Our first look is at the \textbf{IPv4/All Addresses} packet distribution which indicates the percentage contribution of each interface in the exchange of data. We have tried to send a fixed amount of data (10MB) at bulks of 1MB for 10 counts. Command on the client side :\\
 			\textbf{dd if=/dev/zero bs=1M count=10 | ./netcat-mptcp/src/netcat -a 10.0.4.7 64000}
 
 			\begin{table}[h]
@@ -637,7 +638,7 @@
 			\clearpage
 			\subsubsection{Cumulative Bytes}
 			\label{subsubsec:cumbytes}
-			This section illustrates the comparison of the number of bytes sent in due course of time for the three interfaces of the client. On the Y-axis we have the cumulative number of bytes. This figure shows that the interfaces \textbf{10.0.1.6} and \textbf{10.0.2.6} run almost parallel to one another, which means that their throughput is similar. The offset is attributed to the fact that the second interface starts to send packets later. For the third interface \textbf{10.0.3.6} the throughput seems to be less compared to the other two.
+			This section illustrates the comparison of the number of bytes sent in due course of time for the three interfaces of the client. On the Y-axis we have the cumulative number of bytes. This figure shows that the interfaces \textbf{10.0.1.6} and \textbf{10.0.2.6} run almost parallel to one another, which means that their throughput is similar. The offset is attributed to the fact that the second interface starts to send packets later. For the third interface \textbf{10.0.3.6} the throughput seems to be less compared to the other two. This may be a result of the simulation environment due to resource sharing and their limitations. We need to carry out our tests on a real environment to verify the exactitude of our findings.
 			\begin{figure}[h!]
 				\centering
 					\label{fig:cumbytes}
@@ -647,7 +648,7 @@
 
 			\subsubsection{Data transfer and flow establishment statistics}
 			\label{subsubsec:datatransferandflowestablish}
-			In this section we talk about the latency, the rate of data transfer and the interval lapse among the sub flows for the two cases. The first case is where we use the \textbf{``fullmesh'' path\_manager} and establish a \textbf{Netcat} connection without any of the three defined command options. The second case is where we use the \textbf{``default'' path\_manager} and the defined \textbf{Netcat} command option \textbf{``-a''} to open sub flows on the remaining available interfaces. \\
+			In this section we talk about the latency, the rate of data transfer and the interval lapse among the sub flows for the two cases. The first case is where we use the \textbf{``fullmesh'' path\_manager} and establish a \textbf{\emph{netcat}} connection without any of the three defined command options. The second case is where we use the \textbf{``default'' path\_manager} and the defined \textbf{\emph{netcat}} command option \textbf{``-a''} to open sub flows on the remaining available interfaces. \\
 
 			To compare the two cases we caculate the mean and standard deviation for the different measures. \\
 
@@ -655,7 +656,7 @@
 			$$\mu = \frac{1}{n}\sum_{i=1}^{n}x_i$$
 			The standard deviation is given by the formula :
 			$$\sigma = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2}$$
-			In the experiment, we sent 10MB of random data at bulks of 1MB for 10 counts from the client to the server using the command : \\
+			In the experiment, we sent 10MB of data at bulks of 1MB for 10 counts from the client to the server using the command : \\
 			\textbf{dd if=/dev/zero bs=1M count=10 | ./netcat-mptcp/src/netcat -a 10.0.4.7 64000} \\
 			The experiment was repeated 10 times.
 
@@ -781,7 +782,7 @@
 	\clearpage
 	\section{Conclusion}
 		\label{sec:conclusion}
-	 	This work is the first step towards the usage of the \textbf{Enhanced Socket API for Multipath TCP}. Our objective was to have a first functional prototype for the manipulation of subflows from the \textbf{Application Layer}. With \textbf{Netcat} as our application and the changes in its source code we have been successful in developing a versatile \textbf{netcat-mptcp}. Of course, this is a very preliminary. However the versatality and simplicity of \textbf{netcat-mptcp} will make it easy to bring in any kind of developement of new features and further manipulation.
+	 	This work is the first step towards the usage of the \textbf{Enhanced Socket API for Multipath TCP}. Our objective was to have a first functional prototype for the manipulation of subflows from the \textbf{Application Layer}. With \textbf{\emph{netcat}} as our application and the changes in its source code we have been successful in developing a versatile \textbf{\emph{netcat-mptcp}}. Of course, this is a very preliminary. However the versatality and simplicity of \textbf{\emph{netcat-mptcp}} will make it easy to bring in any kind of developement of new features and further manipulation.
 		 	
 		 
 	\section{Further developments}
@@ -789,13 +790,13 @@
 		As mentioned in section \hyperref[subsec:statistics]{Statistics}, we have certain underperformances and anomalies that need to be addressed. To list a few of them :
 
 		\begin{enumerate}
-			\item \textbf{Equitable packet distribution from the three interfaces of the client} : In \textbf{netcat-mptcp} it is not as fair as in the case of ordinary \textbf{MPTCP} with the \textbf{``fullmesh'' path\_manager}
-			\item \textbf{Round Trip Time} : \textbf{Netcat-mptcp} registered some \textbf{RTT}s to be quite large as compared to the \textbf{``fullmesh'' path\_manager} which showed very little variation.
-			\item \textbf{Cumulative Bytes for the individual interfaces} : In \textbf{netcat-mptcp} we found that the third interface had a lower throughout. This is contrary to the traditional \textbf{``fullmesh'' path\_manager}.
-			\item \textbf{Performance after modifications and further tests} : We observe a declination in the performance in the \textbf{``default'' path\_manager} compared to the \textbf{``fullmesh'' path\_manager}. Our testbed conditions are not optimal to acertain de drop in performance. There are different factors that comme into play such as the allocation of resources while using \textbf{GNS3} etc. Hence we need to retry the observations in a real environment. We may also vary the amount of random data passed (1MB, 10MB, 100MB etc.) to see how the graphs evolve.
+			\item \textbf{Equitable packet distribution from the three interfaces of the client} : In \textbf{\emph{netcat-mptcp}} it is not as fair as in the case of ordinary \textbf{MPTCP} with the \textbf{``fullmesh'' path\_manager}
+			\item \textbf{Round Trip Time} : \textbf{\emph{netcat-mptcp}} registered some \textbf{RTT}s to be quite large as compared to the \textbf{``fullmesh'' path\_manager} which showed very little variation.
+			\item \textbf{Cumulative Bytes for the individual interfaces} : In \textbf{\emph{netcat-mptcp}} we found that the third interface had a lower throughout. This is contrary to the traditional \textbf{``fullmesh'' path\_manager}.
+			\item \textbf{Performance after modifications and further tests} : We observe a declination in the performance in the \textbf{``default'' path\_manager} compared to the \textbf{``fullmesh'' path\_manager}. Our testbed conditions are not optimal to acertain de drop in performance. There are different factors that comme into play such as the allocation of resources while using \textbf{GNS3} etc. Hence we need to retry the observations in a real environment. We may also vary the amount of data passed (1MB, 10MB, 100MB etc.) to see how the graphs evolve.
 		\end{enumerate}
 
-		There might be other glitches which may come up in the course of further developement of \textbf{netcat-mptcp}. However, the current version is functional and attains the objective of manipulation of \textbf{MPTCP} subflows from the \textbf{Application Layer}.
+		There might be other glitches which may come up in the course of further developement of \textbf{\emph{netcat-mptcp}}. However, the current version is functional and attains the objective of manipulation of \textbf{MPTCP} subflows from the \textbf{Application Layer}.
 			
 		 	
 		 	
